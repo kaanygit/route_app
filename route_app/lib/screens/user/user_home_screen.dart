@@ -4,11 +4,15 @@ import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:route_app/bloc/user/user_bloc.dart';
 import 'package:route_app/bloc/user/user_state.dart';
 import 'package:route_app/constants/style.dart';
+import 'package:route_app/models/user_model.dart';
+import 'package:route_app/screens/user/calender_screen.dart';
 import 'package:route_app/screens/user/profile_screen.dart';
+import 'package:route_app/screens/user/search_screen.dart';
 import 'package:route_app/screens/user/user_home_page_screen.dart';
-import 'package:route_app/screens/user/test_screen.dart';
 import 'package:route_app/widgets/error_screen.dart';
 import 'package:route_app/widgets/loading.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -29,13 +33,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   Color selectedColor = Colors.blueAccent;
 
-  List<Widget> _buildScreens() {
-    return [
-      UserHomePageScreen(),
-      TestScreen(),
-      ProfileScreen(),
-    ];
-  }
+  List<Widget> _screens = [
+    UserHomePageScreen(),
+    CalenderScreen(),
+    SearchScreen(),
+    ProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,55 +47,47 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         if (state is UserLoading) {
           return LoadingScreen();
         } else if (state is UserSuccess) {
-          final user = state.user;
-          print(user);
+          final UserModel user = state.user;
 
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Icon(Icons.menu),
-                  ),
-                  Container(
-                    child: Text(
-                      "Discover",
-                      style: fontStyle(25, Colors.black, FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    child: CircleAvatar(
-                      backgroundImage: user.profilePhoto != ""
-                          ? NetworkImage(user.profilePhoto) as ImageProvider
-                          : AssetImage("assets/images/template.png"),
-                    ),
-                  ),
-                ],
-              ),
+              title: _buildTitle(user),
             ),
-            body: _buildScreens()[_selectedItemPosition],
-            bottomNavigationBar: SnakeNavigationBar.color(
-              behaviour: snakeBarStyle,
-              snakeShape: snakeShape,
-              shape: bottomBarShape,
-              backgroundColor: Colors.black,
-              padding: padding,
-              snakeViewColor: selectedColor,
-              selectedItemColor:
-                  snakeShape == SnakeShape.indicator ? selectedColor : null,
-              unselectedItemColor: Colors.blueGrey,
-              showUnselectedLabels: true,
-              showSelectedLabels: true,
+            body: _screens[_selectedItemPosition], // Seçilen ekranı göster
+            backgroundColor: Colors.white,
+            bottomNavigationBar: SalomonBottomBar(
               currentIndex: _selectedItemPosition,
-              onTap: (index) => setState(() => _selectedItemPosition = index),
+              onTap: (index) {
+                setState(() {
+                  _selectedItemPosition = index;
+                });
+              },
               items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.notifications), label: 'Notifications'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_today), label: 'Calendar'),
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                // Home Icon
+                SalomonBottomBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text("Home"),
+                  selectedColor: Colors.blue,
+                ),
+                // Calendar Icon
+                SalomonBottomBarItem(
+                  icon: Icon(Icons.calendar_today),
+                  title: Text("Calendar"),
+                  selectedColor: Colors.green,
+                ),
+                // Search Icon
+                SalomonBottomBarItem(
+                  icon: Icon(Icons.search),
+                  title: Text("Search"),
+                  selectedColor: Colors.orange,
+                ),
+                // Profile Icon
+                SalomonBottomBarItem(
+                  icon: Icon(Icons.account_circle),
+                  title: Text("Profile"),
+                  selectedColor: Colors.purple,
+                ),
               ],
             ),
           );
@@ -101,5 +96,65 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         }
       },
     );
+  }
+
+  Widget _buildTitle(UserModel user) {
+    if (_selectedItemPosition == 0) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Discover",
+            style: fontStyle(25, Colors.black, FontWeight.bold),
+          ),
+          CircleAvatar(
+            backgroundImage: user.profilePhoto != ""
+                ? NetworkImage(user.profilePhoto) as ImageProvider
+                : AssetImage("assets/images/template.png"),
+          ),
+        ],
+      );
+    } else if (_selectedItemPosition == 1) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Calendar",
+            style: fontStyle(25, Colors.black, FontWeight.bold),
+          ),
+          CircleAvatar(
+            backgroundImage: user.profilePhoto != ""
+                ? NetworkImage(user.profilePhoto) as ImageProvider
+                : AssetImage("assets/images/template.png"),
+          ),
+        ],
+      );
+    } else if (_selectedItemPosition == 2) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Search",
+            style: fontStyle(25, Colors.black, FontWeight.bold),
+          ),
+          CircleAvatar(
+            backgroundImage: user.profilePhoto != ""
+                ? NetworkImage(user.profilePhoto) as ImageProvider
+                : AssetImage("assets/images/template.png"),
+          ),
+        ],
+      );
+    } else if (_selectedItemPosition == 3) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            "Your Profile",
+            style: fontStyle(25, Colors.black, FontWeight.bold),
+          ),
+        ],
+      );
+    }
+    return Text('');
   }
 }

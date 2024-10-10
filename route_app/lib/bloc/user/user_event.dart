@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 abstract class UserEvent extends Equatable {
@@ -7,3 +9,25 @@ abstract class UserEvent extends Equatable {
 }
 
 class UserInformationGets extends UserEvent {}
+
+class UserInformationGetAndSets extends UserEvent {}
+
+class UserInformationChange extends UserEvent {
+  final String displayName;
+  final String educationLevel;
+  final String phoneNumber;
+  final File? profilePhoto; // Optional field
+  final String address;
+
+  UserInformationChange({
+    required this.address,
+    required this.displayName,
+    required this.educationLevel,
+    required this.phoneNumber,
+    this.profilePhoto, // Make profilePhoto optional
+  });
+
+  @override
+  List<Object?> get props =>
+      [address, displayName, educationLevel, phoneNumber, profilePhoto];
+}

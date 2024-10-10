@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:route_app/constants/style.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:route_app/bloc/user/user_bloc.dart';
+import 'package:route_app/bloc/user/user_event.dart';
+import 'package:route_app/bloc/user/user_state.dart';
+import 'package:route_app/models/user_model.dart';
+import 'package:route_app/widgets/loading.dart';
+import 'dart:io'; // For File and image handling
 
 class PersonalInformationScreen extends StatefulWidget {
   const PersonalInformationScreen({super.key});
@@ -10,58 +17,80 @@ class PersonalInformationScreen extends StatefulWidget {
 }
 
 class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
-  // Profil bilgileri
-  String address = "123 Main St, Springfield";
-  String createdAt = "2023-01-01";
-  String displayName = "John Doe";
-  String educationLevel = "Bachelor's Degree";
-  String email = "johndoe@example.com";
-  bool emailVerified = true;
-  String fcmToken = "fcm_token_123";
-  String phoneNumber = "+1 123 456 7890";
-  String profilePhoto = ""; // Profile photo URL or placeholder
-  String uid = "uid_123";
-  String updatedUser = "2023-10-01";
-  String username = "john_doe";
-
-  // Düzenleme modları
   bool isEditing = false;
   String? fieldBeingEdited;
+  File? selectedProfilePhoto; // For storing the selected photo
 
-  // TextEditingController'lar
   TextEditingController addressController = TextEditingController();
   TextEditingController displayNameController = TextEditingController();
   TextEditingController educationLevelController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    addressController.text = address;
-    displayNameController.text = displayName;
-    educationLevelController.text = educationLevel;
-    emailController.text = email;
-    phoneNumberController.text = phoneNumber;
-    usernameController.text = username;
+  late UserModel initialUser; // To track initial user data
+
+  final ImagePicker _picker = ImagePicker();
+
+  void saveEditing(UserModel user) async {
+    bool hasChanges = false;
+
+    String newAddress = addressController.text;
+    String newDisplayName = displayNameController.text;
+    String newEducationLevel = educationLevelController.text;
+    String newPhoneNumber = phoneNumberController.text;
+
+    // Verilerdeki değişiklikleri kontrol et
+    if (newAddress != user.address ||
+        newDisplayName != user.displayName ||
+        newEducationLevel != user.educationLevel ||
+        newPhoneNumber != user.phoneNumber ||
+        selectedProfilePhoto != null) {
+      hasChanges = true;
+    }
+
+    if (hasChanges) {
+      // Verileri güncellemek için BLoC event'ini tetikle
+      context.read<UserBloc>().add(UserInformationChange(
+            address: newAddress,
+            displayName: newDisplayName,
+            educationLevel: newEducationLevel,
+            phoneNumber: newPhoneNumber,
+            profilePhoto: selectedProfilePhoto ?? File(user.profilePhoto),
+          ));
+    }
+
+    // Verilerin güncellenmesinin ardından güncel verileri al
   }
 
-  // Bilgiyi kaydet
-  void saveEditing() {
-    setState(() {
-      isEditing = false;
-      address = addressController.text;
-      displayName = displayNameController.text;
-      educationLevel = educationLevelController.text;
-      email = emailController.text;
-      phoneNumber = phoneNumberController.text;
-      username = usernameController.text;
-      fieldBeingEdited = null;
-    });
+  Future<void> pickImageFromGallery() async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        selectedProfilePhoto = File(pickedFile.path);
+        isEditing = true; // Enable editing mode when a new photo is selected
+      });
+    }
   }
 
-  // Düzenleme alanı göster
+  Future<void> takePhoto() async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        selectedProfilePhoto = File(pickedFile.path);
+        isEditing = true; // Enable editing mode when a new photo is selected
+      });
+    }
+  }
+
+  void populateFields(UserModel user) {
+    addressController.text = user.address;
+    displayNameController.text = user.displayName;
+    educationLevelController.text = user.educationLevel;
+    phoneNumberController.text = user.phoneNumber;
+    initialUser = user; // Save initial user data for comparison
+  }
+
   Widget buildEditableField(String label, TextEditingController controller) {
     if (isEditing && fieldBeingEdited == label) {
       return Row(
@@ -69,13 +98,16 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
           Expanded(
             child: TextField(
               controller: controller,
-              decoration: InputDecoration(labelText: "Edit $label"),
+              decoration: InputDecoration(
+                labelText: "Edit $label",
+                border: OutlineInputBorder(),
+              ),
             ),
           ),
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: saveEditing,
-          )
+            onPressed: () => saveEditing(initialUser),
+          ),
         ],
       );
     }
@@ -94,58 +126,138 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     );
   }
 
+  Widget buildProfilePhotoSection(UserModel user) {
+    return Column(
+      children: [
+        CircleAvatar(
+          radius: 50,
+          backgroundImage: selectedProfilePhoto != null
+              ? FileImage(selectedProfilePhoto!)
+              : user.profilePhoto.isNotEmpty
+                  ? NetworkImage(user.profilePhoto)
+                  : AssetImage("assets/images/template.png") as ImageProvider,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: Icon(Icons.photo_library),
+              onPressed: pickImageFromGallery,
+              tooltip: "Pick from gallery",
+            ),
+            IconButton(
+              icon: Icon(Icons.camera_alt),
+              onPressed: takePhoto,
+              tooltip: "Take photo",
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Personal Information"),
         backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            // Profil fotoğrafı göster
-            Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: profilePhoto.isNotEmpty
-                    ? NetworkImage(profilePhoto)
-                    : AssetImage("assets/images/template.png") as ImageProvider,
-              ),
-            ),
-            SizedBox(height: 20),
+      body: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+        if (state is UserLoading) {
+          return LoadingScreen(); // Show loading indicator during updates
+        }
+        if (state is UserSuccess) {
+          final UserModel user = state.user;
+          if (addressController.text.isEmpty) {
+            populateFields(user);
+          }
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              children: [
+                buildProfilePhotoSection(user), // Profile photo section
 
-            // Bilgileri göster ve düzenleme moduna geç
-            buildEditableField("DisplayName", displayNameController),
-            buildEditableField("Username", usernameController),
-            buildEditableField("Email", emailController),
-            buildEditableField("PhoneNumber", phoneNumberController),
-            buildEditableField("Address", addressController),
-            buildEditableField("EducationLevel", educationLevelController),
-            SizedBox(height: 20),
+                SizedBox(height: 20),
+                ListTile(
+                  title: Text("E-Mail"),
+                  subtitle: Text(user.email),
+                ),
 
-            // Sabit bilgiler
-            ListTile(
-              title: Text("UID"),
-              subtitle: Text(uid),
+                // Editable fields
+                buildEditableField("Display Name", displayNameController),
+                buildEditableField("Phone Number", phoneNumberController),
+                buildEditableField("Address", addressController),
+                buildEditableField("Education Level", educationLevelController),
+
+                SizedBox(height: 20),
+
+                // Static fields
+                ListTile(
+                  title: Text("Created At"),
+                  subtitle: Text(user.createdAt),
+                ),
+                ListTile(
+                  title: Text("Last Updated User"),
+                  subtitle: Text(user.updatedUser),
+                ),
+              ],
             ),
-            ListTile(
-              title: Text("Created At"),
-              subtitle: Text(createdAt),
+          );
+        } else if (state is UserProfileUpdateSuccess) {
+          final UserModel user = state.user;
+          if (addressController.text.isEmpty) {
+            populateFields(user);
+          }
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              children: [
+                buildProfilePhotoSection(user), // Profile photo section
+
+                SizedBox(height: 20),
+                ListTile(
+                  title: Text("E-Mail"),
+                  subtitle: Text(user.email),
+                ),
+
+                // Editable fields
+                buildEditableField("Display Name", displayNameController),
+                buildEditableField("Phone Number", phoneNumberController),
+                buildEditableField("Address", addressController),
+                buildEditableField("Education Level", educationLevelController),
+
+                SizedBox(height: 20),
+
+                // Static fields
+                ListTile(
+                  title: Text("Created At"),
+                  subtitle: Text(user.createdAt),
+                ),
+                ListTile(
+                  title: Text("Last Updated User"),
+                  subtitle: Text(user.updatedUser),
+                ),
+              ],
             ),
-            ListTile(
-              title: Text("Last Updated User"),
-              subtitle: Text(updatedUser),
-            ),
-            ListTile(
-              title: Text("FCM Token"),
-              subtitle: Text(fcmToken),
-            ),
-          ],
-        ),
-      ),
+          );
+        } else if (state is UserFailure) {
+          return Container(
+              child:
+                  Text("HATA MEYDANA GELDİ FAİLUERA")); // Handle other states
+        }
+        return Container(
+            child: Text("HATA MEYDANA GELDİ FAİLUERA")); // Handle other states
+      }),
+      floatingActionButton: isEditing
+          ? FloatingActionButton(
+              onPressed: () => saveEditing(initialUser),
+              child: Icon(Icons.save),
+              backgroundColor: Colors.green,
+            )
+          : null, // Show the save button only when editing
     );
   }
 }

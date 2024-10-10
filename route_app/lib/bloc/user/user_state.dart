@@ -18,6 +18,14 @@ class UserSuccess extends UserState {
   UserSuccess(this.user);
 }
 
+class UserInformationUpdateLoading extends UserState {}
+
+class UserProfileUpdateSuccess extends UserState {
+  final UserModel user;
+
+  UserProfileUpdateSuccess(this.user);
+}
+
 class UserFailure extends UserState {
   final String error;
 

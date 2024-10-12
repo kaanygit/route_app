@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:route_app/bloc/auth/auth_bloc.dart';
+import 'package:route_app/bloc/auth/auth_event.dart';
 import 'package:route_app/bloc/language/language_bloc.dart';
 import 'package:route_app/bloc/language/language_event.dart';
 import 'package:route_app/bloc/user/user_bloc.dart';
@@ -31,7 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         final UserModel user = state.user;
 
         return Scaffold(
-          backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(16),
@@ -138,6 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 ),
               );
+            } else if (index == 4) {
+              print("test");
+              _showExitConfirmation(context);
             }
           },
           child: Container(
@@ -171,7 +175,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
+void _showExitConfirmation(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16)), // Üst kısım için border radius
+    ),
+    builder: (BuildContext context) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        height: 250,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Çıkış Yapmak İstiyor Musunuz?",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Uygulamadan çıkış yaparsanız, tüm ilerlemeleriniz kaybolacaktır. Devam etmek istiyor musunuz?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[700],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Hayır'a basılınca menüyü kapat
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey, // Buton arka plan rengi
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16), // Border radius
+                    ),
+                  ),
+                  child: Text("Hayır"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // Evet'e basılınca yapılacak işlemler
+                    _exitApp(context); // Çıkış işlemi burada yapılacak
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber, // Buton arka plan rengi
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16), // Border radius
+                    ),
+                  ),
+                  child: Text("Evet"),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 
+void _exitApp(BuildContext context) {
+  // Uygulamadan çıkış yapma işlemleri burada yapılacak
+  print("Uygulamadan çıkış yapılıyor...");
+  BlocProvider.of<AuthBloc>(context).add(AuthSignOutRequested());
+}
 
 
 

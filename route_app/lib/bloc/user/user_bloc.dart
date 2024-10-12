@@ -22,61 +22,52 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Future<void> _onUserInformationGets(
       UserInformationGets event, Emitter<UserState> emit) async {
     emit(UserLoading());
-    try {
-      // Firestore'dan kullanıcı verilerini al
-      final doc = await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .get();
 
-      if (doc.exists) {
-        UserModel user = UserModel(
-          address: doc['address'] ?? '',
-          createdAt: doc['createdAt'] ?? '',
-          displayName: doc['displayName'] ?? '',
-          educationLevel: doc['educationLevel'] ?? '',
-          email: doc['email'] ?? '',
-          emailVerified: doc['emailVerified'] ?? false,
-          fcmToken: doc['fcmToken'] ?? '',
-          phoneNumber: doc['phoneNumber'] ?? '',
-          profilePhoto: doc['profilePhoto'] ?? '',
-          uid: doc['uid'] ?? '',
-          updatedUser: doc['updatedUser'] ?? '',
-          username: doc['username'] ?? '',
-        );
-
-        // `SharedPreferences` ile kullanıcı verilerini kaydet
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('address', user.address);
-        await prefs.setString('createdAt', user.createdAt);
-        await prefs.setString('displayName', user.displayName);
-        await prefs.setString('educationLevel', user.educationLevel);
-        await prefs.setString('email', user.email);
-        await prefs.setBool('emailVerified', user.emailVerified);
-        await prefs.setString('fcmToken', user.fcmToken);
-        await prefs.setString('phoneNumber', user.phoneNumber);
-        await prefs.setString('profilePhoto', user.profilePhoto);
-        await prefs.setString('uid', user.uid);
-        await prefs.setString('updatedUser', user.updatedUser);
-        await prefs.setString('username', user.username);
-
-        // Kullanıcı verisini başarıyla yüklendiği state'e gönder
-        emit(UserSuccess(user));
-      } else {
-        emit(UserFailure("Kullanıcı mevcut değil"));
-      }
-    } catch (e) {
-      emit(UserFailure(e.toString()));
-    }
-  }
-
-  Future<void> _onUserInformationGetAndSets(
-      UserInformationGetAndSets event, Emitter<UserState> emit) async {
-    emit(UserLoading());
     try {
       final prefs = await SharedPreferences.getInstance();
+
+      bool? hasUserData = prefs.getBool('hasUserData') ?? false;
+
+      if (!hasUserData) {
+        final doc = await _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .get();
+
+        if (doc.exists) {
+          // Firestore'dan gelen verileri kullanıcı modeline geçiriyoruz
+          UserModel user = UserModel(
+            address: doc['address'] ?? '',
+            displayName: doc['displayName'] ?? '',
+            educationLevel: doc['educationLevel'] ?? '',
+            email: doc['email'] ?? '',
+            emailVerified: doc['emailVerified'] ?? false,
+            fcmToken: doc['fcmToken'] ?? '',
+            phoneNumber: doc['phoneNumber'] ?? '',
+            profilePhoto: doc['profilePhoto'] ?? '',
+            uid: doc['uid'] ?? '',
+            username: doc['username'] ?? '',
+          );
+
+          // Firestore'dan aldığımız verileri SharedPreferences'e kaydediyoruz
+          await prefs.setString('address', user.address);
+          await prefs.setString('displayName', user.displayName);
+          await prefs.setString('educationLevel', user.educationLevel);
+          await prefs.setString('email', user.email);
+          await prefs.setBool('emailVerified', user.emailVerified);
+          await prefs.setString('fcmToken', user.fcmToken);
+          await prefs.setString('phoneNumber', user.phoneNumber);
+          await prefs.setString('profilePhoto', user.profilePhoto);
+          await prefs.setString('uid', user.uid);
+          await prefs.setString('username', user.username);
+
+          await prefs.setBool('hasUserData', true);
+        } else {
+          // Eğer Firestore'da kullanıcı yoksa hata döndürüyoruz
+          emit(UserFailure("Kullanıcı mevcut değil"));
+        }
+      }
       String? address = prefs.getString('address');
-      String? createdAt = prefs.getString('createdAt');
       String? displayName = prefs.getString('displayName');
       String? educationLevel = prefs.getString('educationLevel');
       String? email = prefs.getString('email');
@@ -85,35 +76,24 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       String? phoneNumber = prefs.getString('phoneNumber');
       String? profilePhoto = prefs.getString('profilePhoto');
       String? uid = prefs.getString('uid');
-      String? updatedUser = prefs.getString('updatedUser');
       String? username = prefs.getString('username');
 
-      if (address != null ||
-          createdAt != null ||
-          displayName != null ||
-          email != null) {
-        // `UserModel`'i `SharedPreferences`'dan aldığın verilerle oluştur
-        UserModel user = UserModel(
-          address: address ?? '',
-          createdAt: createdAt ?? '',
-          displayName: displayName ?? '',
-          educationLevel: educationLevel ?? '',
-          email: email ?? '',
-          emailVerified: emailVerified ?? false,
-          fcmToken: fcmToken ?? '',
-          phoneNumber: phoneNumber ?? '',
-          profilePhoto: profilePhoto ?? '',
-          uid: uid ?? '',
-          updatedUser: updatedUser ?? '',
-          username: username ?? '',
-        );
+      UserModel user = UserModel(
+        address: address ?? '',
+        displayName: displayName ?? '',
+        educationLevel: educationLevel ?? '',
+        email: email ?? '',
+        emailVerified: emailVerified ?? false,
+        fcmToken: fcmToken ?? '',
+        phoneNumber: phoneNumber ?? '',
+        profilePhoto: profilePhoto ?? '',
+        uid: uid ?? '',
+        username: username ?? '',
+      );
 
-        // Kullanıcı verisini başarıyla yüklendiği state'e gönder
-        emit(UserSuccess(user));
-      } else {
-        emit(UserFailure("SharedPreferences'te kullanıcı verisi yok"));
-      }
+      emit(UserSuccess(user));
     } catch (e) {
+      // Bir hata oluşursa hata state'i gönderiyoruz
       emit(UserFailure(e.toString()));
     }
   }
@@ -126,6 +106,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       final String educationLevel = event.educationLevel;
       final String phoneNumber = event.phoneNumber;
       final String address = event.address;
+
+      final prefs = await SharedPreferences.getInstance();
 
       // Firestore'dan kullanıcıyı al
       final DocumentSnapshot userDoc = await FirebaseFirestore.instance
@@ -199,9 +181,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       DocumentSnapshot updatedUserDoc =
           await _firestore.collection('users').doc(user.uid).get();
       UserModel updatedUser = UserModel.fromDocument(updatedUserDoc);
-      final prefs = await SharedPreferences.getInstance();
       await prefs.setString('address', updatedUser.address);
-      await prefs.setString('createdAt', updatedUser.createdAt);
       await prefs.setString('displayName', updatedUser.displayName);
       await prefs.setString('educationLevel', updatedUser.educationLevel);
       await prefs.setString('email', updatedUser.email);
@@ -210,11 +190,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       await prefs.setString('phoneNumber', updatedUser.phoneNumber);
       await prefs.setString('profilePhoto', updatedUser.profilePhoto);
       await prefs.setString('uid', updatedUser.uid);
-      await prefs.setString('updatedUser', updatedUser.updatedUser);
       await prefs.setString('username', updatedUser.username);
-      // Başarı durumu ve güncellenen kullanıcı verisi ile geri dön
+      await prefs.setBool('hasUserData', false);
+
       emit(UserSuccess(updatedUser));
-      emit(UserProfileUpdateSuccess(updatedUser));
     } catch (e) {
       emit(UserFailure("Hata: ${e.toString()}"));
     }

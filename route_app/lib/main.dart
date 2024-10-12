@@ -8,8 +8,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:route_app/bloc/auth/auth_bloc.dart';
 import 'package:route_app/bloc/auth/auth_event.dart';
 import 'package:route_app/bloc/auth/auth_state.dart';
+import 'package:route_app/bloc/dark_mode/dark_mode_bloc.dart';
+import 'package:route_app/bloc/dark_mode/dark_mode_state.dart';
 import 'package:route_app/bloc/language/language_bloc.dart';
 import 'package:route_app/bloc/language/language_state.dart';
+import 'package:route_app/bloc/places/places_bloc.dart';
+import 'package:route_app/bloc/places/places_event.dart';
 import 'package:route_app/bloc/user/user_bloc.dart';
 import 'package:route_app/bloc/user/user_event.dart';
 import 'package:route_app/firebase_options.dart';
@@ -24,12 +28,23 @@ import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+  // Firebase'in başlatılması
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print('Firebase başlatma hatası: $e');
+  }
+
+  // Firebase App Check aktivasyonu
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.playIntegrity,
   );
+
+  // Kullanıcı çıkış yapma işlemi
+  // await FirebaseAuth.instance.signOut();
 
   runApp(const MyApp());
 }
@@ -45,23 +60,53 @@ class MyApp extends StatelessWidget {
           create: (context) => LanguageBloc(),
         ),
         BlocProvider<UserBloc>(
-            create: (context) => UserBloc()..add(UserInformationGets())),
+          create: (context) => UserBloc()..add(UserInformationGets()),
+        ),
         BlocProvider<AuthBloc>(
-            create: (context) => AuthBloc()..add(AuthCheckRequested())),
+          create: (context) => AuthBloc()..add(AuthCheckRequested()),
+        ),
+        BlocProvider<PlacesBloc>(
+          create: (context) => PlacesBloc()
+            ..add(PlacesInformationGetAndSets())
+            ..add(PlacesInformationGets()),
+        ),
+        BlocProvider<DarkModeBloc>(
+          create: (_) => DarkModeBloc(),
+        ),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
-        builder: (context, state) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            locale: state.locale,
-            home: const AuthWrapper(),
+        builder: (context, languageState) {
+          return BlocBuilder<DarkModeBloc, DarkModeState>(
+            builder: (context, darkModeState) {
+              // Local state from LanguageBloc
+              Locale currentLocale = languageState.locale;
+
+              return MaterialApp(
+                theme: darkModeState is DarkModeEnabled
+                    ? ThemeData.dark().copyWith(
+                        bottomAppBarTheme:
+                            BottomAppBarTheme(color: Colors.black),
+                        appBarTheme: AppBarTheme(color: Color(0xFF212125)),
+                        scaffoldBackgroundColor: Color(0xFF212121),
+                      )
+                    : ThemeData.light().copyWith(
+                        bottomAppBarTheme:
+                            BottomAppBarTheme(color: Colors.white),
+                        appBarTheme: AppBarTheme(color: Colors.white),
+                        scaffoldBackgroundColor: Colors.white),
+                themeMode: ThemeMode.system,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                locale: currentLocale,
+                home: const AuthWrapper(),
+              );
+            },
           );
         },
       ),

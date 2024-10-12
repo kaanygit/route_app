@@ -56,6 +56,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             phoneNumber: newPhoneNumber,
             profilePhoto: selectedProfilePhoto ?? File(user.profilePhoto),
           ));
+      context.read<UserBloc>().add(UserInformationGets());
     }
 
     // Verilerin güncellenmesinin ardından güncel verileri al
@@ -195,18 +196,18 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 SizedBox(height: 20),
 
                 // Static fields
-                ListTile(
-                  title: Text("Created At"),
-                  subtitle: Text(user.createdAt),
-                ),
-                ListTile(
-                  title: Text("Last Updated User"),
-                  subtitle: Text(user.updatedUser),
-                ),
+                // ListTile(
+                //   title: Text("Created At"),
+                //   subtitle: Text(user.createdAt),
+                // ),
+                // ListTile(
+                //   title: Text("Last Updated User"),
+                //   subtitle: Text(user.updatedUser),
+                // ),
               ],
             ),
           );
-        } else if (state is UserProfileUpdateSuccess) {
+        } else if (state is UserSuccess) {
           final UserModel user = state.user;
           if (addressController.text.isEmpty) {
             populateFields(user);
@@ -232,14 +233,14 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 SizedBox(height: 20),
 
                 // Static fields
-                ListTile(
-                  title: Text("Created At"),
-                  subtitle: Text(user.createdAt),
-                ),
-                ListTile(
-                  title: Text("Last Updated User"),
-                  subtitle: Text(user.updatedUser),
-                ),
+                // ListTile(
+                //   title: Text("Created At"),
+                //   subtitle: Text(user.createdAt),
+                // ),
+                // ListTile(
+                //   title: Text("Last Updated User"),
+                //   subtitle: Text(user.updatedUser),
+                // ),
               ],
             ),
           );

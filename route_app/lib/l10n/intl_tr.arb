@@ -1,7 +1,158 @@
 {
-    "@@locale": "tr",
-    "title": "Hoşgeldiniz",
-    "settings": "Ayarlar",
-    "change_language": "Dili Değiştir"
-  }
-  
+  "@@locale": "tr",
+  "introTitle1": "Kolayca Erişilebilir Rotalar",
+  "@introTitle1": {
+    "description": "Engelliler için erişilebilir rotalar başlığı"
+  },
+  "introContent1": "Engelliler için özel olarak tasarlanmış erişilebilir rotaları keşfedin.",
+  "@introContent1": {
+    "description": "Engellilere özel erişilebilir rotaların içeriği"
+  },
+  "introTitle2": "Erişilebilir Noktaları Keşfedin",
+  "@introTitle2": {
+    "description": "Erişilebilir noktaların keşfedilmesiyle ilgili başlık"
+  },
+  "introContent2": "Yol boyunca erişilebilir tuvaletler, marketler ve daha fazlasını bulun.",
+  "@introContent2": {
+    "description": "Erişilebilir tuvaletler, marketler ve diğer hizmetlerle ilgili içerik"
+  },
+  "introTitle3": "Güvenli ve Kolay Navigasyon",
+  "@introTitle3": {
+    "description": "Güvenli ve kolay navigasyon başlığı"
+  },
+  "introContent3": "Kaldırım dostu, güvenli yollarla seyahatinizi planlayın.",
+  "@introContent3": {
+    "description": "Kaldırım dostu güvenli yollarla seyahat planlama içeriği"
+  },
+
+  "app_yes":"Evet",
+  "app_no":"Hayır",
+
+
+  "intro_screen_next_button":"Sonraki",
+  "intro_screen_submit_button":"Konuma izin ver",
+  "location_screen_title":"Seçim Ekranı",
+  "location_screen_titles_body":"Konum izni vermek istiyor musunuz?",
+  "location_screen_submit_button":"İzin Ver",
+  "location_screen_unsubmit_button":"İzin Verme",
+  "location_screen_alert_diaglog_title":"Konum İzni Gerekli",
+  "location_screen_alert_diaglog_title2":"Konum Servisi Kapalı",
+  "location_screen_alert_diaglog_content":"Uygulama doğru çalışması için sürekli konum erişimine ihtiyaç duyar.",
+  "location_screen_alert_diaglog_content2":"Uygulama doğru çalışması için konum servisinizin açık olması gerekmektedir.",
+  "location_screen_alert_diaglog_unsubmit":"Uygulamayı Kapat",
+
+  "application_title":"Erişilebilir Rota",
+  "language_selection":"Dil başarıyla değiştirildi!",
+  "auth_password_title":"Parola",
+  "auth_username_title":"Kullanıcı Adı",
+  "auth_repassword_title":"Parola Tekrar",
+  "auth_forgotpassword_title":"Şifremi Unuttum",
+  "auth_forgotpassword_submit_button":"Şifre Sıfırlama Maili Gönder",
+  "auth_createAccount_title":"Kayıt Ol",
+  "auth_signIn_title":"Giriş Yap",
+  "auth_signInWithGoogle_title":"Google ile giriş yap",
+  "auth_forgotpasswor_inputmail":"Emailinizi giriniz",
+  "auth_forgotpasswor_inputmail_content":"Lütfen şifre sıfırlama için e-posta adresinizi girin",
+  "forgot_password_wrong1":"Lütfen geçerli bir e-posta giriniz.",
+  "forgot_password_wrong2":"Parola en az 6 karakter olmalıdır.",
+  "forgot_password_wrong3":"Parolalar eşleşmiyor.",
+  "forgot_password_wrong4":"Kullanıcı adı boş bırakılamaz.",
+  "forgot_password_send_success":"Mail gönderildi! Lütfen e-postanızı kontrol edin.",
+  "forgot_password_unsend_message":"Hata: Şifre sıfırlama maili gönderilemedi.",
+
+  "admin_panel_title":"Admin Paneli",
+  "admin_user_management_title":"Kullanıcı Yönetimi",
+  "admin_user_management_user":"Kullanıcı",
+  "admin_user_edit_title":"Kullanıcı Düzenle",
+  "admin_user_editAndSave_title":"Kullanıcı Düzenle",
+  "admin_user_management_admin_yetki":"Admin Yetkisi Ver",
+  "admin_user_management_admin_yetki_content":"Bu kullanıcıya admin yetkisi verebilir / kaldırabilirsiniz.",
+  "admin_user_management_dondurma_yetki":"Hesabı Dondur",
+  "admin_user_management_dondurma_yetki_content":"Kullanıcı hesabını dondurabilir veya aktif hale getirebilirsiniz.",
+  "admin_reports_title":"Raporlar",
+  "admin_reports_total_user":"Toplam Kullanıcı Sayısı",
+  "admin_reports_total_place":"Toplam Konum Sayısı",
+  "admin_reports_average_app":"Ortalama Uygulama Kullanım Süresi",
+  "admin_reports_average_app_user":"Kullanıcıların Uygulama Kullanım Süresi",
+  "admin_settigs_title":"Ayarlar",
+  "admin_settigs_dark_mode_title":"Karanlık Mod",
+  "admin_settigs_dark_mode_content":"Uygulamayı karanlık moda geçirin",
+  "admin_settigs_language_title":"Dil Ayarları",
+  "admin_settigs_language_content":"Uygulamanın dilini değiştirin",
+  "admin_feedback_all_title":"Geri Bildirimler",
+  "admin_feedback_all_title_user":"Kullanıcı",
+  "admin_feedback_all_title_user_feedback":"Geri Bildirim",
+  "admin_feedback_all_title_user_feedback_textfiled_content":"Cevabınızı buraya yazın...",
+  "admin_feedback_all_title_user_feedback_send_button":"Cevapla",
+  "admin_panel_logout_title":"Çıkış Yapmak İstiyor Musunuz?",
+  "admin_panel_logout_content":  "Uygulamadan çıkış yaparsanız, tüm ilerlemeleriniz kaybolacaktır. Devam etmek istiyor musunuz?",
+
+  "user_bottom_home":"Ana Ekran",
+  "user_bottom_calender":"Takvim",
+  "user_bottom_search":"Arama",
+  "user_bottom_profile":"Profil",
+
+  "user_allview_screen_title":"Keşfet Mekanları",
+  "user_discover_title":"Keşfet",
+  "user_discover_title_row_1":"Popüler",
+  "user_discover_title_row_2":"Öne Çıkarılanlar",
+  "user_discover_title_row_3":"Çok Ziyaret Edilen",
+  "user_discover_recommend_title":"Önerilenler",
+  "user_discover_view_all_title":"Tümünü Görüntüle",
+
+  "user_calender_content":"Bugün bir etkinlik bulunmamaktadır.",
+
+  "user_search_textfield_content":"Ara...",
+  "user_search_content":"Aramak istediğiniz bir yer yok mu?Hadi başlayalım!",
+
+  "user_profile_title":"Profilim",
+  "user_profile_hi":"Selam",
+  "user_profile_personal_information_title":"Kullanıcı Bilgileri",
+  "user_profile_faq_title":"Sıkça Sorulan Sorular",
+  "user_profile_darkmode_title":"Karanlık Mod",
+  "user_profile_language_title":"Dil Ayarları",
+  "user_profile_feedback_title":"Geri Bildirim",
+  "user_profile_feedback_title_submit":"Geri bildirimiz gönderildi",
+  "user_profile_logout_title":"Çıkış Yap",
+  "user_profile_logout_show_title":"Çıkış Yapmak İstiyor Musunuz?",
+  "user_profile_logout_show_title_content":"Uygulamadan çıkış yaparsanız, tüm ilerlemeleriniz kaybolacaktır. Devam etmek istiyor musunuz?",
+
+
+  "user_place_screen_title":"Yer Detayları",
+  "user_place_screen_route_start_button":"Rotaya Başla",
+
+  "user_profile_screen_displayname_title":"İsim Soyisim",
+  "user_profile_screen_phoneNumber_title":"Telefon Numarası",
+  "user_profile_screen_address_title":"Adres",
+  "user_profile_screen_educationLevel_title":"Eğitim Seviyesi",
+
+  "user_dark_mode_screen_title":"Karanlık Tema Ayarları",
+  "user_dark_mode_screen_appearance":"Görünüm",
+  "user_dark_mode_screen_title_content1":"Karanlık Temayı Aktif Et",
+  "user_dark_mode_screen_title_content2":"Karanlık tema şuan da devre dışı.Aydınlık temanın keyfini çıkarın!",
+
+  "user_language_screen_title":"Dil Ayarları",
+  "user_language_screen_title_content":"Dil Seçin",
+  "user_language_screen_title_content_complete":"Dil değişti!",
+
+  "user_feedback_screen_titles":"Geri Bildirimlerinizi Bize Ulaştırın",
+  "user_feedback_screen_textfield_content":"Geri bildirimlerinizi buraya yazın...",
+  "user_feedback_screen_send_button_title":"Gönder",
+
+  "frozenscreen_frozen_title_content":"Hesabınız dondurulmuştur. Daha fazla bilgi için geri bildirim gönderebilirsiniz.",
+  "frozenscreen_frozen_title":"Hesabınız Dondurulmuştur",
+
+  "maps_screen_end_route_button_submit":"Rotayı bitirmek istiyor musunuz?",
+  "maps_screen_end_route_button_submit2":"Rotayı bitir",
+  "maps_screen_follow_route":"Lütfen bu sırayı takip edin:",
+  "route_complete_submit_button":"Ana Sayfaya Dön",
+  "route_complete_tebrik":"Tebrikler!",
+  "route_complete_content":"Rotayı başarıyla tamamladınız.",
+  "route_complete_title":"Rota tamamlandı",
+  "color_red":"Kırmızı",
+  "color_blue":"Mavi",
+  "color_yellow":"Sarı",
+  "color_turuncu":"Turuncu",
+  "color_black":"Siyah",
+  "app_calculate":"Hesaplanıyor..."
+}

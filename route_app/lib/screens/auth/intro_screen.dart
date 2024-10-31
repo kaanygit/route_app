@@ -1,8 +1,11 @@
+import 'package:accesible_route/generated/l10n.dart';
+import 'package:accesible_route/main.dart';
+import 'package:accesible_route/utils/darkmode_utils.dart';
+import 'package:accesible_route/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:route_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart'; // Uygulamayı kapatmak için gerekli
+import 'package:flutter/services.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -18,10 +21,8 @@ class _IntroScreenState extends State<IntroScreen> {
   Future<void> _completeIntro() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('intro_value', true);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => const AuthWrapper()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => AuthWrapper()));
   }
 
   Future<void> _requestLocationPermission() async {
@@ -59,16 +60,15 @@ class _IntroScreenState extends State<IntroScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Konum İzni Gerekli'),
-          content: const Text(
-              'Uygulama doğru çalışması için sürekli konum erişimine ihtiyaç duyar.'),
+          title: Text(S.of(context).location_screen_alert_diaglog_title),
+          content: Text(S.of(context).location_screen_alert_diaglog_content),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 _exitApp();
               },
-              child: const Text('Uygulamayı Kapat'),
+              child: Text(S.of(context).location_screen_unsubmit_button),
             ),
           ],
         );
@@ -81,16 +81,15 @@ class _IntroScreenState extends State<IntroScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Konum Servisi Kapalı'),
-          content: const Text(
-              'Uygulama doğru çalışması için konum servisinizin açık olması gerekmektedir.'),
+          title: Text(S.of(context).location_screen_alert_diaglog_title2),
+          content: Text(S.of(context).location_screen_alert_diaglog_content2),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 _exitApp();
               },
-              child: const Text('Uygulamayı Kapat'),
+              child: Text(S.of(context).location_screen_alert_diaglog_unsubmit),
             ),
           ],
         );
@@ -111,7 +110,12 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+
     return Scaffold(
+      backgroundColor: !isDarkMode
+          ? Colors.white
+          : Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           Expanded(
@@ -124,20 +128,20 @@ class _IntroScreenState extends State<IntroScreen> {
               },
               children: [
                 _buildPage(
-                  image: 'assets/images/template.png',
-                  title: 'Tanıtım 1',
-                  description: 'Bu ekran uygulamayı tanıtan ilk sayfadır.',
-                ),
+                    image: 'assets/images/intro_1.png',
+                    title: S.of(context).introTitle1,
+                    description: S.of(context).introContent1,
+                    isDarkMode: isDarkMode),
                 _buildPage(
-                  image: 'assets/images/template.png',
-                  title: 'Tanıtım 2',
-                  description: 'Bu ekran uygulamayı tanıtan ikinci sayfadır.',
-                ),
+                    image: 'assets/images/template.png',
+                    title: S.of(context).introTitle2,
+                    description: S.of(context).introContent2,
+                    isDarkMode: isDarkMode),
                 _buildPage(
-                  image: 'assets/images/template.png',
-                  title: 'Tanıtım 3',
-                  description: 'Bu ekran uygulamayı tanıtan üçüncü sayfadır.',
-                ),
+                    image: 'assets/images/3.png',
+                    title: S.of(context).introTitle3,
+                    description: S.of(context).introContent3,
+                    isDarkMode: isDarkMode),
               ],
             ),
           ),
@@ -147,15 +151,29 @@ class _IntroScreenState extends State<IntroScreen> {
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: const Text('Sonraki'),
-                ),
+                child: MyButton(
+                    text: S.of(context).intro_screen_next_button,
+                    buttonColor: Colors.blue,
+                    buttonTextColor: Colors.white,
+                    buttonTextSize: 17,
+                    buttonTextWeight: FontWeight.normal,
+                    borderRadius: BorderRadius.circular(16),
+                    onPressed: () {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    buttonWidth: ButtonWidth.large),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     _pageController.nextPage(
+                //       duration: const Duration(milliseconds: 300),
+                //       curve: Curves.easeInOut,
+                //     );
+                //   },
+                //   child: const Text('Sonraki'),
+                // ),
               ),
             ),
           if (_currentIndex == 2)
@@ -163,10 +181,15 @@ class _IntroScreenState extends State<IntroScreen> {
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _navigateToSelectionPage,
-                  child: const Text('Konumunuza İzin Ver'),
-                ),
+                child: MyButton(
+                    text: S.of(context).intro_screen_submit_button,
+                    buttonColor: Colors.blue,
+                    buttonTextColor: Colors.white,
+                    buttonTextSize: 17,
+                    buttonTextWeight: FontWeight.normal,
+                    borderRadius: BorderRadius.circular(16),
+                    onPressed: _navigateToSelectionPage,
+                    buttonWidth: ButtonWidth.large),
               ),
             ),
           const SizedBox(height: 20),
@@ -175,11 +198,11 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  Widget _buildPage({
-    required String image,
-    required String title,
-    required String description,
-  }) {
+  Widget _buildPage(
+      {required String image,
+      required String title,
+      required String description,
+      required bool isDarkMode}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -187,14 +210,18 @@ class _IntroScreenState extends State<IntroScreen> {
         const SizedBox(height: 24),
         Text(
           title,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: !isDarkMode ? Colors.black : Colors.white),
         ),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Text(
             description,
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(
+                fontSize: 16, color: !isDarkMode ? Colors.black : Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
@@ -226,35 +253,80 @@ class SelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seçim Ekranı'),
+        title: Text(S.of(context).location_screen_title),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: !isDarkMode
+            ? Colors.white
+            : Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Konum izni vermek istiyor musunuz?',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await _requestLocationPermission(context);
-                await prefs.setBool('intro_value', true);
-              },
-              child: const Text('İzin Ver'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _exitApp(context);
-              },
-              child: const Text('İzin Verme'),
-            ),
-          ],
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                S.of(context).location_screen_titles_body,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await _requestLocationPermission(context);
+                  await prefs.setBool('intro_value', true);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // Mavi arka plan
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5, // Hafif bir gölge etkisi
+                ),
+                child: Text(S.of(context).intro_screen_submit_button,
+                    style: TextStyle(
+                      color: Colors.white, // Beyaz yazı
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _exitApp(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
+                ),
+                child: Text(S.of(context).location_screen_unsubmit_button,
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -264,14 +336,12 @@ class SelectionScreen extends StatelessWidget {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Konum servisi kontrol ediliyor
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       _showLocationServiceDialog(context);
       return;
     }
 
-    // Konum izni kontrol ediliyor
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -288,11 +358,8 @@ class SelectionScreen extends StatelessWidget {
 
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      // Başarılı izin alındı, ana ekrana yönlendirme yapılabilir
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => const AuthWrapper()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => AuthWrapper()));
     }
   }
 
@@ -301,16 +368,15 @@ class SelectionScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Konum İzni Gerekli'),
-          content: const Text(
-              'Uygulama doğru çalışması için sürekli konum erişimine ihtiyaç duyar.'),
+          title: Text(S.of(context).location_screen_alert_diaglog_title),
+          content: Text(S.of(context).location_screen_alert_diaglog_content),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 _exitApp(context);
               },
-              child: const Text('Uygulamayı Kapat'),
+              child: Text(S.of(context).location_screen_alert_diaglog_unsubmit),
             ),
           ],
         );
@@ -323,16 +389,15 @@ class SelectionScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Konum Servisi Kapalı'),
-          content: const Text(
-              'Uygulama doğru çalışması için konum servisinizin açık olması gerekmektedir.'),
+          title: Text(S.of(context).location_screen_alert_diaglog_title2),
+          content: Text(S.of(context).location_screen_alert_diaglog_content2),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 _exitApp(context);
               },
-              child: const Text('Uygulamayı Kapat'),
+              child: Text(S.of(context).location_screen_alert_diaglog_unsubmit),
             ),
           ],
         );

@@ -1,14 +1,15 @@
+import 'package:accesible_route/bloc/dark_mode/dark_mode_bloc.dart';
+import 'package:accesible_route/bloc/dark_mode/dark_mode_state.dart';
+import 'package:accesible_route/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:route_app/bloc/dark_mode/dark_mode_bloc.dart';
-import 'package:route_app/bloc/dark_mode/dark_mode_state.dart';
 
 class DarkModeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dark Mode Settings'),
+        title: Text(S.of(context).user_dark_mode_screen_title),
       ),
       body: BlocBuilder<DarkModeBloc, DarkModeState>(
         builder: (context, state) {
@@ -20,7 +21,7 @@ class DarkModeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Appearance',
+                  S.of(context).user_dark_mode_screen_appearance,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 30),
@@ -31,7 +32,7 @@ class DarkModeScreen extends StatelessWidget {
                     color: isDarkMode ? Colors.white : Colors.black,
                   ),
                   title: Text(
-                    'Enable Dark Mode',
+                    S.of(context).user_dark_mode_screen_title_content1,
                     style: TextStyle(
                         fontSize: 18,
                         color: isDarkMode ? Colors.white : Colors.black),
@@ -39,7 +40,6 @@ class DarkModeScreen extends StatelessWidget {
                   trailing: Switch(
                     value: isDarkMode,
                     onChanged: (value) {
-                      // Dark mode toggle işlemi
                       BlocProvider.of<DarkModeBloc>(context).toggleDarkMode();
                     },
                   ),

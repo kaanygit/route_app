@@ -1,9 +1,11 @@
+import 'package:accesible_route/constants/style.dart';
+import 'package:accesible_route/generated/l10n.dart';
+import 'package:accesible_route/utils/darkmode_utils.dart';
+import 'package:accesible_route/widgets/buttons.dart';
+import 'package:accesible_route/widgets/flash_message.dart';
+import 'package:accesible_route/widgets/text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:route_app/constants/style.dart';
-import 'package:route_app/widgets/buttons.dart';
-import 'package:route_app/widgets/flash_message.dart';
-import 'package:route_app/widgets/text_field.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -24,16 +26,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       });
     } catch (e) {
       print("Şifre sıfırlama maili gönderilemedi: $e");
-      showErrorSnackBar(context, "Hata: Şifre sıfırlama maili gönderilemedi.");
+      showErrorSnackBar(context, S.of(context).forgot_password_unsend_message);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: !isDarkMode
+          ? Colors.white
+          : Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: !isDarkMode
+            ? Colors.white
+            : Theme.of(context).scaffoldBackgroundColor,
       ),
       body: !_isEmailSent
           ? Stack(
@@ -44,14 +52,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "Input Your Email",
+                        S.of(context).auth_forgotpasswor_inputmail,
                         style: fontStyle(
-                            16, Colors.grey.shade600, FontWeight.normal),
+                            16,
+                            !isDarkMode ? Colors.grey.shade600 : Colors.white,
+                            FontWeight.normal),
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Lütfen şifre sıfırlama için e-posta adresinizi girin.',
-                        style: fontStyle(24, Colors.black, FontWeight.bold),
+                        S.of(context).auth_forgotpasswor_inputmail_content,
+                        style: fontStyle(
+                            24,
+                            !isDarkMode ? Colors.black : Colors.white,
+                            FontWeight.bold),
                       ),
                       SizedBox(height: 50),
                       MyTextField(
@@ -63,13 +76,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ],
                   ),
                 ),
-                // Positioned ile butonu en alta sabitliyoruz
                 Positioned(
                     bottom: 20,
                     left: 16,
                     right: 16,
                     child: MyButton(
-                        text: "Şifre Sıfırlama Maili Gönder",
+                        text: S.of(context).auth_forgotpassword_submit_button,
                         buttonColor: Colors.amber,
                         buttonTextColor: Colors.black,
                         buttonTextSize: 16,
@@ -83,7 +95,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    "Lütfen geçerli bir e-posta adresi giriniz."),
+                                  S.of(context).forgot_password_wrong1,
+                                  style: TextStyle(
+                                      color: !isDarkMode
+                                          ? Colors.black
+                                          : Colors.white),
+                                ),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -107,7 +124,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       height: 20,
                     ),
                     Text(
-                      'Mail gönderildi! Lütfen e-postanızı kontrol edin.',
+                      S.of(context).forgot_password_send_success,
                       style: fontStyle(24, Colors.green, FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),

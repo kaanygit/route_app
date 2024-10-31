@@ -25,12 +25,9 @@ class UserModel {
     required this.username,
   });
 
-  // Convert Firestore document into UserModel
   factory UserModel.fromDocument(DocumentSnapshot doc) {
     return UserModel(
       address: doc['address'] ?? '',
-      // Convert Firestore Timestamp to ISO8601 string
-
       displayName: doc['displayName'] ?? '',
       educationLevel: doc['educationLevel'] ?? '',
       email: doc['email'] ?? '',
@@ -39,8 +36,6 @@ class UserModel {
       phoneNumber: doc['phoneNumber'] ?? '',
       profilePhoto: doc['profilePhoto'] ?? '',
       uid: doc['uid'] ?? '',
-      // Convert Firestore Timestamp to ISO8601 string
-
       username: doc['username'] ?? '',
     );
   }

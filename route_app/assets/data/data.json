@@ -1,96 +1,156 @@
 {
     "places": [
-      {
-        "key":1,
-        "title": "HOCA HASAN MOSQUE",
-        "content":"The Hoca Hasan Mosque exhibits the typical architectural features of the Ottoman period. The structure predominantly employs ashlar stone and brick, reflecting the era's simplicity and functional design. The mosque is a small, square-plan building topped with a single dome. The mihrab is adorned with classical Ottoman ornamentation, showcasing a modest yet elegant design approach.",
-        "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2Fhoca%20hasan%20cami%20(1).jpg?alt=media&token=4ec74ad0-4188-43fd-a367-89a928b738e8"
-    },
-    {
-        "key":2,
-        "title": "BARDAKÇI MOSQUE",
-        "content":"Bardakçı Mosque, located in the Selçuklu district of Konya, is a significant place of worship from the Ottoman period. The mosque stands out for its architectural style and simplicity, mainly reflecting the characteristic features of 19th-century Ottoman Mosque architecture. With its single-domed plan, Bardakçı Mosque exemplifies the minimalist yet functional approach commonly seen in Anatolian Mosque architecture of that era. Inside, the wooden craftsmanship and ornamental details showcase the refined aesthetics of Ottoman art, while the stonework on the exterior presents a harmonious blend of simplicity and artistry. Beyond its religious function, the mosque played a crucial role in the social and cultural life of the local community, gradually becoming an integral part of Konya’s religious and architectural heritage. With its historical texture and unique architectural features, Bardakçı Mosque serves as an essential resource for understanding the local building traditions of the Ottoman period.",
-        "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2Fbardak%C3%A7%C4%B1%20mosque.jpg?alt=media&token=cf995b02-7499-4589-9332-44b280327f3f"
-    },
-    {
-          "key":3,
-          "title": "Atatürk Museum",
-          "content":"The Atatürk Museum and the Olgunlaştırma Institute in Konya are significant structures representing the city's cultural heritage and educational history. The Atatürk Museum gained historical importance when the house where Mustafa Kemal Atatürk stayed during his visits to Konya was transformed into a museum. Inside, personal belongings of Atatürk, photographs, and documents from the period are displayed, providing a rich resource for understanding the early years of the Turkish Republic and Atatürk's contributions to Konya. On the other hand, the Institute of Handicrafts is a crucial institution dedicated to preserving, developing, and passing down traditional arts and crafts. Mainly known for producing weaving, embroidery, and design products reflecting Konya’s cultural fabric, the institute is a support centre for local artisans and a hub for keeping Turkey’s rich handicraft culture alive. Together, these two institutions highlight Konya's historical and cultural depth, while also reflecting the local impact of educational and cultural policies that formed the foundation of modern Turkey.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FAtat%C3%BCrk%20Museum.png?alt=media&token=be63277b-91e0-499d-83d8-2c7cb1382cbc"
+        {
+            "key": 1,
+            "title_tr": "HOCA HASAN CAMİİ",
+            "title_eng": "HOCA HASAN MOSQUE",
+            "content_eng": "The Hoca Hasan Mosque exhibits the typical architectural features of the Ottoman period.",
+            "content_tr": "Hoca Hasan Camii, Osmanlı dönemi mimari özelliklerini sergiler.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2Fhoca%20hasan%20cami%20(1).jpg?alt=media&token=4ec74ad0-4188-43fd-a367-89a928b738e8",
+            "latitude": 37.8703256,
+            "longitude": 32.4834427
         },
         {
-            "key":4,
-            "title": "INCE MINARE TAŞ ESERLER MUSEUM",
-            "content":"The İnce Minare Taş Eserler Museum is an essential architectural structure from the Seljuk period, commissioned in 1264 by the vizier Sahip Ata Fahreddin Ali. The museum serves as a venue for showcasing stone artefacts that reflect Konya’s rich historical and cultural heritage. The İnce Minare takes its name from its elegant minaret, which draws attention with its intricately carved stonework and geometric decorations on the leading portal. The architectural design reveals the aesthetic and technical features of Seljuk art. At the same time, the museum also serves as a significant resource for tracing the development of Islamic art, epigraphy, and ornamental arts. Today, the structure, now functioning as a museum, contributes to preserving historical artefacts and their transmission to future generations.",
-            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FInce_Minareli_Medrese_01.jpg?alt=media&token=f7864e46-236c-466b-8570-e0c1cd860638"
+            "key": 2,
+            "title_tr": "BARDAKÇI CAMİİ",
+            "title_eng": "BARDAKÇI MOSQUE",
+            "content_eng": "Bardakçı Mosque, located in the Selçuklu district of Konya.",
+            "content_tr": "Konya'nın Selçuklu ilçesinde bulunan Bardakçı Camii.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2Fbardak%C3%A7%C4%B1%20mosque.jpg?alt=media&token=cf995b02-7499-4589-9332-44b280327f3f",
+            "latitude": 37.8713441,
+            "longitude": 32.4835781
         },
         {
-          "key":5,
-          "title": "ZELVE SULTAN MOSQUE",
-          "content":"Zelve Sultan Mosque is a vital structure that reflects Konya's historical and cultural richness. Built in the 13th century, the mosque exemplifies the characteristic features of Seljuk architecture. The architectural design of the mosque prominently displays elegant lines and geometric patterns that embody the aesthetic understanding of the era. Notably, the slender and tall structure of the mosque's minaret stands out as a prime example of the architectural style of the Seljuk period. The interior features decorative calligraphy and floral motifs that enhance the mosque's religious and artistic value. Zelve Sultan Mosque occupies a significant place in Konya's cultural heritage, offering visitors a glimpse into the traces of the past through its architectural features and historical context. In this regard, Zelve Sultan Mosque is a structure worthy of examination in academic research and tourism.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FZevle%20Sultan%20Mescidi%20Sel%C3%A7uklu%2C%20Konya%20-%203.jpg?alt=media&token=1ca66e87-3977-41cd-8812-751c6733c5af"
+            "key": 3,
+            "title_tr": "ATATÜRK MÜZESİ",
+            "title_eng": "ATATÜRK MUSEUM",
+            "content_eng": "The Atatürk Museum and the Olgunlaştırma Institute in Konya.",
+            "content_tr": "Konya'daki Atatürk Müzesi ve Olgunlaştırma Enstitüsü.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FAtat%C3%BCrk%20Museum.png?alt=media&token=be63277b-91e0-499d-83d8-2c7cb1382cbc",
+            "latitude": 37.8702072,
+            "longitude": 32.4852269
         },
         {
-          "key":6,
-          "title": "Alaaddin Keykubad Mosque",
-          "content":"The Alaeddin Keykubad Mosque stands as a significant structure representing Konya's historical and architectural wealth, reflecting the Seljuk period's architectural style. Commissioned by Seljuk Sultan Alaeddin Keykubad in the mid-13th century, the mosque has become a central hub for the region's religious and cultural life. Its architecture embodies classical Seljuk characteristics, highlighting its stone craftsmanship and interior arrangements. The mosque is distinguished by its wooden roof, the use of stone and brick, and its spacious interior supported by numerous columns and piers. Additionally, with its courtyard arrangement and surrounding tombs, the Alaeddin Keykubad Mosque has become an essential centre in architectural and social contexts. Throughout history, this mosque has contributed to the social fabric of Konya and serves as a vital example of the evolution of Seljuk art and architecture.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FAlaaddin%20Keykubad%20Mosque.jpg?alt=media&token=43e79281-9e59-4b70-9a4e-3057e97c15f0"
+            "key": 4,
+            "title_tr": "İNCE MİNARE TAŞ ESERLER MÜZESİ",
+            "title_eng": "INCE MINARE TAŞ ESERLER MUSEUM",
+            "content_eng": "The İnce Minare Taş Eserler Museum is an essential architectural structure from the Seljuk period.",
+            "content_tr": "İnce Minare Taş Eserler Müzesi, Selçuklu dönemine ait önemli bir mimari yapıdır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FInce_Minareli_Medrese_01.jpg?alt=media&token=f7864e46-236c-466b-8570-e0c1cd860638",
+            "latitude": 37.8728716,
+            "longitude": 32.4899749
         },
         {
-          "key":7,
-          "title": "KARATAY MADRASA",
-          "content":"The Karatay Madrasa was constructed in the 13th century as a significant example of Seljuk period architecture in Konya, built-in 1251 by Sultan IV. Kılıç Arslan, the Madrasa served as a centre for educational and cultural activities of its time. The structure embodies the elegant features of classical Seljuk architecture while also drawing attention to its intricate mosaic and tile decorations. The ornate portal at the entrance showcases some of the finest examples of Seljuk stone craftsmanship. As an institution providing education in Islamic sciences and philosophy, the Madrasa contributed to the development of prominent scholars of the period. Today, this structure, preserved through restoration efforts, attracts visitors as both an architectural heritage and a cultural memory. Beyond being an educational institution, the Karatay Medrese continues to hold significance as a vibrant representation of Seljuk art and culture.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FKARATAY_MEDRESES%C4%B0_-_panoramio.jpg?alt=media&token=b33c4c64-2e72-4192-8725-9efe045d4e6d"
+            "key": 5,
+            "title_tr": "ZELVE SULTAN CAMİİ",
+            "title_eng": "ZELVE SULTAN MOSQUE",
+            "content_eng": "Zelve Sultan Mosque is a vital structure that reflects Konya's historical and cultural richness.",
+            "content_tr": "Zelve Sultan Camii, Konya'nın tarihi ve kültürel zenginliğini yansıtan önemli bir yapıdır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FZevle%20Sultan%20Mescidi%20Sel%C3%A7uklu%2C%20Konya%20-%203.jpg?alt=media&token=1ca66e87-3977-41cd-8812-751c6733c5af",
+            "latitude": 37.8733208,
+            "longitude": 32.4865003
         },
         {
-          "key":8,
-          "title": "ŞEMSI TEBRIZI MOSQUE AND TOMB",
-          "content":"The Şemsi Tebrizî Mosque and Tomb are important to Konya's historical and cultural heritage. Constructed in the 13th century, the mosque symbolically represents the spiritual journey of Mevlana Celaleddin Rumi. The profound influence of Şemsi Tebrizî on Rumi's intellectual world is also reflected in the architecture of this structure. While the mosque stands out with its simple and unique architectural features, its interior offers a rich atmosphere adorned with calligraphic and tile decorations that evoke a sense of Sufism. The tomb serves as a space where the spirit of Şemsi Tebrizî is preserved, allowing visitors to experience a spiritual encounter. This structure provides significant architectural and historical research opportunities, shedding light on the development of Sufi thought and Anatolian Turkish architecture.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2F%C5%9Eemsi-Tebrizi-Camii-ve-T%C3%BCrbesi-848x566.jpg?alt=media&token=11f31920-a20c-44e0-854b-f9373f2a64ea"
+            "key": 6,
+            "title_tr": "ALAADDİN KEYKUBAD CAMİİ",
+            "title_eng": "ALAADDIN KEYKUBAD MOSQUE",
+            "content_eng": "The Alaeddin Keykubad Mosque stands as a significant structure representing Konya's historical and architectural wealth.",
+            "content_tr": "Alaeddin Keykubad Camii, Konya'nın tarihi ve mimari zenginliğini yansıtan önemli bir yapıdır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FAlaaddin%20Keykubad%20Mosque.jpg?alt=media&token=43e79281-9e59-4b70-9a4e-3057e97c15f0",
+            "latitude": 37.8733455,
+            "longitude": 32.4903165
         },
         {
-          "key":9,
-          "title": "ŞERAFETTİN MOSQUE",
-          "content":"Şerafettin Mosque is an integral part of Konya's historical fabric and one of the unique examples of Seljuk architecture. Built in the 13th century, the mosque presents a harmonious blend of woodwork and stone craftsmanship, reflecting the artistic and cultural values of the period. The ceramic decorations in the mosque's interior stand out as a reflection of the aesthetic understanding of Islamic art, particularly the intricate craftsmanship of the mihrab, which showcases the architectural knowledge and aesthetic sensibility of the time. Furthermore, the fountain in the mosque's courtyard plays a significant role as a space for worship and a centre for social interaction. Beyond being merely a place of prayer, Şerafettin Mosque is a rich architectural and historical structure that contributes to Konya's social and cultural life.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2F%C5%9EERAFETT%C4%B0N%20mOSQUE.jpeg?alt=media&token=fc307766-8bf4-4884-b88b-8af0d7a853d1"
+            "key": 7,
+            "title_tr": "KARATAY MEDRESESİ",
+            "title_eng": "KARATAY MADRASA",
+            "content_eng": "The Karatay Madrasa was constructed in the 13th century.",
+            "content_tr": "Karatay Medresesi, Konya'daki Selçuklu dönemi mimarisinin önemli bir örneği.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FKARATAY_MEDRESES%C4%B0_-_panoramio.jpg?alt=media&token=b33c4c64-2e72-4192-8725-9efe045d4e6d",
+            "latitude": 37.8748698,
+            "longitude": 32.4903845
         },
         {
-          "key":10,
-          "title": "IPLIKÇI MOSQUE",
-          "content":"İplikçi Mosque is a vital structure that enriches the historical fabric of Konya and stands out as an elegant example of Seljuk architecture. Constructed in the 14th century, the mosque is made of hewn stone and is adorned with various decorative elements. The tile and penwork embellishments within the interior reflect the aesthetic understanding of the period, while the architectural details and structural components reveal the intricacies of Islamic art. The mosque accommodates numerous prayer spaces and social functions, making it a centre of community life beyond merely being a place of worship. The architectural features and historical significance of İplikçi Mosque constitute a vital part of Konya's cultural heritage, holding great value for residents and visitors. In this respect, the structure is a noteworthy example deserving examination from both architectural and social perspectives.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2F%C4%B0PL%C4%B0K%C3%87%C4%B0-CAM%C4%B0%C4%B0-850x560.jpg?alt=media&token=18b8189c-64ff-4568-be4e-790789c34da1"
+            "key": 8,
+            "title_tr": "ŞEMS-İ TEBRİZİ CAMİİ VE TÜRBESİ",
+            "title_eng": "ŞEMSI TEBRIZI MOSQUE AND TOMB",
+            "content_eng": "The Şemsi Tebrizî Mosque and Tomb are important to Konya's historical and cultural heritage.",
+            "content_tr": "Şems-i Tebrizî Camii ve Türbesi, Konya'nın tarihi ve kültürel mirasında önemli bir yer tutar.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2F%C5%9Eemsi-Tebrizi-Camii-ve-T%C3%BCrbesi-848x566.jpg?alt=media&token=11f31920-a20c-44e0-854b-f9373f2a64ea",
+            "latitude": 37.8736757,
+            "longitude": 32.4929848
         },
         {
-          "key":11,
-          "title": "ULVİ SULTAN MOSQUE",
-          "content":"Ulvi Sultan Mosque is an essential place of worship that reflects Konya's historical and cultural fabric. Constructed in 1917, the mosque not only embodies the unique characteristics of Ottoman architecture but also incorporates influences from structures of the Republican era. Built with cut stone and brick, the mosque's architectural design exhibits remarkable symmetry and balance. The decorations and stained glass within its interior reflect the artistic understanding of the period, while the mosque's courtyard provides a spacious area, serving as a community gathering point. Beyond being a place of worship, Ulvi Sultan Mosque offers visitors a profound experience through its architectural aesthetics, historical significance, and social functionality.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FULV%C4%B0%20SULTAN.jpg?alt=media&token=64e8a282-012d-4d6a-83da-05cb9b60542c"
+            "key": 9,
+            "title_tr": "ŞERAFETTİN CAMİİ",
+            "title_eng": "ŞERAFETTİN MOSQUE",
+            "content_eng": "Şerafettin Mosque is an integral part of Konya's historical fabric.",
+            "content_tr": "Şerafettin Camii, Konya'nın tarihi dokusunun önemli bir parçası olup, Selçuklu mimarisinin nadide örneklerinden biridir.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2F%C5%9EERAFETT%C4%B0N%20mOSQUE.jpeg?alt=media&token=fc307766-8bf4-4884-b88b-8af0d7a853d1",
+            "latitude": 37.8727992,
+            "longitude": 32.496168
         },
         {
-          "key":12,
-          "title": "KAPI MOSQUE",
-          "content":"Kapı Mosque is a crucial structure reflecting the historical texture of Konya and holds a significant place in the city's architectural development. Constructed in the mid-19th century, the mosque is noteworthy for both its architectural features and social functions. The building embodies the classical architectural elements of the Ottoman period, distinguished by its stone craftsmanship and tile decorations. Designed with a spacious courtyard and high ceiling, the mosque serves as a space that promotes social interaction. Additionally, the location of Kapı Mosque enhances its influence on the socio-cultural fabric of Konya, providing visitors with an opportunity to witness the city’s history. In this respect, Kapı Mosque constitutes a significant part of Konya's cultural heritage, serving as both an architectural masterpiece and a historical memory.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2Fkapu-camisi-ve-aziziye.jpg?alt=media&token=d5cb5d1e-887c-4c37-9755-aa0f0c8cf707"
+            "key": 10,
+            "title_tr": "İPLİKÇİ CAMİİ",
+            "title_eng": "IPLIKÇI MOSQUE",
+            "content_eng": "İplikçi Mosque is a vital structure that enriches the historical fabric of Konya and stands out as an elegant example of Seljuk architecture.",
+            "content_tr": "İplikçi Camii, Konya'nın tarihi dokusunu zenginleştiren ve Selçuklu mimarisinin zarif bir örneği olarak öne çıkan önemli bir yapıdır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2F%C4%B0PL%C4%B0K%C3%87%C4%B0-CAM%C4%B0%C4%B0-850x560.jpg?alt=media&token=18b8189c-64ff-4568-be4e-790789c34da1",
+            "latitude": 37.8718669,
+            "longitude": 32.4941504
         },
         {
-          "key":13,
-          "title": "AZIZIYE MOSQUE",
-          "content":"Aziziye Mosque is an important architectural structure that reflects Konya's historical and cultural fabric. Built in 1868, the mosque exemplifies one of the elegant examples of Ottoman-period architecture. Its design embodies the characteristics of the classical Ottoman Mosque building tradition, while its interior decorations and calligraphic works reveal the aesthetic understanding of the period. Notably, the woodwork used in the mosque's mihrab and minbar reflects the intricacies of traditional Turkish arts, enriched with exquisite tiles and penwork. Considering that Aziziye Mosque plays a significant role not only as a place of worship but also in Konya's social and cultural life, this structure is of great importance for preserving the city's historical heritage and its transmission to future generations.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FAZ%C4%B0Z%C4%B0YE%20CAM%C4%B0.jpg?alt=media&token=1f9ee500-aa30-4682-9984-29b45158eefd"
+            "key": 11,
+            "title_tr": "ULVİ SULTAN CAMİİ",
+            "title_eng": "ULVİ SULTAN MOSQUE",
+            "content_eng": "Ulvi Sultan Mosque is an essential place of worship that reflects Konya's historical and cultural fabric. Constructed in 1917, the mosque not only embodies the unique characteristics of Ottoman architecture but also incorporates influences from the structures of the Republican era.",
+            "content_tr": "Ulvi Sultan Camii, Konya'nın tarihi ve kültürel dokusunu yansıtan önemli bir ibadet yeridir. 1917'de inşa edilen cami, Osmanlı mimarisinin özelliklerini taşırken Cumhuriyet dönemi yapılarından da etkiler barındırır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FULV%C4%B0%20SULTAN.jpg?alt=media&token=64e8a282-012d-4d6a-83da-05cb9b60542c",
+            "latitude": 37.8716169,
+            "longitude": 32.4958189
         },
         {
-          "key":14,
-          "title": "SULTAN SELİM MOSQUE",
-          "content":"Sultan Selim Mosque, one of the most significant architectural works in Konya, was constructed in the 16th century and reflects the elegant architectural understanding of the Ottoman period. Designed by the renowned architect Mimar Sinan, the mosque is built on a rectangular plan and is topped with a central dome. The dome stands out with its graceful proportions and rich ornamentation, while the tiles and calligraphy within the interior showcase the aesthetic sensibilities of the era. The mosque’s courtyard is surrounded by a portico supported by columns, which plays a central role in the social and religious life of the community. Additionally, the Sultan Selim Mosque serves as an important historical and cultural landmark and an example that contributes to art history through its architectural structure. In this context, the building emerges as a unique example that reflects the intricacies of Ottoman architecture, evaluated in terms of aesthetic quality and functionality.",
-          "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FSelimiye_Mosque_-_Selimiye_Camii%2C_Konya.jpg?alt=media&token=fcdbfa72-f9ae-4656-b766-26b78fc03ed2"
+            "key": 12,
+            "title_tr": "KAPI CAMİİ",
+            "title_eng": "KAPI MOSQUE",
+            "content_eng": "Kapı Mosque is a crucial structure reflecting the historical texture of Konya and holds a significant place in the city's architectural development.",
+            "content_tr": "Kapı Camii, Konya'nın tarihi dokusunu yansıtan ve şehrin mimari gelişiminde önemli bir yer tutan önemli bir yapıdır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2Fkapu-camisi-ve-aziziye.jpg?alt=media&token=d5cb5d1e-887c-4c37-9755-aa0f0c8cf707",
+            "latitude": 37.871199,
+            "longitude": 32.4968397
         },
         {
-          "key":15,
-        "title": "MEVLANA MOSQUE",
-        "content":"The Mevlana Mosque is a crucial structure symbolising Konya's spiritual and cultural identity. Built after the death of Mevlana Celaleddin Rumi in 1274, the mosque has also served as the centre of the Mevlevi order. Its architecture exhibits features that reflect the traces of the Seljuk period, distinguished by its elegant stonework and intricate tile decorations. Additionally, the mosque attracts significant interest from visitors due to its housing of Rumi's tomb, making it both a religious and a touristic hub. The columns and dome within the interior create a spiritual atmosphere through the play of light, allowing visitors to experience a profound emotional journey. The Mevlana Mosque has thus become one of the critical symbols not only of Konya but also of Turkey, with its architectural aesthetics and religious functionality.",
-        "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FIMG_1174.jpg?alt=media&token=cabfff30-97d7-4959-851e-046b9636dcfc"
-      }
-
+            "key": 13,
+            "title_tr": "AZİZİYE CAMİİ",
+            "title_eng": "AZIZIYE MOSQUE",
+            "content_eng": "Aziziye Mosque is an important architectural structure that reflects Konya's historical and cultural fabric. Built in 1868, the mosque exemplifies one of the elegant examples of Ottoman-period architecture.",
+            "content_tr": "Aziziye Camii, Konya'nın tarihi ve kültürel dokusunu yansıtan önemli bir mimari yapıdır. 1868 yılında inşa edilen cami, Osmanlı dönemi mimarisinin zarif örneklerinden birini temsil eder.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FAZ%C4%B0Z%C4%B0YE%20CAM%C4%B0.jpg?alt=media&token=1f9ee500-aa30-4682-9984-29b45158eefd",
+            "latitude": 37.8699614,
+            "longitude": 32.4950449
+        },
+        {
+            "key": 14,
+            "title_tr": "SULTAN SELİM CAMİİ",
+            "title_eng": "SULTAN SELIM MOSQUE",
+            "content_eng": "Sultan Selim Mosque, one of the most significant architectural works in Konya, was constructed in the 16th century and reflects the elegant architectural understanding of the Ottoman period.",
+            "content_tr": "Sultan Selim Camii, Konya'daki en önemli mimari eserlerden biri olup, 16. yüzyılda inşa edilmiştir ve Osmanlı dönemi mimari anlayışını zarif bir şekilde yansıtır.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FSelimiye_Mosque_-_Selimiye_Camii%2C_Konya.jpg?alt=media&token=fcdbfa72-f9ae-4656-b766-26b78fc03ed2",
+            "latitude": 37.8705172,
+            "longitude": 32.4859661
+        },
+        {
+            "key": 15,
+            "title_tr": "MEVLANA CAMİİ",
+            "title_eng": "MEVLANA MOSQUE",
+            "content_eng": "The Mevlana Mosque is a crucial structure symbolising Konya's spiritual and cultural identity. Built after the death of Mevlana Celaleddin Rumi in 1274, the mosque has also served as the centre of the Mevlevi order.",
+            "content_tr": "Mevlana Camii, Konya'nın manevi ve kültürel kimliğini simgeleyen önemli bir yapıdır. Mevlana Celaleddin Rumi'nin ölümünden sonra, 1274 yılında inşa edilen camii, aynı zamanda Mevlevi tarikatının merkezi olmuştur.",
+            "image_url": "https://firebasestorage.googleapis.com/v0/b/route-app-b6d31.appspot.com/o/placesPhoto%2FIMG_1174.jpg?alt=media&token=cabfff30-97d7-4959-851e-046b9636dcfc",
+            "latitude": 37.8709511,
+            "longitude": 32.5035289
+        }
     ]
 }
-  
+
+

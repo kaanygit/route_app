@@ -1,12 +1,14 @@
+import 'package:accesible_route/bloc/user/user_bloc.dart';
+import 'package:accesible_route/bloc/user/user_event.dart';
+import 'package:accesible_route/bloc/user/user_state.dart';
+import 'package:accesible_route/generated/l10n.dart';
+import 'package:accesible_route/models/user_model.dart';
+import 'package:accesible_route/utils/darkmode_utils.dart';
+import 'package:accesible_route/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:route_app/bloc/user/user_bloc.dart';
-import 'package:route_app/bloc/user/user_event.dart';
-import 'package:route_app/bloc/user/user_state.dart';
-import 'package:route_app/models/user_model.dart';
-import 'package:route_app/widgets/loading.dart';
-import 'dart:io'; // For File and image handling
+import 'dart:io';
 
 class PersonalInformationScreen extends StatefulWidget {
   const PersonalInformationScreen({super.key});
@@ -19,14 +21,14 @@ class PersonalInformationScreen extends StatefulWidget {
 class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   bool isEditing = false;
   String? fieldBeingEdited;
-  File? selectedProfilePhoto; // For storing the selected photo
+  File? selectedProfilePhoto;
 
   TextEditingController addressController = TextEditingController();
   TextEditingController displayNameController = TextEditingController();
   TextEditingController educationLevelController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
-  late UserModel initialUser; // To track initial user data
+  late UserModel initialUser;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -38,7 +40,6 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     String newEducationLevel = educationLevelController.text;
     String newPhoneNumber = phoneNumberController.text;
 
-    // Verilerdeki değişiklikleri kontrol et
     if (newAddress != user.address ||
         newDisplayName != user.displayName ||
         newEducationLevel != user.educationLevel ||
@@ -48,7 +49,6 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     }
 
     if (hasChanges) {
-      // Verileri güncellemek için BLoC event'ini tetikle
       context.read<UserBloc>().add(UserInformationChange(
             address: newAddress,
             displayName: newDisplayName,
@@ -56,10 +56,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             phoneNumber: newPhoneNumber,
             profilePhoto: selectedProfilePhoto ?? File(user.profilePhoto),
           ));
-      context.read<UserBloc>().add(UserInformationGets());
+      // context.read<UserBloc>().add(UserInformationGets());
     }
-
-    // Verilerin güncellenmesinin ardından güncel verileri al
   }
 
   Future<void> pickImageFromGallery() async {
@@ -68,7 +66,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     if (pickedFile != null) {
       setState(() {
         selectedProfilePhoto = File(pickedFile.path);
-        isEditing = true; // Enable editing mode when a new photo is selected
+        isEditing = true;
       });
     }
   }
@@ -79,7 +77,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     if (pickedFile != null) {
       setState(() {
         selectedProfilePhoto = File(pickedFile.path);
-        isEditing = true; // Enable editing mode when a new photo is selected
+        isEditing = true;
       });
     }
   }
@@ -89,7 +87,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     displayNameController.text = user.displayName;
     educationLevelController.text = user.educationLevel;
     phoneNumberController.text = user.phoneNumber;
-    initialUser = user; // Save initial user data for comparison
+    initialUser = user;
   }
 
   Widget buildEditableField(String label, TextEditingController controller) {
@@ -159,16 +157,23 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
     return Scaffold(
       appBar: AppBar(
-        title: Text("Personal Information"),
-        backgroundColor: Colors.white,
+        title: Text(S.of(context).user_profile_personal_information_title),
+        backgroundColor: isDarkMode
+            ? Colors.white
+            : Theme.of(context).scaffoldBackgroundColor,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor:
+          isDarkMode ? Colors.white : Theme.of(context).scaffoldBackgroundColor,
       body: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
         if (state is UserLoading) {
-          return LoadingScreen(); // Show loading indicator during updates
+          return LoadingScreen();
         }
         if (state is UserSuccess) {
           final UserModel user = state.user;
@@ -179,31 +184,25 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ListView(
               children: [
-                buildProfilePhotoSection(user), // Profile photo section
-
+                buildProfilePhotoSection(user),
                 SizedBox(height: 20),
                 ListTile(
                   title: Text("E-Mail"),
                   subtitle: Text(user.email),
                 ),
-
-                // Editable fields
-                buildEditableField("Display Name", displayNameController),
-                buildEditableField("Phone Number", phoneNumberController),
-                buildEditableField("Address", addressController),
-                buildEditableField("Education Level", educationLevelController),
-
+                buildEditableField(
+                    S.of(context).user_profile_screen_displayname_title,
+                    displayNameController),
+                buildEditableField(
+                    S.of(context).user_profile_screen_phoneNumber_title,
+                    phoneNumberController),
+                buildEditableField(
+                    S.of(context).user_profile_screen_address_title,
+                    addressController),
+                buildEditableField(
+                    S.of(context).user_profile_screen_educationLevel_title,
+                    educationLevelController),
                 SizedBox(height: 20),
-
-                // Static fields
-                // ListTile(
-                //   title: Text("Created At"),
-                //   subtitle: Text(user.createdAt),
-                // ),
-                // ListTile(
-                //   title: Text("Last Updated User"),
-                //   subtitle: Text(user.updatedUser),
-                // ),
               ],
             ),
           );
@@ -216,41 +215,32 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ListView(
               children: [
-                buildProfilePhotoSection(user), // Profile photo section
-
+                buildProfilePhotoSection(user),
                 SizedBox(height: 20),
                 ListTile(
                   title: Text("E-Mail"),
                   subtitle: Text(user.email),
                 ),
-
-                // Editable fields
-                buildEditableField("Display Name", displayNameController),
-                buildEditableField("Phone Number", phoneNumberController),
-                buildEditableField("Address", addressController),
-                buildEditableField("Education Level", educationLevelController),
-
+                buildEditableField(
+                    S.of(context).user_profile_screen_displayname_title,
+                    displayNameController),
+                buildEditableField(
+                    S.of(context).user_profile_screen_phoneNumber_title,
+                    phoneNumberController),
+                buildEditableField(
+                    S.of(context).user_profile_screen_address_title,
+                    addressController),
+                buildEditableField(
+                    S.of(context).user_profile_screen_educationLevel_title,
+                    educationLevelController),
                 SizedBox(height: 20),
-
-                // Static fields
-                // ListTile(
-                //   title: Text("Created At"),
-                //   subtitle: Text(user.createdAt),
-                // ),
-                // ListTile(
-                //   title: Text("Last Updated User"),
-                //   subtitle: Text(user.updatedUser),
-                // ),
               ],
             ),
           );
         } else if (state is UserFailure) {
-          return Container(
-              child:
-                  Text("HATA MEYDANA GELDİ FAİLUERA")); // Handle other states
+          return Container(child: Text("HATA MEYDANA GELDİ FAİLUERA"));
         }
-        return Container(
-            child: Text("HATA MEYDANA GELDİ FAİLUERA")); // Handle other states
+        return Container(child: Text("HATA MEYDANA GELDİ FAİLUERA"));
       }),
       floatingActionButton: isEditing
           ? FloatingActionButton(
@@ -258,7 +248,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
               child: Icon(Icons.save),
               backgroundColor: Colors.green,
             )
-          : null, // Show the save button only when editing
+          : null,
     );
   }
 }

@@ -1,5 +1,5 @@
+import 'package:accesible_route/models/user_model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:route_app/models/user_model.dart';
 
 abstract class UserState extends Equatable {
   const UserState();

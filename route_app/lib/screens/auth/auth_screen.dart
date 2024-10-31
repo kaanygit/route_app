@@ -1,60 +1,19 @@
+import 'package:accesible_route/bloc/auth/auth_bloc.dart';
+import 'package:accesible_route/bloc/auth/auth_state.dart';
+import 'package:accesible_route/constants/style.dart';
+import 'package:accesible_route/generated/l10n.dart';
+import 'package:accesible_route/screens/auth/forgot_password_screen.dart';
+import 'package:accesible_route/screens/user/user_home_screen.dart';
+import 'package:accesible_route/utils/darkmode_utils.dart';
+import 'package:accesible_route/widgets/buttons.dart';
+import 'package:accesible_route/widgets/flash_message.dart';
+import 'package:accesible_route/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:route_app/bloc/auth/auth_bloc.dart';
-import 'package:route_app/bloc/auth/auth_event.dart';
-import 'package:route_app/bloc/auth/auth_state.dart';
-import 'package:route_app/constants/style.dart';
-import 'package:route_app/screens/auth/forgot_password_screen.dart';
-import 'package:route_app/screens/user/user_home_screen.dart';
-import 'package:route_app/widgets/buttons.dart';
-import 'package:route_app/widgets/flash_message.dart';
-import 'package:route_app/widgets/loading.dart';
-import 'package:route_app/widgets/text_field.dart';
 import 'package:sign_button/sign_button.dart';
 
-// class AuthScreen extends StatelessWidget {
-//   const AuthScreen({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.stretch,
-//           children: [
-//             const Text(
-//               'Rota App',
-//               style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold),
-//               textAlign: TextAlign.center,
-//             ),
-//             const SizedBox(height: 50),
-//             ElevatedButton(
-//               onPressed: () {
-//                 Navigator.pushReplacement(
-//                   context,
-//                   MaterialPageRoute(builder: (context) => LoginScreen()),
-//                 );
-//               },
-//               child: const Text('Login'),
-//             ),
-//             const SizedBox(height: 10),
-//             ElevatedButton(
-//               onPressed: () {
-//                 Navigator.pushReplacement(
-//                   context,
-//                   MaterialPageRoute(builder: (context) => SignUpScreen()),
-//                 );
-//               },
-//               child: const Text('Sign Up'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+import '../../bloc/auth/auth_event.dart';
+import '../../widgets/loading.dart';
 
 class AuthScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -62,6 +21,8 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
@@ -84,7 +45,9 @@ class AuthScreen extends StatelessWidget {
         }
 
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: !isDarkMode
+              ? Colors.white
+              : Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(25.0),
@@ -95,7 +58,7 @@ class AuthScreen extends StatelessWidget {
                     height: 100,
                   ),
                   Text(
-                    'Rota App',
+                    S.of(context).application_title,
                     style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -109,7 +72,7 @@ class AuthScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   MyTextField(
                       controller: passwordController,
-                      hintText: "Password",
+                      hintText: S.of(context).auth_password_title,
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
@@ -127,7 +90,7 @@ class AuthScreen extends StatelessWidget {
                                       ForgotPasswordScreen()));
                         },
                         child: Text(
-                          "Forgot Password",
+                          S.of(context).auth_forgotpassword_title,
                           style: fontStyle(15, Colors.grey, FontWeight.normal),
                         )),
                   ),
@@ -138,7 +101,7 @@ class AuthScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       MyButton(
-                          text: "Create Account",
+                          text: S.of(context).auth_createAccount_title,
                           borderRadius: BorderRadius.circular(16),
                           buttonColor: Colors.white,
                           buttonTextColor: Colors.black,
@@ -156,7 +119,7 @@ class AuthScreen extends StatelessWidget {
                         height: 20,
                       ),
                       MyButton(
-                          text: "Sign In",
+                          text: S.of(context).auth_signIn_title,
                           borderRadius: BorderRadius.circular(16),
                           buttonColor: Colors.amber,
                           buttonTextColor: Colors.black,
@@ -176,6 +139,7 @@ class AuthScreen extends StatelessWidget {
                       SignInButton(
                           buttonType: ButtonType.google,
                           buttonSize: ButtonSize.medium,
+                          btnText: S.of(context).auth_signInWithGoogle_title,
                           onPressed: () {
                             context
                                 .read<AuthBloc>()
@@ -202,6 +166,8 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
@@ -210,7 +176,7 @@ class SignUpScreen extends StatelessWidget {
         if (state is Authenticated) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => UserHomeScreen()),
+            MaterialPageRoute(builder: (context) => const UserHomeScreen()),
           );
         }
       },
@@ -220,7 +186,9 @@ class SignUpScreen extends StatelessWidget {
         }
 
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: !isDarkMode
+              ? Colors.white
+              : Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(25.0),
@@ -231,14 +199,14 @@ class SignUpScreen extends StatelessWidget {
                     height: 100,
                   ),
                   Text(
-                    'Rota App',
+                    S.of(context).application_title,
                     style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 50),
                   MyTextField(
                       controller: usernameController,
-                      hintText: "Username",
+                      hintText: S.of(context).auth_username_title,
                       obscureText: false,
                       keyboardType: TextInputType.text,
                       enabled: true),
@@ -252,7 +220,7 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   MyTextField(
                       controller: passwordController,
-                      hintText: "Password",
+                      hintText: S.of(context).auth_password_title,
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
@@ -260,7 +228,7 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   MyTextField(
                       controller: passwordConfirmController,
-                      hintText: "Re-Password",
+                      hintText: S.of(context).auth_repassword_title,
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
@@ -272,7 +240,7 @@ class SignUpScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       MyButton(
-                          text: "Sign Up",
+                          text: S.of(context).auth_createAccount_title,
                           borderRadius: BorderRadius.circular(16),
                           buttonColor: Colors.amber,
                           buttonTextColor: Colors.black,
@@ -283,26 +251,26 @@ class SignUpScreen extends StatelessWidget {
                             if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                 .hasMatch(emailController.text)) {
                               showErrorSnackBar(context,
-                                  'Lütfen geçerli bir e-posta giriniz.');
+                                  S.of(context).forgot_password_wrong1);
                               return;
                             }
 
                             if (passwordController.text.length < 6) {
                               showErrorSnackBar(context,
-                                  'Parola en az 6 karakter olmalıdır.');
+                                  S.of(context).forgot_password_wrong2);
                               return;
                             }
 
                             if (passwordController.text !=
                                 passwordConfirmController.text) {
-                              showErrorSnackBar(
-                                  context, 'Parolalar eşleşmiyor.');
+                              showErrorSnackBar(context,
+                                  S.of(context).forgot_password_wrong3);
                               return;
                             }
 
                             if (usernameController.text.isEmpty) {
-                              showErrorSnackBar(
-                                  context, 'Kullanıcı adı boş bırakılamaz.');
+                              showErrorSnackBar(context,
+                                  S.of(context).forgot_password_wrong4);
                               return;
                             }
 
@@ -319,7 +287,7 @@ class SignUpScreen extends StatelessWidget {
                         height: 20,
                       ),
                       MyButton(
-                          text: "Login",
+                          text: S.of(context).auth_signIn_title,
                           borderRadius: BorderRadius.circular(16),
                           buttonColor: Colors.white,
                           buttonTextColor: Colors.black,
@@ -340,64 +308,6 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
         );
-
-        // return Scaffold(
-        //   appBar: AppBar(
-        //     title: Text('Sign Up'),
-        //   ),
-        //   body: Padding(
-        //     padding: const EdgeInsets.all(16.0),
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       crossAxisAlignment: CrossAxisAlignment.stretch,
-        //       children: [
-        //         Text(
-        //           'Create a new account',
-        //           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        //           textAlign: TextAlign.center,
-        //         ),
-        //         SizedBox(height: 20),
-        //         TextFormField(
-        //           controller: usernameController,
-        //           decoration: InputDecoration(
-        //             labelText: 'Username',
-        //             border: OutlineInputBorder(),
-        //           ),
-        //         ),
-        //         SizedBox(height: 10),
-        //         TextFormField(
-        //           controller: emailController,
-        //           decoration: InputDecoration(
-        //             labelText: 'Email',
-        //             border: OutlineInputBorder(),
-        //           ),
-        //         ),
-        //         SizedBox(height: 10),
-        //         TextFormField(
-        //           controller: passwordController,
-        //           decoration: InputDecoration(
-        //             labelText: 'Password',
-        //             border: OutlineInputBorder(),
-        //           ),
-        //           obscureText: true,
-        //         ),
-        //         SizedBox(height: 20),
-        //         ElevatedButton(
-        //           onPressed: () {
-        //             context.read<AuthBloc>().add(
-        //                   SignUpEvent(
-        //                     email: emailController.text,
-        //                     username: usernameController.text,
-        //                     password: passwordController.text,
-        //                   ),
-        //                 );
-        //           },
-        //           child: Text('Sign Up'),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // );
       },
     );
   }

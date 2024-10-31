@@ -1,8 +1,9 @@
+import 'package:accesible_route/bloc/language/language_bloc.dart';
+import 'package:accesible_route/bloc/language/language_event.dart';
+import 'package:accesible_route/generated/l10n.dart';
+import 'package:accesible_route/utils/darkmode_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:route_app/bloc/language/language_bloc.dart';
-import 'package:route_app/bloc/language/language_event.dart';
-import 'package:route_app/generated/l10n.dart';
 
 class LanguageScreen extends StatefulWidget {
   @override
@@ -22,58 +23,45 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dil Ayarları'),
-        backgroundColor: Colors.white,
+        title: Text(S.of(context).user_language_screen_title),
+        backgroundColor: isDarkMode
+            ? Theme.of(context).scaffoldBackgroundColor
+            : Colors.white,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor:
+          isDarkMode ? Theme.of(context).scaffoldBackgroundColor : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Dil Seçin',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              S.of(context).user_language_screen_title_content,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
             ),
             SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text(
-                        'Türkçe',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      trailing: Icon(Icons.arrow_forward),
-                      onTap: () {
-                        _changeLanguage(context, 'tr');
-                      },
-                    ),
+                  _buildLanguageCard(
+                    context,
+                    title: 'Türkçe',
+                    languageCode: 'tr',
+                    isDarkMode: isDarkMode,
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text(
-                        'İngilizce',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      trailing: Icon(Icons.arrow_forward),
-                      onTap: () {
-                        _changeLanguage(context, 'en');
-                      },
-                    ),
+                  _buildLanguageCard(
+                    context,
+                    title: 'İngilizce',
+                    languageCode: 'en',
+                    isDarkMode: isDarkMode,
                   ),
                 ],
               ),
@@ -89,7 +77,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     Icon(Icons.check_circle, color: Colors.green, size: 24),
                     SizedBox(width: 8),
                     Text(
-                      'Dil değişti!',
+                      S.of(context).user_language_screen_title_content_complete,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -105,6 +93,34 @@ class _LanguageScreenState extends State<LanguageScreen> {
     );
   }
 
+  Widget _buildLanguageCard(BuildContext context,
+      {required String title,
+      required String languageCode,
+      required bool isDarkMode}) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      elevation: 4,
+      color: isDarkMode ? Colors.grey[850] : Colors.white,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+        trailing: Icon(Icons.arrow_forward,
+            color: isDarkMode ? Colors.white : Colors.black),
+        onTap: () {
+          _changeLanguage(context, languageCode);
+        },
+      ),
+    );
+  }
+
   void _changeLanguage(BuildContext context, String languageCode) {
     setState(() {
       _currentLanguage = languageCode;
@@ -113,7 +129,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
     BlocProvider.of<LanguageBloc>(context).add(ChangeLanguage(languageCode));
 
-    // Mesajı 2 saniye sonra gizlemek için bir zamanlayıcı
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         _showSuccessMessage = false;

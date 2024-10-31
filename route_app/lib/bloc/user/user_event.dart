@@ -16,7 +16,7 @@ class UserInformationChange extends UserEvent {
   final String displayName;
   final String educationLevel;
   final String phoneNumber;
-  final File? profilePhoto; // Optional field
+  final File? profilePhoto;
   final String address;
 
   UserInformationChange({
@@ -24,7 +24,7 @@ class UserInformationChange extends UserEvent {
     required this.displayName,
     required this.educationLevel,
     required this.phoneNumber,
-    this.profilePhoto, // Make profilePhoto optional
+    this.profilePhoto,
   });
 
   @override

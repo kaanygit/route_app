@@ -1,10 +1,11 @@
+import 'package:accesible_route/bloc/auth/auth_event.dart';
+import 'package:accesible_route/bloc/auth/auth_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:route_app/bloc/auth/auth_event.dart';
-import 'package:route_app/bloc/auth/auth_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -69,6 +70,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'educationLevel': '',
           'address': '',
           "fcmToken": "",
+          "likedPlaces": [],
+          "calender": [],
           'email': event.email,
           "emailVerified": false,
           'updatedUser': DateTime.now(),
@@ -92,14 +95,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        await _auth.signInWithCredential(credential);
 
-        emit(Authenticated());
+        final userCredential = await _auth.signInWithCredential(credential);
+        final user = userCredential.user;
+
+        if (user != null) {
+          await _firestore.collection('users').doc(user.uid).set({
+            'displayName': googleUser.displayName ?? "",
+            'username': googleUser.displayName ?? "",
+            'uid': user.uid,
+            'profilePhoto': googleUser.photoUrl ?? "",
+            'phoneNumber': user.phoneNumber ?? '',
+            'educationLevel': '',
+            'address': '',
+            "fcmToken": "",
+            "likedPlaces": [],
+            "calender": [],
+            'email': googleUser.email,
+            "emailVerified": user.emailVerified,
+            'updatedUser': DateTime.now(),
+            'createdAt': DateTime.now(),
+          });
+
+          emit(Authenticated());
+        } else {
+          emit(AuthFailure("Kullanıcı bilgileri alınamadı."));
+        }
       } else {
-        emit(AuthFailure("Google sign-in aborted."));
+        emit(AuthFailure("Google ile oturum açma iptal edildi."));
       }
     } catch (e) {
-      emit(AuthFailure(e.toString()));
+      emit(AuthFailure("Google ile oturum açarken hata: ${e.toString()}"));
     }
   }
 
@@ -107,6 +133,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthSignOutRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool("hasUserData", false);
       await _auth.signOut();
       emit(Unauthenticated());
     } catch (e) {

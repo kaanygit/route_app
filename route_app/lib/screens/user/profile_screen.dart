@@ -1,20 +1,22 @@
+import 'package:accesible_route/bloc/auth/auth_bloc.dart';
+import 'package:accesible_route/bloc/auth/auth_event.dart';
+import 'package:accesible_route/bloc/user/user_bloc.dart';
+import 'package:accesible_route/bloc/user/user_state.dart';
+import 'package:accesible_route/constants/style.dart';
+import 'package:accesible_route/generated/l10n.dart';
+import 'package:accesible_route/main.dart';
+import 'package:accesible_route/models/user_model.dart';
+import 'package:accesible_route/screens/user/maps/maps.dart';
+import 'package:accesible_route/screens/user/profile/dark_mode_screen.dart';
+import 'package:accesible_route/screens/user/profile/faq_screen.dart';
+import 'package:accesible_route/screens/user/profile/feedback_screen.dart';
+import 'package:accesible_route/screens/user/profile/language_screen.dart';
+import 'package:accesible_route/screens/user/profile/personal_information_screen.dart';
+import 'package:accesible_route/utils/darkmode_utils.dart';
+import 'package:accesible_route/widgets/error_screen.dart';
+import 'package:accesible_route/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:route_app/bloc/auth/auth_bloc.dart';
-import 'package:route_app/bloc/auth/auth_event.dart';
-import 'package:route_app/bloc/language/language_bloc.dart';
-import 'package:route_app/bloc/language/language_event.dart';
-import 'package:route_app/bloc/user/user_bloc.dart';
-import 'package:route_app/bloc/user/user_state.dart';
-import 'package:route_app/constants/style.dart';
-import 'package:route_app/generated/l10n.dart';
-import 'package:route_app/models/user_model.dart';
-import 'package:route_app/screens/user/profile/dark_mode_screen.dart';
-import 'package:route_app/screens/user/profile/faq_screen.dart';
-import 'package:route_app/screens/user/profile/language_screen.dart';
-import 'package:route_app/screens/user/profile/personal_information_screen.dart';
-import 'package:route_app/widgets/error_screen.dart';
-import 'package:route_app/widgets/loading.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -26,6 +28,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ThemeUtils.isDarkMode(context);
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
     return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
       if (state is UserLoading) {
         return LoadingScreen();
@@ -56,13 +62,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Hello, ${user.displayName}",
-                            style: fontStyle(18, Colors.black, FontWeight.bold),
+                            "${S.of(context).user_profile_hi}, ${user.displayName}",
+                            style: fontStyle(
+                                18,
+                                isDarkMode ? Colors.black : Colors.white,
+                                FontWeight.bold),
                           ),
                           Text(
                             "${user.email}",
-                            style:
-                                fontStyle(16, Colors.grey, FontWeight.normal),
+                            style: fontStyle(
+                                16,
+                                isDarkMode ? Colors.grey : Colors.white,
+                                FontWeight.normal),
                           ),
                         ],
                       )
@@ -73,12 +84,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Column(
                     children: [
-                      profileBoxes(context, "Personal Information",
-                          Icons.account_circle, 0),
-                      profileBoxes(context, "FAQ", Icons.comment, 1),
-                      profileBoxes(context, "Dark Mode", Icons.dark_mode, 2),
-                      profileBoxes(context, "Language", Icons.language, 3),
-                      profileBoxes(context, "Logout", Icons.logout, 4),
+                      profileBoxes(
+                          context,
+                          S.of(context).user_profile_personal_information_title,
+                          Icons.account_circle,
+                          0,
+                          isDarkMode),
+                      profileBoxes(
+                          context,
+                          S.of(context).user_profile_faq_title,
+                          Icons.comment,
+                          1,
+                          isDarkMode),
+                      profileBoxes(
+                          context,
+                          S.of(context).user_profile_darkmode_title,
+                          Icons.dark_mode,
+                          2,
+                          isDarkMode),
+                      profileBoxes(
+                          context,
+                          S.of(context).user_profile_language_title,
+                          Icons.language,
+                          3,
+                          isDarkMode),
+                      profileBoxes(
+                          context,
+                          S.of(context).user_profile_feedback_title,
+                          Icons.feedback,
+                          4,
+                          isDarkMode),
+                      profileBoxes(
+                          context,
+                          S.of(context).user_profile_logout_title,
+                          Icons.logout,
+                          5,
+                          isDarkMode),
                     ],
                   )
                 ],
@@ -93,61 +134,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Column profileBoxes(
-      BuildContext context, String title, IconData getIcon, int index) {
+  Column profileBoxes(BuildContext context, String title, IconData getIcon,
+      int index, bool isDarkMode) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
             if (index == 0) {
-              // index 0 için ekran yönlendirmesi
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return PersonalInformationScreen(); // index 0'a özel ekran
+                    return PersonalInformationScreen();
                   },
                 ),
               );
             } else if (index == 1) {
-              // index 1 için ekran yönlendirmesi
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return FaqScreen(); // index 1'e özel ekran
+                    return FaqScreen();
                   },
                 ),
               );
             } else if (index == 2) {
-              // index 2 için ekran yönlendirmesi
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return DarkModeScreen(); // index 2'ye özel ekran
+                    return DarkModeScreen();
                   },
                 ),
               );
             } else if (index == 3) {
-              // index 3 için ekran yönlendirmesi
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return LanguageScreen(); // index 3'e özel ekran
+                    return LanguageScreen();
                   },
                 ),
               );
             } else if (index == 4) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return FeedbackScreen();
+                  },
+                ),
+              );
+            } else if (index == 5) {
               print("test");
-              _showExitConfirmation(context);
+              List<int> shortestRoute = findShortestRoute(10);
+              print(shortestRoute);
+              _showExitConfirmation(context, isDarkMode);
             }
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDarkMode ? Colors.white : Color(0xFFF8F8FF),
                 border: Border.all(width: 1, color: Colors.grey),
                 borderRadius: BorderRadius.circular(16)),
             padding: EdgeInsets.all(16),
@@ -175,12 +223,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-void _showExitConfirmation(BuildContext context) {
+void _showExitConfirmation(BuildContext context, bool isDarkMode) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-          top: Radius.circular(16)), // Üst kısım için border radius
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (BuildContext context) {
       return Container(
@@ -190,7 +237,7 @@ void _showExitConfirmation(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Çıkış Yapmak İstiyor Musunuz?",
+              S.of(context).user_profile_logout_show_title,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -198,7 +245,7 @@ void _showExitConfirmation(BuildContext context) {
             ),
             const SizedBox(height: 10),
             Text(
-              "Uygulamadan çıkış yaparsanız, tüm ilerlemeleriniz kaybolacaktır. Devam etmek istiyor musunuz?",
+              S.of(context).user_profile_logout_show_title_content,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -211,33 +258,36 @@ void _showExitConfirmation(BuildContext context) {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context); // Hayır'a basılınca menüyü kapat
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey, // Buton arka plan rengi
+                    backgroundColor: Colors.grey,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16), // Border radius
                     ),
                   ),
-                  child: Text("Hayır"),
+                  child: Text(S.of(context).app_no,
+                      style: fontStyle(15, Colors.black, FontWeight.normal)),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    // Evet'e basılınca yapılacak işlemler
-                    _exitApp(context); // Çıkış işlemi burada yapılacak
+                    _exitApp(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber, // Buton arka plan rengi
+                    backgroundColor: Colors.amber,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16), // Border radius
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: Text("Evet"),
+                  child: Text(
+                    S.of(context).app_yes,
+                    style: fontStyle(15, Colors.black, FontWeight.normal),
+                  ),
                 ),
               ],
             ),
@@ -249,9 +299,15 @@ void _showExitConfirmation(BuildContext context) {
 }
 
 void _exitApp(BuildContext context) {
-  // Uygulamadan çıkış yapma işlemleri burada yapılacak
-  print("Uygulamadan çıkış yapılıyor...");
   BlocProvider.of<AuthBloc>(context).add(AuthSignOutRequested());
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (BuildContext context) {
+        return MyApp();
+      },
+    ),
+  );
 }
 
 

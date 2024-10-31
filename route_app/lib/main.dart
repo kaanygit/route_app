@@ -1,3 +1,23 @@
+import 'package:accesible_route/bloc/auth/auth_bloc.dart';
+import 'package:accesible_route/bloc/auth/auth_event.dart';
+import 'package:accesible_route/bloc/auth/auth_state.dart';
+import 'package:accesible_route/bloc/dark_mode/dark_mode_bloc.dart';
+import 'package:accesible_route/bloc/dark_mode/dark_mode_state.dart';
+import 'package:accesible_route/bloc/language/language_bloc.dart';
+import 'package:accesible_route/bloc/language/language_state.dart';
+import 'package:accesible_route/bloc/places/places_bloc.dart';
+import 'package:accesible_route/bloc/places/places_event.dart';
+import 'package:accesible_route/bloc/user/user_bloc.dart';
+import 'package:accesible_route/bloc/user/user_event.dart';
+import 'package:accesible_route/firebase_options.dart';
+import 'package:accesible_route/screens/admin/admin_home_screen.dart';
+import 'package:accesible_route/screens/auth/auth_screen.dart';
+import 'package:accesible_route/screens/auth/intro_screen.dart';
+import 'package:accesible_route/screens/auth/language_selection_screen.dart';
+import 'package:accesible_route/screens/user/frozen_screen.dart';
+import 'package:accesible_route/screens/user/user_home_screen.dart';
+import 'package:accesible_route/widgets/error_screen.dart';
+import 'package:accesible_route/widgets/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,31 +25,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:route_app/bloc/auth/auth_bloc.dart';
-import 'package:route_app/bloc/auth/auth_event.dart';
-import 'package:route_app/bloc/auth/auth_state.dart';
-import 'package:route_app/bloc/dark_mode/dark_mode_bloc.dart';
-import 'package:route_app/bloc/dark_mode/dark_mode_state.dart';
-import 'package:route_app/bloc/language/language_bloc.dart';
-import 'package:route_app/bloc/language/language_state.dart';
-import 'package:route_app/bloc/places/places_bloc.dart';
-import 'package:route_app/bloc/places/places_event.dart';
-import 'package:route_app/bloc/user/user_bloc.dart';
-import 'package:route_app/bloc/user/user_event.dart';
-import 'package:route_app/firebase_options.dart';
-import 'package:route_app/screens/admin/admin_home_screen.dart';
-import 'package:route_app/screens/auth/auth_screen.dart';
-import 'package:route_app/screens/auth/intro_screen.dart';
-import 'package:route_app/screens/user/user_home_screen.dart';
-import 'package:route_app/widgets/error_screen.dart';
-import 'package:route_app/widgets/loading.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'generated/l10n.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:icons_launcher/cli_commands.dart';
+import 'package:icons_launcher/utils/cli_logger.dart';
+import 'package:icons_launcher/utils/constants.dart';
+import 'package:icons_launcher/utils/icon.dart';
+import 'package:icons_launcher/utils/template.dart';
+import 'package:icons_launcher/utils/utils.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  // Firebase'in başlatılması
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -37,20 +48,36 @@ void main() async {
   } catch (e) {
     print('Firebase başlatma hatası: $e');
   }
+  Future<void> clearAllSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 
-  // Firebase App Check aktivasyonu
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.playIntegrity,
   );
 
-  // Kullanıcı çıkış yapma işlemi
-  // await FirebaseAuth.instance.signOut();
-
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 3));
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +105,6 @@ class MyApp extends StatelessWidget {
         builder: (context, languageState) {
           return BlocBuilder<DarkModeBloc, DarkModeState>(
             builder: (context, darkModeState) {
-              // Local state from LanguageBloc
               Locale currentLocale = languageState.locale;
 
               return MaterialApp(
@@ -104,7 +130,7 @@ class MyApp extends StatelessWidget {
                 ],
                 supportedLocales: S.delegate.supportedLocales,
                 locale: currentLocale,
-                home: const AuthWrapper(),
+                home: AuthWrapper(),
               );
             },
           );
@@ -115,73 +141,128 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
+  AuthWrapper({Key? key}) : super(key: key);
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _checkFirstLaunch(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            body: LoadingScreen(),
-          );
-        }
-        if (snapshot.hasData) {
-          if (snapshot.data == false) {
-            return IntroScreen();
-          } else {
-            return BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                if (state is AuthLoading) {
-                  return Scaffold(
-                    body: LoadingScreen(),
-                  );
-                } else if (state is Authenticated) {
-                  return FutureBuilder(
-                    future: _getAdminController(),
-                    builder: (context, adminSnapshot) {
-                      if (adminSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Scaffold(
-                          body: LoadingScreen(),
-                        );
-                      }
-                      if (adminSnapshot.hasData) {
-                        if (adminSnapshot.data == true) {
-                          return AdminHomeScreen();
-                        } else {
-                          return UserHomeScreen();
-                        }
-                      } else {
-                        return Scaffold(
-                          body: SimpleErrorScreen(
-                            errorMessage: "Admin kontrolü hatalı.",
-                          ),
-                        );
-                      }
-                    },
-                  );
-                } else if (state is Unauthenticated) {
-                  return AuthScreen();
-                } else {
-                  return Scaffold(
-                    body: SimpleErrorScreen(
-                      errorMessage: "Hatalı işlem.",
-                    ),
-                  );
-                }
-              },
+    return Scaffold(
+      body: FutureBuilder(
+        future: _checkSecondLunch(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingScreen();
+          }
+          if (snapshot.hasError) {
+            return SimpleErrorScreen(
+              errorMessage: "KOMPLE HATALI SAYFA",
             );
           }
-        } else {
-          return Scaffold(
-            body: SimpleErrorScreen(
-              errorMessage: "KOMPLE HATALI SAYFA",
-            ),
-          );
-        }
-      },
+
+          if (snapshot.hasData && snapshot.data == false) {
+            return LanguageSelectionScreen();
+          } else {
+            return FutureBuilder(
+                future: _checkFirstLaunch(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return LoadingScreen();
+                  }
+                  if (snapshot.hasError) {
+                    return SimpleErrorScreen(
+                      errorMessage: "KOMPLE HATALI SAYFA",
+                    );
+                  }
+                  if (snapshot.hasData && snapshot.data == false) {
+                    return IntroScreen();
+                  } else {
+                    return BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        if (state is AuthLoading) {
+                          return LoadingScreen();
+                        } else if (state is Authenticated) {
+                          return FutureBuilder(
+                            future: _getAdminController(),
+                            builder: (context, adminSnapshot) {
+                              if (adminSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return LoadingScreen();
+                              }
+
+                              if (adminSnapshot.hasData) {
+                                return adminSnapshot.data == true
+                                    ? AdminHomeScreen()
+                                    : FutureBuilder(
+                                        future: _firestore
+                                            .collection('users')
+                                            .doc(_auth.currentUser!.uid)
+                                            .get(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return LoadingScreen();
+                                          }
+                                          if (snapshot.hasError) {
+                                            return Scaffold(
+                                              body: Center(
+                                                child: Text(
+                                                    'Bir hata oluştu: ${snapshot.error}'),
+                                              ),
+                                            );
+                                          }
+                                          if (snapshot.hasData) {
+                                            var userData = snapshot.data!.data()
+                                                as Map<String, dynamic>?;
+
+                                            if (userData == null) {
+                                              return Scaffold(
+                                                body: Center(
+                                                  child: Text(
+                                                      'Kullanıcı verisi bulunamadı.'),
+                                                ),
+                                              );
+                                            }
+
+                                            bool isAccountFrozen =
+                                                userData['isAccountFrozen'] ??
+                                                    false;
+
+                                            if (isAccountFrozen) {
+                                              return AccountFrozenScreen();
+                                            } else {
+                                              bool isAdmin =
+                                                  userData['isAdmin'] ?? false;
+
+                                              return isAdmin
+                                                  ? AdminHomeScreen()
+                                                  : UserHomeScreen();
+                                            }
+                                          }
+                                          return Container();
+                                        },
+                                      );
+                              } else {
+                                return SimpleErrorScreen(
+                                  errorMessage: "Admin kontrolü hatalı.",
+                                );
+                              }
+                            },
+                          );
+                        } else if (state is Unauthenticated) {
+                          return AuthScreen();
+                        } else {
+                          return SimpleErrorScreen(
+                            errorMessage: "Hatalı işlem.",
+                          );
+                        }
+                      },
+                    );
+                  }
+                });
+          }
+        },
+      ),
     );
   }
 
@@ -195,6 +276,20 @@ class AuthWrapper extends StatelessWidget {
       return false;
     } else {
       print("Tanıtım daha önce gösterildi.");
+      return true;
+    }
+  }
+
+  Future<bool> _checkSecondLunch() async {
+    print("Language kontrol noktası");
+    final prefs = await SharedPreferences.getInstance();
+    final bool? isFirstLaunchCheckValue = prefs.getBool("lang_value");
+
+    if (isFirstLaunchCheckValue == null || isFirstLaunchCheckValue == false) {
+      print("Language gösterilecek.");
+      return false;
+    } else {
+      print("Language daha önce gösterildi.");
       return true;
     }
   }

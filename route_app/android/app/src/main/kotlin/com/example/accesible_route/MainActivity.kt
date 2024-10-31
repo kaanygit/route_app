@@ -1,4 +1,4 @@
-package com.example.route_app
+package com.example.accesible_route
 
 import io.flutter.embedding.android.FlutterActivity
 

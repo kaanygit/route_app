@@ -28,7 +28,6 @@ class DarkModeBloc extends Bloc<DarkModeEvent, DarkModeState> {
     final prefs = await SharedPreferences.getInstance();
     bool isDarkMode = prefs.getBool('isDarkMode') ?? false;
 
-    // Dark Mode aktifse, DarkModeEnabled state'ini emit et
     if (isDarkMode) {
       emit(DarkModeEnabled());
     } else {
@@ -37,6 +36,6 @@ class DarkModeBloc extends Bloc<DarkModeEvent, DarkModeState> {
   }
 
   void toggleDarkMode() {
-    add(DarkModeToggled()); // DarkModeToggled eventini tetikleyerek state'i değiştir
+    add(DarkModeToggled());
   }
 }

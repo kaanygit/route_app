@@ -1,7 +1,156 @@
 {
-    "@@locale": "en",
-    "title": "Welcome",
-    "settings": "Settings",
-    "change_language": "Change Language"
-  }
-  
+  "@@locale": "en",
+  "introTitle1": "Easily Accessible Routes",
+  "@introTitle1": {
+    "description": "Title for accessible routes for disabled people"
+  },
+  "introContent1": "Discover specially designed accessible routes for people with disabilities.",
+  "@introContent1": {
+    "description": "Content about accessible routes for disabled people"
+  },
+  "introTitle2": "Discover Accessible Points",
+  "@introTitle2": {
+    "description": "Title about discovering accessible points"
+  },
+  "introContent2": "Find accessible restrooms, markets, and more along the way.",
+  "@introContent2": {
+    "description": "Content about accessible restrooms, markets, and other services"
+  },
+  "introTitle3": "Safe and Easy Navigation",
+  "@introTitle3": {
+    "description": "Title for safe and easy navigation"
+  },
+  "introContent3": "Plan your trip with curb-friendly and safe routes.",
+  "@introContent3": {
+    "description": "Content about planning a trip with curb-friendly and safe routes"
+  },
+
+  "app_yes": "Yes",
+  "app_no": "No",
+
+  "intro_screen_next_button": "Next",
+  "intro_screen_submit_button": "Allow Location",
+  "location_screen_title": "Selection Screen",
+  "location_screen_titles_body": "Do you want to allow location access?",
+  "location_screen_submit_button": "Allow",
+  "location_screen_unsubmit_button": "Do not allow",
+  "location_screen_alert_diaglog_title": "Location Permission Required",
+  "location_screen_alert_diaglog_title2": "Location Service Disabled",
+  "location_screen_alert_diaglog_content": "The app requires constant location access to function properly.",
+  "location_screen_alert_diaglog_content2": "Your location service must be on for the app to function correctly.",
+  "location_screen_alert_diaglog_unsubmit": "Close the App",
+
+  "application_title": "Accessible Route",
+  "language_selection": "Language successfully changed!",
+  "auth_password_title": "Password",
+  "auth_username_title": "Username",
+  "auth_repassword_title": "Re-enter Password",
+  "auth_forgotpassword_title": "Forgot Password",
+  "auth_forgotpassword_submit_button": "Send Password Reset Email",
+  "auth_createAccount_title": "Sign Up",
+  "auth_signIn_title": "Sign In",
+  "auth_signInWithGoogle_title": "Sign in with Google",
+  "auth_forgotpasswor_inputmail": "Enter your email",
+  "auth_forgotpasswor_inputmail_content": "Please enter your email for password reset",
+  "forgot_password_wrong1": "Please enter a valid email.",
+  "forgot_password_wrong2": "The password must be at least 6 characters.",
+  "forgot_password_wrong3": "Passwords do not match.",
+  "forgot_password_wrong4": "Username cannot be empty.",
+  "forgot_password_send_success": "Email sent! Please check your inbox.",
+  "forgot_password_unsend_message": "Error: Password reset email could not be sent.",
+
+  "admin_panel_title": "Admin Panel",
+  "admin_user_management_title": "User Management",
+  "admin_user_management_user": "User",
+  "admin_user_edit_title": "Edit User",
+  "admin_user_editAndSave_title": "Edit User",
+  "admin_user_management_admin_yetki": "Grant Admin Privileges",
+  "admin_user_management_admin_yetki_content": "You can grant/revoke admin privileges for this user.",
+  "admin_user_management_dondurma_yetki": "Freeze Account",
+  "admin_user_management_dondurma_yetki_content": "You can freeze or activate the user’s account.",
+  "admin_reports_title": "Reports",
+  "admin_reports_total_user": "Total Number of Users",
+  "admin_reports_total_place": "Total Number of Places",
+  "admin_reports_average_app": "Average App Usage Time",
+  "admin_reports_average_app_user": "App Usage Time by Users",
+  "admin_settigs_title": "Settings",
+  "admin_settigs_dark_mode_title": "Dark Mode",
+  "admin_settigs_dark_mode_content": "Switch the app to dark mode",
+  "admin_settigs_language_title": "Language Settings",
+  "admin_settigs_language_content": "Change the app's language",
+  "admin_feedback_all_title": "Feedbacks",
+  "admin_feedback_all_title_user": "User",
+  "admin_feedback_all_title_user_feedback": "Feedback",
+  "admin_feedback_all_title_user_feedback_textfiled_content": "Write your response here...",
+  "admin_feedback_all_title_user_feedback_send_button": "Reply",
+  "admin_panel_logout_title": "Do you want to log out?",
+  "admin_panel_logout_content": "If you log out, all your progress will be lost. Do you want to continue?",
+
+  "user_bottom_home": "Home",
+  "user_bottom_calender": "Calendar",
+  "user_bottom_search": "Search",
+  "user_bottom_profile": "Profile",
+
+  "user_allview_screen_title": "Discover Places",
+  "user_discover_title": "Discover",
+  "user_discover_title_row_1": "Popular",
+  "user_discover_title_row_2": "Featured",
+  "user_discover_title_row_3": "Most Visited",
+  "user_discover_recommend_title": "Recommended",
+  "user_discover_view_all_title": "View All",
+
+  "user_calender_content": "There is no event today.",
+
+  "user_search_textfield_content": "Search...",
+  "user_search_content": "Can't find the place you're looking for? Let's start searching!",
+
+  "user_profile_title": "My Profile",
+  "user_profile_hi": "Hi",
+  "user_profile_personal_information_title": "User Information",
+  "user_profile_faq_title": "Frequently Asked Questions",
+  "user_profile_darkmode_title": "Dark Mode",
+  "user_profile_language_title": "Language Settings",
+  "user_profile_feedback_title": "Feedback",
+  "user_profile_feedback_title_submit": "Your feedback has been submitted",
+  "user_profile_logout_title": "Log Out",
+  "user_profile_logout_show_title": "Do you want to log out?",
+  "user_profile_logout_show_title_content": "If you log out, all your progress will be lost. Do you want to continue?",
+
+  "user_place_screen_title": "Place Details",
+  "user_place_screen_route_start_button": "Start Route",
+
+  "user_profile_screen_displayname_title": "Full Name",
+  "user_profile_screen_phoneNumber_title": "Phone Number",
+  "user_profile_screen_address_title": "Address",
+  "user_profile_screen_educationLevel_title": "Education Level",
+
+  "user_dark_mode_screen_title": "Dark Theme Settings",
+  "user_dark_mode_screen_appearance": "Appearance",
+  "user_dark_mode_screen_title_content1": "Enable Dark Theme",
+  "user_dark_mode_screen_title_content2": "Dark theme is currently disabled. Enjoy the light theme!",
+
+  "user_language_screen_title": "Language Settings",
+  "user_language_screen_title_content": "Choose Language",
+  "user_language_screen_title_content_complete": "Language changed!",
+
+  "user_feedback_screen_titles": "Send us your feedback",
+  "user_feedback_screen_textfield_content": "Write your feedback here...",
+  "user_feedback_screen_send_button_title": "Send",
+
+  "frozenscreen_frozen_title_content": "Your account has been frozen. You can send feedback for more information.",
+  "frozenscreen_frozen_title": "Your Account is Frozen",
+
+  "maps_screen_end_route_button_submit": "Do you want to end the route?",
+  "maps_screen_end_route_button_submit2": "End Route",
+  "maps_screen_follow_route": "Please follow this order:",
+  "route_complete_submit_button": "Return to Home",
+  "route_complete_tebrik": "Congratulations!",
+  "route_complete_content": "You have successfully completed the route.",
+  "route_complete_title": "Route Completed",
+  "color_red": "Red",
+  "color_blue": "Blue",
+  "color_yellow": "Yellow",
+  "color_turuncu": "Orange",
+  "color_black": "Black",
+  "app_calculate": "Calculating..."
+}

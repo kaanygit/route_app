@@ -1,11 +1,11 @@
+import 'package:accesible_route/bloc/language/language_bloc.dart';
+import 'package:accesible_route/bloc/places/places_bloc.dart';
+import 'package:accesible_route/bloc/places/places_event.dart';
+import 'package:accesible_route/bloc/places/places_state.dart';
+import 'package:accesible_route/models/place_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:route_app/bloc/places/places_bloc.dart';
-import 'package:route_app/bloc/places/places_event.dart';
-import 'package:route_app/bloc/places/places_state.dart';
-import 'package:route_app/constants/style.dart';
-import 'package:route_app/models/place_model.dart';
-import 'place_screen.dart'; // PlaceScreen dosyanızı buraya dahil edin.
+import 'place_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -18,7 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<Place> _allPlaces = [];
   List<Place> _filteredPlaces = [];
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  late String _currentLanguage = "tr";
 
   @override
   void initState() {
@@ -35,88 +35,64 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _filterPlaces() {
     String query = _searchController.text.toLowerCase();
-    List<Place> newFilteredPlaces = _allPlaces
-        .where((place) => place.title.toLowerCase().contains(query))
-        .toList();
-
-    if (newFilteredPlaces.length != _filteredPlaces.length) {
-      for (int i = _filteredPlaces.length - 1; i >= 0; i--) {
-        if (!newFilteredPlaces.contains(_filteredPlaces[i])) {
-          _listKey.currentState?.removeItem(
-            i,
-            (context, animation) => _buildItem(_filteredPlaces[i], animation),
-            duration: Duration(milliseconds: 300),
-          );
-        }
-      }
-
-      for (int i = 0; i < newFilteredPlaces.length; i++) {
-        if (i >= _filteredPlaces.length ||
-            newFilteredPlaces[i] != _filteredPlaces[i]) {
-          _listKey.currentState
-              ?.insertItem(i, duration: Duration(milliseconds: 300));
-        }
-      }
-    }
+    List<Place> newFilteredPlaces = _allPlaces.where((place) {
+      String title = _currentLanguage == "tr" ? place.titleTr : place.titleEng;
+      return title.toLowerCase().contains(query);
+    }).toList();
 
     setState(() {
       _filteredPlaces = newFilteredPlaces;
     });
   }
 
-  Widget _buildItem(Place place, Animation<double> animation) {
-    return SizeTransition(
-      sizeFactor: animation,
-      child: GestureDetector(
-        onTap: () {
-          // Tıklandığında PlaceScreen'e geçiş yap
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PlaceScreen(
-                  placeIndex:
-                      place.key), // Burada place.key değerini kullanıyoruz
-            ),
-          );
-        },
-        child: Card(
-          margin: EdgeInsets.symmetric(vertical: 8),
-          child: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  place.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 100,
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    place.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-            ],
+  Widget _buildItem(Place place) {
+    String title = _currentLanguage == "tr" ? place.titleTr : place.titleEng;
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlaceScreen(placeIndex: place.key),
           ),
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                place.imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: 100,
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -124,11 +100,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _currentLanguage =
+        BlocProvider.of<LanguageBloc>(context).state.locale.languageCode;
     return Scaffold(
       body: BlocBuilder<PlacesBloc, PlacesState>(
         builder: (context, state) {
           if (state is PlacesLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is PlacesSuccess) {
             _allPlaces = state.places;
 
@@ -141,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Column(
                 children: [
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
@@ -151,10 +129,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: _searchController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Ara...',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.search, color: Colors.purple),
-                        contentPadding: EdgeInsets.all(15),
+                        hintText:
+                            _currentLanguage == "tr" ? 'Ara...' : 'Search...',
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        prefixIcon:
+                            const Icon(Icons.search, color: Colors.purple),
+                        contentPadding: const EdgeInsets.all(15),
                       ),
                     ),
                   ),
@@ -164,26 +144,31 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? _filteredPlaces.isEmpty
                             ? Center(
                                 child: Text(
-                                'Henüz bir sonuç bulunmuyor. Arama yapmaya başlayın!',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ))
-                            : AnimatedList(
-                                key: _listKey,
-                                initialItemCount: _filteredPlaces.length,
-                                itemBuilder: (context, index, animation) {
-                                  return _buildItem(
-                                      _filteredPlaces[index], animation);
+                                  _currentLanguage == "tr"
+                                      ? 'Sonuç bulunamadı. Arama terimlerini kontrol edin.'
+                                      : 'No results found. Please check your search terms.',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: _filteredPlaces.length,
+                                itemBuilder: (context, index) {
+                                  return _buildItem(_filteredPlaces[index]);
                                 },
                               )
                         : Center(
                             child: Text(
-                            'Aramak istediğiniz bir yer yok mu? Hadi başlayalım!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          )),
+                              _currentLanguage == "tr"
+                                  ? 'Aramak istediğiniz bir yer yok mu? Hadi başlayalım!'
+                                  : 'Don’t have a place to search? Let’s get started!',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ),
                   ),
                 ],
               ),
@@ -191,7 +176,7 @@ class _SearchScreenState extends State<SearchScreen> {
           } else if (state is PlacesFailure) {
             return Center(child: Text(state.error));
           }
-          return Container(); // Durum kontrolü için boş bir konteyner
+          return Container();
         },
       ),
     );

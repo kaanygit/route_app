@@ -1,5 +1,5 @@
+import 'package:accesible_route/constants/style.dart';
 import 'package:flutter/material.dart';
-import 'package:route_app/constants/style.dart';
 
 enum ButtonWidth {
   small,

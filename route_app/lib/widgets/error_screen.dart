@@ -24,7 +24,7 @@ class SimpleErrorScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                exit(0); // Uygulamayı kapatır
+                exit(0); 
               },
               child: const Text('Retry'),
             ),

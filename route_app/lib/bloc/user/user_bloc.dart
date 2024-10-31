@@ -1,12 +1,11 @@
-import 'dart:io';
-
+import 'package:accesible_route/bloc/user/user_event.dart';
+import 'package:accesible_route/bloc/user/user_state.dart';
+import 'package:accesible_route/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:route_app/bloc/user/user_event.dart';
-import 'package:route_app/bloc/user/user_state.dart';
-import 'package:route_app/models/user_model.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
@@ -35,7 +34,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             .get();
 
         if (doc.exists) {
-          // Firestore'dan gelen verileri kullanıcı modeline geçiriyoruz
           UserModel user = UserModel(
             address: doc['address'] ?? '',
             displayName: doc['displayName'] ?? '',
@@ -49,7 +47,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             username: doc['username'] ?? '',
           );
 
-          // Firestore'dan aldığımız verileri SharedPreferences'e kaydediyoruz
           await prefs.setString('address', user.address);
           await prefs.setString('displayName', user.displayName);
           await prefs.setString('educationLevel', user.educationLevel);
@@ -63,7 +60,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
           await prefs.setBool('hasUserData', true);
         } else {
-          // Eğer Firestore'da kullanıcı yoksa hata döndürüyoruz
           emit(UserFailure("Kullanıcı mevcut değil"));
         }
       }
@@ -93,7 +89,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       emit(UserSuccess(user));
     } catch (e) {
-      // Bir hata oluşursa hata state'i gönderiyoruz
       emit(UserFailure(e.toString()));
     }
   }
@@ -109,7 +104,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       final prefs = await SharedPreferences.getInstance();
 
-      // Firestore'dan kullanıcıyı al
       final DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(_auth.currentUser!.uid)
@@ -127,34 +121,27 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       String currentPhoneNumber = userData.phoneNumber;
       String currentAddress = userData.address;
 
-      // FirebaseAuth kullanıcı verisini al
       User? user = _auth.currentUser;
       if (user == null) {
         emit(UserFailure("User not found"));
         return;
       }
 
-      // Profil fotoğrafı kontrolü
       String? downloadUrl;
       if (event.profilePhoto != null && event.profilePhoto!.path.isNotEmpty) {
-        // Yeni profil fotoğrafı varsa, eski ile karşılaştır
         if (currentProfilePhoto != event.profilePhoto!.path) {
-          // Yeni profil fotoğrafı yükle
           String fileName = 'profilePhoto/${user.uid}.jpg';
           Reference storageRef = _firebaseStorage.ref().child(fileName);
           UploadTask uploadTask = storageRef.putFile(event.profilePhoto!);
           TaskSnapshot snapshot = await uploadTask;
           downloadUrl = await snapshot.ref.getDownloadURL();
         } else {
-          // Profil fotoğrafı değişmemiş, mevcut değeri kullan
           downloadUrl = currentProfilePhoto;
         }
       } else {
-        // Profil fotoğrafı yoksa mevcut değeri kullan
         downloadUrl = currentProfilePhoto;
       }
 
-      // Firestore'da kullanıcı verilerini güncelle
       final Map<String, dynamic> updates = {};
       if (displayName != currentDisplayName) {
         updates['displayName'] = displayName;
@@ -172,12 +159,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         updates['profilePhoto'] = downloadUrl;
       }
 
-      // Eğer herhangi bir değişiklik varsa güncelle
       if (updates.isNotEmpty) {
         await _firestore.collection('users').doc(user.uid).update(updates);
       }
 
-      // Güncellenmiş kullanıcı verisini Firestore'dan al
       DocumentSnapshot updatedUserDoc =
           await _firestore.collection('users').doc(user.uid).get();
       UserModel updatedUser = UserModel.fromDocument(updatedUserDoc);

@@ -25,6 +25,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
   Place? _selectedPlace;
   bool isLiked = false;
   bool hasCompletedRoute = false;
+  bool hasLocations = false;
   bool hasGivenRating = false;
   double userRating = 0.0;
 
@@ -125,7 +126,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
     }
   }
 
-  void _fetchPlace() {
+  void _fetchPlace() async {
     final placesState = context.read<PlacesBloc>().state;
 
     if (placesState is PlacesSuccess) {
@@ -141,6 +142,22 @@ class _PlaceScreenState extends State<PlaceScreen> {
                     latitude: 0.0,
                     longitude: 0.0,
                   ));
+      Position currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      double distanceInMeters = Geolocator.distanceBetween(
+        currentPosition.latitude,
+        currentPosition.longitude,
+        _selectedPlace!.latitude,
+        _selectedPlace!.longitude,
+      );
+      if (distanceInMeters < 5) {
+        // 5 metre gibi bir tolerans mesafesi
+        print("Aynı konumdasınız.");
+        setState(() {
+          hasLocations = true;
+        });
+      }
     }
   }
 
@@ -271,15 +288,15 @@ class _PlaceScreenState extends State<PlaceScreen> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(16),
-        child: hasCompletedRoute
+        child: hasLocations
             ? ElevatedButton(
-                onPressed: null,
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: hasLocations ? Colors.blue : Colors.red,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: Text(
-                  S.of(context).route_complete_title,
+                  S.of(context).route_complete_locations,
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               )

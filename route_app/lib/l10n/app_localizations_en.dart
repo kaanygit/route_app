@@ -31,6 +31,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get app_no => 'No';
 
   @override
+  String get maps_screen_open_volume => 'Turn On Sound';
+
+  @override
+  String get maps_screen_closed_volume => 'Turn Off Sound';
+
+  @override
   String get intro_screen_next_button => 'Next';
 
   @override
@@ -271,6 +277,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get user_profile_logout_show_title_content => 'If you log out, all your progress will be lost. Do you want to continue?';
 
   @override
+  String get location_permission_denied => 'Location Permission Denied';
+
+  @override
+  String get please_allow_permission_in_settings => 'Please allow location permission in the settings.';
+
+  @override
+  String get open_settings => 'Open Settings';
+
+  @override
+  String get search_hint => 'Search...';
+
+  @override
+  String get no_results_found => 'No results found. Please check your search terms.';
+
+  @override
+  String get no_place_to_search => 'Don’t have a place to search? Let’s get started!';
+
+  @override
   String get user_place_screen_title => 'Place Details';
 
   @override
@@ -325,6 +349,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get frozenscreen_frozen_title => 'Your Account is Frozen';
 
   @override
+  String get faq_question_1 => 'How can I use the route app?';
+
+  @override
+  String get faq_answer_1 => 'The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way.';
+
+  @override
+  String get faq_question_2 => 'Which places are available in the app?';
+
+  @override
+  String get faq_answer_2 => 'The app offers various places including mosques, museums, and cultural sites.';
+
+  @override
+  String get faq_question_3 => 'I forgot my password, what should I do?';
+
+  @override
+  String get faq_answer_3 => 'You can click on the \'Forgot my password\' option on the login screen, enter your email, and receive a password reset link. Please check your spam folder if you don\'t see the email.';
+
+  @override
+  String get faq_question_4 => 'Is the app free?';
+
+  @override
+  String get faq_answer_4 => 'Yes, the app is completely free. However, there are optional in-app purchases for extra features.';
+
+  @override
+  String get faq_question_5 => 'What should I do if I experience a problem?';
+
+  @override
+  String get faq_answer_5 => 'If you experience any problems, you can send feedback directly through the app without needing to fill out a form.';
+
+  @override
+  String get faq_question_6 => 'What languages does the app support?';
+
+  @override
+  String get faq_answer_6 => 'The app supports both English and Turkish.';
+
+  @override
   String get maps_screen_end_route_button_submit => 'Do you want to end the route?';
 
   @override
@@ -341,6 +401,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get route_complete_content => 'You have successfully completed the route.';
+
+  @override
+  String get route_complete_locations => 'You are here';
 
   @override
   String get route_complete_title => 'Route Completed';

@@ -143,6 +143,18 @@ abstract class AppLocalizations {
   /// **'No'**
   String get app_no;
 
+  /// No description provided for @maps_screen_open_volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn On Sound'**
+  String get maps_screen_open_volume;
+
+  /// No description provided for @maps_screen_closed_volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Off Sound'**
+  String get maps_screen_closed_volume;
+
   /// No description provided for @intro_screen_next_button.
   ///
   /// In en, this message translates to:
@@ -623,6 +635,42 @@ abstract class AppLocalizations {
   /// **'If you log out, all your progress will be lost. Do you want to continue?'**
   String get user_profile_logout_show_title_content;
 
+  /// No description provided for @location_permission_denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Permission Denied'**
+  String get location_permission_denied;
+
+  /// No description provided for @please_allow_permission_in_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Please allow location permission in the settings.'**
+  String get please_allow_permission_in_settings;
+
+  /// No description provided for @open_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get open_settings;
+
+  /// No description provided for @search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get search_hint;
+
+  /// No description provided for @no_results_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found. Please check your search terms.'**
+  String get no_results_found;
+
+  /// No description provided for @no_place_to_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Don’t have a place to search? Let’s get started!'**
+  String get no_place_to_search;
+
   /// No description provided for @user_place_screen_title.
   ///
   /// In en, this message translates to:
@@ -731,6 +779,78 @@ abstract class AppLocalizations {
   /// **'Your Account is Frozen'**
   String get frozenscreen_frozen_title;
 
+  /// No description provided for @faq_question_1.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I use the route app?'**
+  String get faq_question_1;
+
+  /// No description provided for @faq_answer_1.
+  ///
+  /// In en, this message translates to:
+  /// **'The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way.'**
+  String get faq_answer_1;
+
+  /// No description provided for @faq_question_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Which places are available in the app?'**
+  String get faq_question_2;
+
+  /// No description provided for @faq_answer_2.
+  ///
+  /// In en, this message translates to:
+  /// **'The app offers various places including mosques, museums, and cultural sites.'**
+  String get faq_answer_2;
+
+  /// No description provided for @faq_question_3.
+  ///
+  /// In en, this message translates to:
+  /// **'I forgot my password, what should I do?'**
+  String get faq_question_3;
+
+  /// No description provided for @faq_answer_3.
+  ///
+  /// In en, this message translates to:
+  /// **'You can click on the \'Forgot my password\' option on the login screen, enter your email, and receive a password reset link. Please check your spam folder if you don\'t see the email.'**
+  String get faq_answer_3;
+
+  /// No description provided for @faq_question_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Is the app free?'**
+  String get faq_question_4;
+
+  /// No description provided for @faq_answer_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, the app is completely free. However, there are optional in-app purchases for extra features.'**
+  String get faq_answer_4;
+
+  /// No description provided for @faq_question_5.
+  ///
+  /// In en, this message translates to:
+  /// **'What should I do if I experience a problem?'**
+  String get faq_question_5;
+
+  /// No description provided for @faq_answer_5.
+  ///
+  /// In en, this message translates to:
+  /// **'If you experience any problems, you can send feedback directly through the app without needing to fill out a form.'**
+  String get faq_answer_5;
+
+  /// No description provided for @faq_question_6.
+  ///
+  /// In en, this message translates to:
+  /// **'What languages does the app support?'**
+  String get faq_question_6;
+
+  /// No description provided for @faq_answer_6.
+  ///
+  /// In en, this message translates to:
+  /// **'The app supports both English and Turkish.'**
+  String get faq_answer_6;
+
   /// No description provided for @maps_screen_end_route_button_submit.
   ///
   /// In en, this message translates to:
@@ -766,6 +886,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have successfully completed the route.'**
   String get route_complete_content;
+
+  /// No description provided for @route_complete_locations.
+  ///
+  /// In en, this message translates to:
+  /// **'You are here'**
+  String get route_complete_locations;
 
   /// No description provided for @route_complete_title.
   ///

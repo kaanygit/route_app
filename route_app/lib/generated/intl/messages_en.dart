@@ -102,6 +102,30 @@ class MessageLookup extends MessageLookupByLibrary {
         "color_red": MessageLookupByLibrary.simpleMessage("Red"),
         "color_turuncu": MessageLookupByLibrary.simpleMessage("Orange"),
         "color_yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
+        "faq_answer_1": MessageLookupByLibrary.simpleMessage(
+            "The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way."),
+        "faq_answer_2": MessageLookupByLibrary.simpleMessage(
+            "The app offers various places including mosques, museums, and cultural sites."),
+        "faq_answer_3": MessageLookupByLibrary.simpleMessage(
+            "You can click on the \'Forgot my password\' option on the login screen, enter your email, and receive a password reset link. Please check your spam folder if you don\'t see the email."),
+        "faq_answer_4": MessageLookupByLibrary.simpleMessage(
+            "Yes, the app is completely free. However, there are optional in-app purchases for extra features."),
+        "faq_answer_5": MessageLookupByLibrary.simpleMessage(
+            "If you experience any problems, you can send feedback directly through the app without needing to fill out a form."),
+        "faq_answer_6": MessageLookupByLibrary.simpleMessage(
+            "The app supports both English and Turkish."),
+        "faq_question_1": MessageLookupByLibrary.simpleMessage(
+            "How can I use the route app?"),
+        "faq_question_2": MessageLookupByLibrary.simpleMessage(
+            "Which places are available in the app?"),
+        "faq_question_3": MessageLookupByLibrary.simpleMessage(
+            "I forgot my password, what should I do?"),
+        "faq_question_4":
+            MessageLookupByLibrary.simpleMessage("Is the app free?"),
+        "faq_question_5": MessageLookupByLibrary.simpleMessage(
+            "What should I do if I experience a problem?"),
+        "faq_question_6": MessageLookupByLibrary.simpleMessage(
+            "What languages does the app support?"),
         "forgot_password_send_success": MessageLookupByLibrary.simpleMessage(
             "Email sent! Please check your inbox."),
         "forgot_password_unsend_message": MessageLookupByLibrary.simpleMessage(
@@ -136,6 +160,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Allow Location"),
         "language_selection": MessageLookupByLibrary.simpleMessage(
             "Language successfully changed!"),
+        "location_permission_denied":
+            MessageLookupByLibrary.simpleMessage("Location Permission Denied"),
         "location_screen_alert_diaglog_content":
             MessageLookupByLibrary.simpleMessage(
                 "The app requires constant location access to function properly."),
@@ -157,6 +183,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Do you want to allow location access?"),
         "location_screen_unsubmit_button":
             MessageLookupByLibrary.simpleMessage("Do not allow"),
+        "maps_screen_closed_volume":
+            MessageLookupByLibrary.simpleMessage("Turn Off Sound"),
         "maps_screen_end_route_button_submit":
             MessageLookupByLibrary.simpleMessage(
                 "Do you want to end the route?"),
@@ -164,14 +192,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("End Route"),
         "maps_screen_follow_route":
             MessageLookupByLibrary.simpleMessage("Please follow this order:"),
+        "maps_screen_open_volume":
+            MessageLookupByLibrary.simpleMessage("Turn On Sound"),
+        "no_place_to_search": MessageLookupByLibrary.simpleMessage(
+            "Don’t have a place to search? Let’s get started!"),
+        "no_results_found": MessageLookupByLibrary.simpleMessage(
+            "No results found. Please check your search terms."),
+        "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
+        "please_allow_permission_in_settings":
+            MessageLookupByLibrary.simpleMessage(
+                "Please allow location permission in the settings."),
         "route_complete_content": MessageLookupByLibrary.simpleMessage(
             "You have successfully completed the route."),
+        "route_complete_locations":
+            MessageLookupByLibrary.simpleMessage("You are here"),
         "route_complete_submit_button":
             MessageLookupByLibrary.simpleMessage("Return to Home"),
         "route_complete_tebrik":
             MessageLookupByLibrary.simpleMessage("Congratulations!"),
         "route_complete_title":
             MessageLookupByLibrary.simpleMessage("Route Completed"),
+        "search_hint": MessageLookupByLibrary.simpleMessage("Search..."),
         "user_allview_screen_title":
             MessageLookupByLibrary.simpleMessage("Discover Places"),
         "user_bottom_calender":

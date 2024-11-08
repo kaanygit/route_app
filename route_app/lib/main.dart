@@ -15,6 +15,7 @@ import 'package:accesible_route/screens/auth/auth_screen.dart';
 import 'package:accesible_route/screens/auth/intro_screen.dart';
 import 'package:accesible_route/screens/auth/language_selection_screen.dart';
 import 'package:accesible_route/screens/user/frozen_screen.dart';
+import 'package:accesible_route/screens/user/location_permission_screen.dart';
 import 'package:accesible_route/screens/user/user_home_screen.dart';
 import 'package:accesible_route/widgets/error_screen.dart';
 import 'package:accesible_route/widgets/loading.dart';
@@ -26,15 +27,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:icons_launcher/cli_commands.dart';
-import 'package:icons_launcher/utils/cli_logger.dart';
-import 'package:icons_launcher/utils/constants.dart';
-import 'package:icons_launcher/utils/icon.dart';
-import 'package:icons_launcher/utils/template.dart';
-import 'package:icons_launcher/utils/utils.dart';
+// import 'package:icons_launcher/cli_commands.dart';
+// import 'package:icons_launcher/utils/cli_logger.dart';
+// import 'package:icons_launcher/utils/constants.dart';
+// import 'package:icons_launcher/utils/icon.dart';
+// import 'package:icons_launcher/utils/template.dart';
+// import 'package:icons_launcher/utils/utils.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -53,9 +55,9 @@ void main() async {
     await prefs.clear();
   }
 
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.playIntegrity,
-  );
+  // await FirebaseAppCheck.instance.activate(
+  //   androidProvider: AndroidProvider.playIntegrity,
+  // );
 
   runApp(const MyApp());
 }
@@ -177,87 +179,108 @@ class AuthWrapper extends StatelessWidget {
                   if (snapshot.hasData && snapshot.data == false) {
                     return IntroScreen();
                   } else {
-                    return BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        if (state is AuthLoading) {
-                          return LoadingScreen();
-                        } else if (state is Authenticated) {
-                          return FutureBuilder(
-                            future: _getAdminController(),
-                            builder: (context, adminSnapshot) {
-                              if (adminSnapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return LoadingScreen();
-                              }
+                    return FutureBuilder(
+                        future: _getLocationController(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return LoadingScreen();
+                          }
+                          if (snapshot.hasError) {
+                            return SimpleErrorScreen(
+                                errorMessage: "Hata oluştu");
+                          }
+                          if (snapshot.hasData && snapshot.hasData == false) {
+                            return LocationPermissionScreen();
+                          } else {
+                            return BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                if (state is AuthLoading) {
+                                  return LoadingScreen();
+                                } else if (state is Authenticated) {
+                                  return FutureBuilder(
+                                    future: _getAdminController(),
+                                    builder: (context, adminSnapshot) {
+                                      if (adminSnapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return LoadingScreen();
+                                      }
 
-                              if (adminSnapshot.hasData) {
-                                return adminSnapshot.data == true
-                                    ? AdminHomeScreen()
-                                    : FutureBuilder(
-                                        future: _firestore
-                                            .collection('users')
-                                            .doc(_auth.currentUser!.uid)
-                                            .get(),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return LoadingScreen();
-                                          }
-                                          if (snapshot.hasError) {
-                                            return Scaffold(
-                                              body: Center(
-                                                child: Text(
-                                                    'Bir hata oluştu: ${snapshot.error}'),
-                                              ),
-                                            );
-                                          }
-                                          if (snapshot.hasData) {
-                                            var userData = snapshot.data!.data()
-                                                as Map<String, dynamic>?;
+                                      if (adminSnapshot.hasData) {
+                                        return adminSnapshot.data == true
+                                            ? AdminHomeScreen()
+                                            : FutureBuilder(
+                                                future: _firestore
+                                                    .collection('users')
+                                                    .doc(_auth.currentUser!.uid)
+                                                    .get(),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return LoadingScreen();
+                                                  }
+                                                  if (snapshot.hasError) {
+                                                    return Scaffold(
+                                                      body: Center(
+                                                        child: Text(
+                                                            'Bir hata oluştu: ${snapshot.error}'),
+                                                      ),
+                                                    );
+                                                  }
+                                                  if (snapshot.hasData) {
+                                                    var userData =
+                                                        snapshot.data!.data()
+                                                            as Map<String,
+                                                                dynamic>?;
 
-                                            if (userData == null) {
-                                              return Scaffold(
-                                                body: Center(
-                                                  child: Text(
-                                                      'Kullanıcı verisi bulunamadı.'),
-                                                ),
+                                                    if (userData == null) {
+                                                      return Scaffold(
+                                                        body: Center(
+                                                          child: Text(
+                                                              'Kullanıcı verisi bulunamadı.'),
+                                                        ),
+                                                      );
+                                                    }
+
+                                                    bool isAccountFrozen = userData[
+                                                            'isAccountFrozen'] ??
+                                                        false;
+
+                                                    if (isAccountFrozen) {
+                                                      return AccountFrozenScreen();
+                                                    } else {
+                                                      bool isAdmin =
+                                                          userData['isAdmin'] ??
+                                                              false;
+
+                                                      return isAdmin
+                                                          ? AdminHomeScreen()
+                                                          : UserHomeScreen();
+                                                    }
+                                                  }
+                                                  return Container();
+                                                },
                                               );
-                                            }
-
-                                            bool isAccountFrozen =
-                                                userData['isAccountFrozen'] ??
-                                                    false;
-
-                                            if (isAccountFrozen) {
-                                              return AccountFrozenScreen();
-                                            } else {
-                                              bool isAdmin =
-                                                  userData['isAdmin'] ?? false;
-
-                                              return isAdmin
-                                                  ? AdminHomeScreen()
-                                                  : UserHomeScreen();
-                                            }
-                                          }
-                                          return Container();
-                                        },
-                                      );
-                              } else {
-                                return SimpleErrorScreen(
-                                  errorMessage: "Admin kontrolü hatalı.",
-                                );
-                              }
-                            },
-                          );
-                        } else if (state is Unauthenticated) {
-                          return AuthScreen();
-                        } else {
-                          return SimpleErrorScreen(
-                            errorMessage: "Hatalı işlem.",
-                          );
-                        }
-                      },
-                    );
+                                      } else {
+                                        return SimpleErrorScreen(
+                                          errorMessage:
+                                              "Admin kontrolü hatalı.",
+                                        );
+                                      }
+                                    },
+                                  );
+                                } else if (state is Unauthenticated) {
+                                  return AuthScreen();
+                                } else {
+                                  return SimpleErrorScreen(
+                                    errorMessage: "Hatalı işlem.",
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        });
                   }
                 });
           }
@@ -294,6 +317,24 @@ class AuthWrapper extends StatelessWidget {
     }
   }
 
+  Future<bool> _getLocationController() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      return true;
+    } else {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   Future<bool> _getAdminController() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -314,3 +355,88 @@ class AuthWrapper extends StatelessWidget {
     }
   }
 }
+
+
+
+
+                    // BlocBuilder<AuthBloc, AuthState>(
+                    //   builder: (context, state) {
+                    //     if (state is AuthLoading) {
+                    //       return LoadingScreen();
+                    //     } else if (state is Authenticated) {
+                    //       return FutureBuilder(
+                    //         future: _getAdminController(),
+                    //         builder: (context, adminSnapshot) {
+                    //           if (adminSnapshot.connectionState ==
+                    //               ConnectionState.waiting) {
+                    //             return LoadingScreen();
+                    //           }
+
+                    //           if (adminSnapshot.hasData) {
+                    //             return adminSnapshot.data == true
+                    //                 ? AdminHomeScreen()
+                    //                 : FutureBuilder(
+                    //                     future: _firestore
+                    //                         .collection('users')
+                    //                         .doc(_auth.currentUser!.uid)
+                    //                         .get(),
+                    //                     builder: (context, snapshot) {
+                    //                       if (snapshot.connectionState ==
+                    //                           ConnectionState.waiting) {
+                    //                         return LoadingScreen();
+                    //                       }
+                    //                       if (snapshot.hasError) {
+                    //                         return Scaffold(
+                    //                           body: Center(
+                    //                             child: Text(
+                    //                                 'Bir hata oluştu: ${snapshot.error}'),
+                    //                           ),
+                    //                         );
+                    //                       }
+                    //                       if (snapshot.hasData) {
+                    //                         var userData = snapshot.data!.data()
+                    //                             as Map<String, dynamic>?;
+
+                    //                         if (userData == null) {
+                    //                           return Scaffold(
+                    //                             body: Center(
+                    //                               child: Text(
+                    //                                   'Kullanıcı verisi bulunamadı.'),
+                    //                             ),
+                    //                           );
+                    //                         }
+
+                    //                         bool isAccountFrozen =
+                    //                             userData['isAccountFrozen'] ??
+                    //                                 false;
+
+                    //                         if (isAccountFrozen) {
+                    //                           return AccountFrozenScreen();
+                    //                         } else {
+                    //                           bool isAdmin =
+                    //                               userData['isAdmin'] ?? false;
+
+                    //                           return isAdmin
+                    //                               ? AdminHomeScreen()
+                    //                               : UserHomeScreen();
+                    //                         }
+                    //                       }
+                    //                       return Container();
+                    //                     },
+                    //                   );
+                    //           } else {
+                    //             return SimpleErrorScreen(
+                    //               errorMessage: "Admin kontrolü hatalı.",
+                    //             );
+                    //           }
+                    //         },
+                    //       );
+                    //     } else if (state is Unauthenticated) {
+                    //       return AuthScreen();
+                    //     } else {
+                    //       return SimpleErrorScreen(
+                    //         errorMessage: "Hatalı işlem.",
+                    //       );
+                    //     }
+                    //   },
+                    // );

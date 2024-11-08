@@ -28,7 +28,8 @@
   "app_yes":"Evet",
   "app_no":"Hayır",
 
-
+  "maps_screen_open_volume":"Sesi Aç",
+  "maps_screen_closed_volume":"Sesi Kapat",
   "intro_screen_next_button":"Sonraki",
   "intro_screen_submit_button":"Konuma izin ver",
   "location_screen_title":"Seçim Ekranı",
@@ -116,8 +117,12 @@
   "user_profile_logout_title":"Çıkış Yap",
   "user_profile_logout_show_title":"Çıkış Yapmak İstiyor Musunuz?",
   "user_profile_logout_show_title_content":"Uygulamadan çıkış yaparsanız, tüm ilerlemeleriniz kaybolacaktır. Devam etmek istiyor musunuz?",
-
-
+  "location_permission_denied": "Konum İzni Verilmedi",
+  "please_allow_permission_in_settings": "Lütfen ayarlardan konum izni veriniz.",
+  "open_settings": "Ayarları Aç",
+  "search_hint": "Ara...",
+  "no_results_found": "Sonuç bulunamadı. Arama terimlerini kontrol edin.",
+  "no_place_to_search": "Aramak istediğiniz bir yer yok mu? Hadi başlayalım!",
   "user_place_screen_title":"Yer Detayları",
   "user_place_screen_route_start_button":"Rotaya Başla",
 
@@ -142,10 +147,25 @@
   "frozenscreen_frozen_title_content":"Hesabınız dondurulmuştur. Daha fazla bilgi için geri bildirim gönderebilirsiniz.",
   "frozenscreen_frozen_title":"Hesabınız Dondurulmuştur",
 
+  "faq_question_1": "Rota uygulamasını nasıl kullanabilirim?",
+  "faq_answer_1": "Rota uygulaması, engelli bireylerin belirli noktalara erişimini kolaylaştırmak için tasarlanmıştır. Ana ekranınızdan bir yer seçebilir ve o yere ulaşırken yol üzerindeki tuvalet, market gibi önerilere ulaşabilirsiniz.",
+  "faq_question_2": "Uygulamada hangi yerler mevcut?",
+  "faq_answer_2": "Uygulamada çeşitli yerler mevcuttur. Bu yerler arasında camiler, müzeler ve çeşitli kültürel alanlar bulunmaktadır.",
+  "faq_question_3": "Şifremi unuttum, ne yapmalıyım?",
+  "faq_answer_3": "Giriş yapma ekranındaki 'Şifremi unuttum' seçeneğine tıklayıp e-posta adresinizi girmeniz yeterlidir. Size şifre sıfırlama bağlantısı gönderilecektir. Gelen kutunuzda bulamazsanız spam klasörünü kontrol ediniz.",
+  "faq_question_4": "Uygulama ücretsiz mi?",
+  "faq_answer_4": "Evet, uygulama tamamen ücretsizdir. Ancak ek özellikler için uygulama içi satın alma seçenekleri mevcuttur.",
+  "faq_question_5": "Uygulama ile ilgili bir sorun yaşarsam ne yapmalıyım?",
+  "faq_answer_5": "Uygulama ile ilgili bir sorun yaşarsanız, geri bildirim göndermeden hızlıca uygulama üzerinden bize bildirebilirsiniz.",
+  "faq_question_6": "Uygulama hangi dilleri destekliyor?",
+  "faq_answer_6": "Uygulama İngilizce ve Türkçe dillerini desteklemektedir.",
+
+
   "maps_screen_end_route_button_submit":"Rotayı bitirmek istiyor musunuz?",
   "maps_screen_end_route_button_submit2":"Rotayı bitir",
   "maps_screen_follow_route":"Lütfen bu sırayı takip edin:",
   "route_complete_submit_button":"Ana Sayfaya Dön",
+  "route_complete_locations": "Buradasınız",
   "route_complete_tebrik":"Tebrikler!",
   "route_complete_content":"Rotayı başarıyla tamamladınız.",
   "route_complete_title":"Rota tamamlandı",

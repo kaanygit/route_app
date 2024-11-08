@@ -105,6 +105,30 @@ class MessageLookup extends MessageLookupByLibrary {
         "color_red": MessageLookupByLibrary.simpleMessage("Kırmızı"),
         "color_turuncu": MessageLookupByLibrary.simpleMessage("Turuncu"),
         "color_yellow": MessageLookupByLibrary.simpleMessage("Sarı"),
+        "faq_answer_1": MessageLookupByLibrary.simpleMessage(
+            "Rota uygulaması, engelli bireylerin belirli noktalara erişimini kolaylaştırmak için tasarlanmıştır. Ana ekranınızdan bir yer seçebilir ve o yere ulaşırken yol üzerindeki tuvalet, market gibi önerilere ulaşabilirsiniz."),
+        "faq_answer_2": MessageLookupByLibrary.simpleMessage(
+            "Uygulamada çeşitli yerler mevcuttur. Bu yerler arasında camiler, müzeler ve çeşitli kültürel alanlar bulunmaktadır."),
+        "faq_answer_3": MessageLookupByLibrary.simpleMessage(
+            "Giriş yapma ekranındaki \'Şifremi unuttum\' seçeneğine tıklayıp e-posta adresinizi girmeniz yeterlidir. Size şifre sıfırlama bağlantısı gönderilecektir. Gelen kutunuzda bulamazsanız spam klasörünü kontrol ediniz."),
+        "faq_answer_4": MessageLookupByLibrary.simpleMessage(
+            "Evet, uygulama tamamen ücretsizdir. Ancak ek özellikler için uygulama içi satın alma seçenekleri mevcuttur."),
+        "faq_answer_5": MessageLookupByLibrary.simpleMessage(
+            "Uygulama ile ilgili bir sorun yaşarsanız, geri bildirim göndermeden hızlıca uygulama üzerinden bize bildirebilirsiniz."),
+        "faq_answer_6": MessageLookupByLibrary.simpleMessage(
+            "Uygulama İngilizce ve Türkçe dillerini desteklemektedir."),
+        "faq_question_1": MessageLookupByLibrary.simpleMessage(
+            "Rota uygulamasını nasıl kullanabilirim?"),
+        "faq_question_2": MessageLookupByLibrary.simpleMessage(
+            "Uygulamada hangi yerler mevcut?"),
+        "faq_question_3": MessageLookupByLibrary.simpleMessage(
+            "Şifremi unuttum, ne yapmalıyım?"),
+        "faq_question_4":
+            MessageLookupByLibrary.simpleMessage("Uygulama ücretsiz mi?"),
+        "faq_question_5": MessageLookupByLibrary.simpleMessage(
+            "Uygulama ile ilgili bir sorun yaşarsam ne yapmalıyım?"),
+        "faq_question_6": MessageLookupByLibrary.simpleMessage(
+            "Uygulama hangi dilleri destekliyor?"),
         "forgot_password_send_success": MessageLookupByLibrary.simpleMessage(
             "Mail gönderildi! Lütfen e-postanızı kontrol edin."),
         "forgot_password_unsend_message": MessageLookupByLibrary.simpleMessage(
@@ -139,6 +163,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Konuma izin ver"),
         "language_selection":
             MessageLookupByLibrary.simpleMessage("Dil başarıyla değiştirildi!"),
+        "location_permission_denied":
+            MessageLookupByLibrary.simpleMessage("Konum İzni Verilmedi"),
         "location_screen_alert_diaglog_content":
             MessageLookupByLibrary.simpleMessage(
                 "Uygulama doğru çalışması için sürekli konum erişimine ihtiyaç duyar."),
@@ -159,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Konum izni vermek istiyor musunuz?"),
         "location_screen_unsubmit_button":
             MessageLookupByLibrary.simpleMessage("İzin Verme"),
+        "maps_screen_closed_volume":
+            MessageLookupByLibrary.simpleMessage("Sesi Kapat"),
         "maps_screen_end_route_button_submit":
             MessageLookupByLibrary.simpleMessage(
                 "Rotayı bitirmek istiyor musunuz?"),
@@ -166,14 +194,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Rotayı bitir"),
         "maps_screen_follow_route": MessageLookupByLibrary.simpleMessage(
             "Lütfen bu sırayı takip edin:"),
+        "maps_screen_open_volume":
+            MessageLookupByLibrary.simpleMessage("Sesi Aç"),
+        "no_place_to_search": MessageLookupByLibrary.simpleMessage(
+            "Aramak istediğiniz bir yer yok mu? Hadi başlayalım!"),
+        "no_results_found": MessageLookupByLibrary.simpleMessage(
+            "Sonuç bulunamadı. Arama terimlerini kontrol edin."),
+        "open_settings": MessageLookupByLibrary.simpleMessage("Ayarları Aç"),
+        "please_allow_permission_in_settings":
+            MessageLookupByLibrary.simpleMessage(
+                "Lütfen ayarlardan konum izni veriniz."),
         "route_complete_content": MessageLookupByLibrary.simpleMessage(
             "Rotayı başarıyla tamamladınız."),
+        "route_complete_locations":
+            MessageLookupByLibrary.simpleMessage("Buradasınız"),
         "route_complete_submit_button":
             MessageLookupByLibrary.simpleMessage("Ana Sayfaya Dön"),
         "route_complete_tebrik":
             MessageLookupByLibrary.simpleMessage("Tebrikler!"),
         "route_complete_title":
             MessageLookupByLibrary.simpleMessage("Rota tamamlandı"),
+        "search_hint": MessageLookupByLibrary.simpleMessage("Ara..."),
         "user_allview_screen_title":
             MessageLookupByLibrary.simpleMessage("Keşfet Mekanları"),
         "user_bottom_calender": MessageLookupByLibrary.simpleMessage("Takvim"),

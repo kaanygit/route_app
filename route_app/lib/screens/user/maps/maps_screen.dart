@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:accesible_route/generated/l10n.dart';
 import 'package:accesible_route/screens/user/maps/maps.dart';
 import 'package:accesible_route/screens/user/maps/route_complete_screen.dart';
@@ -6,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +27,8 @@ class MapsScreen extends StatefulWidget {
 class _MapsScreenState extends State<MapsScreen> {
   GoogleMapController? _mapController;
   Set<Polyline> _polylines = {};
+  FlutterTts flutterTts = FlutterTts();
+  bool isVoiceEnabled = true;
   LatLng? _currentLocation;
   List<LatLng> _allPolylinePoints = [];
   bool isLoading = true;
@@ -36,15 +42,24 @@ class _MapsScreenState extends State<MapsScreen> {
     Colors.blue,
     Colors.yellow,
     Colors.orange,
+    Colors.green,
     Colors.black
   ];
   Color passedColor = Colors.grey.withOpacity(0.5);
   final String googleAPIKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
+  List<Map<String, dynamic>> _stepInstructions = [];
+  StreamSubscription<Position>? positionStream;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocationAndStartRoute();
+  }
+
+  @override
+  void dispose() {
+    positionStream?.cancel();
+    super.dispose();
   }
 
   Future<void> _getCurrentLocationAndStartRoute() async {
@@ -65,6 +80,7 @@ class _MapsScreenState extends State<MapsScreen> {
 
     latLngRoutePoints.insert(0, _currentLocation!);
     _fetchNearbyPlaces();
+    _startListeningToLocationChanges();
     await _createWalkingRoute(latLngRoutePoints);
   }
 
@@ -85,6 +101,19 @@ class _MapsScreenState extends State<MapsScreen> {
       13: {'lat': 37.8699614, 'lng': 32.4950449},
       14: {'lat': 37.8705172, 'lng': 32.4859661},
       15: {'lat': 37.8709511, 'lng': 32.5035289},
+      16: {'lat': 37.872438, 'lng': 32.494374},
+      17: {'lat': 37.870768, 'lng': 32.492141},
+      18: {'lat': 37.870913, 'lng': 32.490837},
+      19: {'lat': 37.870913, 'lng': 32.490837},
+      20: {'lat': 37.872403, 'lng': 32.494151},
+      21: {'lat': 37.870925, 'lng': 32.492724},
+      22: {'lat': 37.870937, 'lng': 32.490715},
+      23: {'lat': 37.870937, 'lng': 32.490715},
+      24: {'lat': 37.870937, 'lng': 32.490715},
+      25: {'lat': 37.870937, 'lng': 32.490715},
+      26: {'lat': 37.872476, 'lng': 32.494136},
+      27: {'lat': 37.872476, 'lng': 32.494136},
+      28: {'lat': 37.872708, 'lng': 32.494243},
     };
 
     List<LatLng> latLngPoints = [];
@@ -122,9 +151,74 @@ class _MapsScreenState extends State<MapsScreen> {
             _decodePolyline(data['routes'][0]['overview_polyline']['points']);
         _allPolylinePoints.addAll(polylinePoints);
         _addPolyline(polylinePoints, routeColors[i % routeColors.length]);
+        List<dynamic> steps = data['routes'][0]['legs'][0]['steps'];
+
+        for (var step in steps) {
+          LatLng stepEndLocation =
+              LatLng(step['end_location']['lat'], step['end_location']['lng']);
+          _stepInstructions.add({'endLocation': stepEndLocation});
+        }
       } else {
         print('Directions API isteğinde hata oluştu: ${response.body}');
       }
+    }
+  }
+
+  void _startListeningToLocationChanges() {
+    positionStream = Geolocator.getPositionStream().listen((Position position) {
+      _currentLocation = LatLng(position.latitude, position.longitude);
+      _checkProximityForSteps();
+    });
+  }
+
+  void _checkProximityForSteps() {
+    if (_currentLocation == null) return;
+
+    for (var step in _stepInstructions) {
+      LatLng stepEndLocation = step['endLocation'];
+
+      double distance = Geolocator.distanceBetween(
+        _currentLocation!.latitude,
+        _currentLocation!.longitude,
+        stepEndLocation.latitude,
+        stepEndLocation.longitude,
+      );
+
+      if (distance < 30 && isVoiceEnabled) {
+        String direction = _getDirectionRelativeToUser(stepEndLocation);
+        _speak(direction);
+        break;
+      }
+    }
+  }
+
+  String _getDirectionRelativeToUser(LatLng stepEndLocation) {
+    double userLat = _currentLocation!.latitude;
+    double userLng = _currentLocation!.longitude;
+    double stepLat = stepEndLocation.latitude;
+    double stepLng = stepEndLocation.longitude;
+
+    double angle = atan2(stepLng - userLng, stepLat - userLat) * (180 / pi);
+
+    if (angle < 0) {
+      angle += 360;
+    }
+
+    if (angle >= 45 && angle < 135) {
+      return "Önünde";
+    } else if (angle >= 135 && angle < 225) {
+      return "Solunda";
+    } else if (angle >= 225 && angle < 315) {
+      return "Arkanda";
+    } else {
+      return "Sağında";
+    }
+  }
+
+  Future<void> _speak(String message) async {
+    if (isVoiceEnabled) {
+      await flutterTts.setLanguage("tr-TR");
+      await flutterTts.speak(message);
     }
   }
 
@@ -301,45 +395,29 @@ class _MapsScreenState extends State<MapsScreen> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                S.of(context).maps_screen_follow_route,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              MyButton(
+                                text: isVoiceEnabled
+                                    ? "🔊 ${S.of(context).maps_screen_open_volume}" // Ses açıkken hoparlör simgesi
+                                    : "🔈 ${S.of(context).maps_screen_closed_volume}", // Ses kapalıyken hoparlör simgesi
+                                buttonColor: isVoiceEnabled
+                                    ? Colors.blue
+                                    : Colors.red, // Ses durumuna göre renk
+                                buttonTextColor: Colors.white,
+                                buttonTextSize: 18,
+                                buttonTextWeight: FontWeight.normal,
+                                borderRadius: BorderRadius.circular(16),
+                                onPressed: () {
+                                  setState(() {
+                                    isVoiceEnabled = !isVoiceEnabled;
+                                  });
+                                },
+                                buttonWidth: ButtonWidth.xLarge,
                               ),
-                              SizedBox(height: 8.0),
-                              RichText(
-                                text: TextSpan(
-                                  style: TextStyle(fontSize: 16.0),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '1. ${S.of(context).color_red}\n',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                    TextSpan(
-                                      text: '2. ${S.of(context).color_blue}\n',
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          '3. ${S.of(context).color_yellow}\n',
-                                      style: TextStyle(color: Colors.yellow),
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          '4. ${S.of(context).color_turuncu}\n',
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                    TextSpan(
-                                      text: '5. ${S.of(context).color_black}\n',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              SizedBox(
+                                height: 20,
+                              )
                             ],
                           ),
                         ),

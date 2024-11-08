@@ -10,7 +10,7 @@
     <application
         android:label="Accesible Route"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyApjXIvHNWIphhz7iUGdbXZFpuxzTGaQfI"/>

@@ -130,6 +130,26 @@ class S {
     );
   }
 
+  /// `Turn On Sound`
+  String get maps_screen_open_volume {
+    return Intl.message(
+      'Turn On Sound',
+      name: 'maps_screen_open_volume',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn Off Sound`
+  String get maps_screen_closed_volume {
+    return Intl.message(
+      'Turn Off Sound',
+      name: 'maps_screen_closed_volume',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Next`
   String get intro_screen_next_button {
     return Intl.message(
@@ -930,6 +950,66 @@ class S {
     );
   }
 
+  /// `Location Permission Denied`
+  String get location_permission_denied {
+    return Intl.message(
+      'Location Permission Denied',
+      name: 'location_permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please allow location permission in the settings.`
+  String get please_allow_permission_in_settings {
+    return Intl.message(
+      'Please allow location permission in the settings.',
+      name: 'please_allow_permission_in_settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Settings`
+  String get open_settings {
+    return Intl.message(
+      'Open Settings',
+      name: 'open_settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search...`
+  String get search_hint {
+    return Intl.message(
+      'Search...',
+      name: 'search_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No results found. Please check your search terms.`
+  String get no_results_found {
+    return Intl.message(
+      'No results found. Please check your search terms.',
+      name: 'no_results_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don’t have a place to search? Let’s get started!`
+  String get no_place_to_search {
+    return Intl.message(
+      'Don’t have a place to search? Let’s get started!',
+      name: 'no_place_to_search',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Place Details`
   String get user_place_screen_title {
     return Intl.message(
@@ -1110,6 +1190,126 @@ class S {
     );
   }
 
+  /// `How can I use the route app?`
+  String get faq_question_1 {
+    return Intl.message(
+      'How can I use the route app?',
+      name: 'faq_question_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way.`
+  String get faq_answer_1 {
+    return Intl.message(
+      'The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way.',
+      name: 'faq_answer_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Which places are available in the app?`
+  String get faq_question_2 {
+    return Intl.message(
+      'Which places are available in the app?',
+      name: 'faq_question_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The app offers various places including mosques, museums, and cultural sites.`
+  String get faq_answer_2 {
+    return Intl.message(
+      'The app offers various places including mosques, museums, and cultural sites.',
+      name: 'faq_answer_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I forgot my password, what should I do?`
+  String get faq_question_3 {
+    return Intl.message(
+      'I forgot my password, what should I do?',
+      name: 'faq_question_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can click on the 'Forgot my password' option on the login screen, enter your email, and receive a password reset link. Please check your spam folder if you don't see the email.`
+  String get faq_answer_3 {
+    return Intl.message(
+      'You can click on the \'Forgot my password\' option on the login screen, enter your email, and receive a password reset link. Please check your spam folder if you don\'t see the email.',
+      name: 'faq_answer_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is the app free?`
+  String get faq_question_4 {
+    return Intl.message(
+      'Is the app free?',
+      name: 'faq_question_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes, the app is completely free. However, there are optional in-app purchases for extra features.`
+  String get faq_answer_4 {
+    return Intl.message(
+      'Yes, the app is completely free. However, there are optional in-app purchases for extra features.',
+      name: 'faq_answer_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What should I do if I experience a problem?`
+  String get faq_question_5 {
+    return Intl.message(
+      'What should I do if I experience a problem?',
+      name: 'faq_question_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you experience any problems, you can send feedback directly through the app without needing to fill out a form.`
+  String get faq_answer_5 {
+    return Intl.message(
+      'If you experience any problems, you can send feedback directly through the app without needing to fill out a form.',
+      name: 'faq_answer_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What languages does the app support?`
+  String get faq_question_6 {
+    return Intl.message(
+      'What languages does the app support?',
+      name: 'faq_question_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The app supports both English and Turkish.`
+  String get faq_answer_6 {
+    return Intl.message(
+      'The app supports both English and Turkish.',
+      name: 'faq_answer_6',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you want to end the route?`
   String get maps_screen_end_route_button_submit {
     return Intl.message(
@@ -1165,6 +1365,16 @@ class S {
     return Intl.message(
       'You have successfully completed the route.',
       name: 'route_complete_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are here`
+  String get route_complete_locations {
+    return Intl.message(
+      'You are here',
+      name: 'route_complete_locations',
       desc: '',
       args: [],
     );

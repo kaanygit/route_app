@@ -31,6 +31,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get app_no => 'Hayır';
 
   @override
+  String get maps_screen_open_volume => 'Sesi Aç';
+
+  @override
+  String get maps_screen_closed_volume => 'Sesi Kapat';
+
+  @override
   String get intro_screen_next_button => 'Sonraki';
 
   @override
@@ -271,6 +277,24 @@ class AppLocalizationsTr extends AppLocalizations {
   String get user_profile_logout_show_title_content => 'Uygulamadan çıkış yaparsanız, tüm ilerlemeleriniz kaybolacaktır. Devam etmek istiyor musunuz?';
 
   @override
+  String get location_permission_denied => 'Konum İzni Verilmedi';
+
+  @override
+  String get please_allow_permission_in_settings => 'Lütfen ayarlardan konum izni veriniz.';
+
+  @override
+  String get open_settings => 'Ayarları Aç';
+
+  @override
+  String get search_hint => 'Ara...';
+
+  @override
+  String get no_results_found => 'Sonuç bulunamadı. Arama terimlerini kontrol edin.';
+
+  @override
+  String get no_place_to_search => 'Aramak istediğiniz bir yer yok mu? Hadi başlayalım!';
+
+  @override
   String get user_place_screen_title => 'Yer Detayları';
 
   @override
@@ -325,6 +349,42 @@ class AppLocalizationsTr extends AppLocalizations {
   String get frozenscreen_frozen_title => 'Hesabınız Dondurulmuştur';
 
   @override
+  String get faq_question_1 => 'Rota uygulamasını nasıl kullanabilirim?';
+
+  @override
+  String get faq_answer_1 => 'Rota uygulaması, engelli bireylerin belirli noktalara erişimini kolaylaştırmak için tasarlanmıştır. Ana ekranınızdan bir yer seçebilir ve o yere ulaşırken yol üzerindeki tuvalet, market gibi önerilere ulaşabilirsiniz.';
+
+  @override
+  String get faq_question_2 => 'Uygulamada hangi yerler mevcut?';
+
+  @override
+  String get faq_answer_2 => 'Uygulamada çeşitli yerler mevcuttur. Bu yerler arasında camiler, müzeler ve çeşitli kültürel alanlar bulunmaktadır.';
+
+  @override
+  String get faq_question_3 => 'Şifremi unuttum, ne yapmalıyım?';
+
+  @override
+  String get faq_answer_3 => 'Giriş yapma ekranındaki \'Şifremi unuttum\' seçeneğine tıklayıp e-posta adresinizi girmeniz yeterlidir. Size şifre sıfırlama bağlantısı gönderilecektir. Gelen kutunuzda bulamazsanız spam klasörünü kontrol ediniz.';
+
+  @override
+  String get faq_question_4 => 'Uygulama ücretsiz mi?';
+
+  @override
+  String get faq_answer_4 => 'Evet, uygulama tamamen ücretsizdir. Ancak ek özellikler için uygulama içi satın alma seçenekleri mevcuttur.';
+
+  @override
+  String get faq_question_5 => 'Uygulama ile ilgili bir sorun yaşarsam ne yapmalıyım?';
+
+  @override
+  String get faq_answer_5 => 'Uygulama ile ilgili bir sorun yaşarsanız, geri bildirim göndermeden hızlıca uygulama üzerinden bize bildirebilirsiniz.';
+
+  @override
+  String get faq_question_6 => 'Uygulama hangi dilleri destekliyor?';
+
+  @override
+  String get faq_answer_6 => 'Uygulama İngilizce ve Türkçe dillerini desteklemektedir.';
+
+  @override
   String get maps_screen_end_route_button_submit => 'Rotayı bitirmek istiyor musunuz?';
 
   @override
@@ -341,6 +401,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get route_complete_content => 'Rotayı başarıyla tamamladınız.';
+
+  @override
+  String get route_complete_locations => 'Buradasınız';
 
   @override
   String get route_complete_title => 'Rota tamamlandı';

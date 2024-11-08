@@ -1,9 +1,7 @@
-import 'package:accesible_route/bloc/language/language_bloc.dart';
 import 'package:accesible_route/generated/l10n.dart';
 import 'package:accesible_route/models/faq_model.dart';
 import 'package:accesible_route/utils/darkmode_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FaqScreen extends StatefulWidget {
   @override
@@ -17,57 +15,30 @@ class _FaqScreenState extends State<FaqScreen> {
   void initState() {
     super.initState();
 
-    String currentLanguage =
-        BlocProvider.of<LanguageBloc>(context).state.locale.languageCode;
-
     faqItems = [
       FaqItem(
-        question: currentLanguage == 'en'
-            ? "How can I use the route app?"
-            : "Rota uygulamasını nasıl kullanabilirim?",
-        answer: currentLanguage == 'en'
-            ? "The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way."
-            : "Rota uygulaması, engelli bireylerin belirli noktalara erişimini kolaylaştırmak için tasarlanmıştır. Ana ekranınızdan bir yer seçebilir ve o yere ulaşırken yol üzerindeki tuvalet, market gibi önerilere ulaşabilirsiniz.",
+        question: S.of(context).faq_question_1,
+        answer: S.of(context).faq_answer_1,
       ),
       FaqItem(
-        question: currentLanguage == 'en'
-            ? "Which places are available in the app?"
-            : "Uygulamada hangi yerler mevcut?",
-        answer: currentLanguage == 'en'
-            ? "The app offers various places including mosques, museums, and cultural sites."
-            : "Uygulamada çeşitli yerler mevcuttur. Bu yerler arasında camiler, müzeler ve çeşitli kültürel alanlar bulunmaktadır.",
+        question: S.of(context).faq_question_2,
+        answer: S.of(context).faq_answer_2,
       ),
       FaqItem(
-        question: currentLanguage == 'en'
-            ? "I forgot my password, what should I do?"
-            : "Şifremi unuttum, ne yapmalıyım?",
-        answer: currentLanguage == 'en'
-            ? "You can click on the 'Forgot my password' option on the login screen, enter your email, and receive a password reset link. Please check your spam folder if you don't see the email."
-            : "Giriş yapma ekranındaki 'Şifremi unuttum' seçeneğine tıklayıp e-posta adresinizi girmeniz yeterlidir. Size şifre sıfırlama bağlantısı gönderilecektir. Gelen kutunuzda bulamazsanız spam klasörünü kontrol ediniz.",
+        question: S.of(context).faq_question_3,
+        answer: S.of(context).faq_answer_3,
       ),
       FaqItem(
-        question: currentLanguage == 'en'
-            ? "Is the app free?"
-            : "Uygulama ücretsiz mi?",
-        answer: currentLanguage == 'en'
-            ? "Yes, the app is completely free. However, there are optional in-app purchases for extra features."
-            : "Evet, uygulama tamamen ücretsizdir. Ancak ek özellikler için uygulama içi satın alma seçenekleri mevcuttur.",
+        question: S.of(context).faq_question_4,
+        answer: S.of(context).faq_answer_4,
       ),
       FaqItem(
-        question: currentLanguage == 'en'
-            ? "What should I do if I experience a problem?"
-            : "Uygulama ile ilgili bir sorun yaşarsam ne yapmalıyım?",
-        answer: currentLanguage == 'en'
-            ? "If you experience any problems, you can send feedback directly through the app without needing to fill out a form."
-            : "Uygulama ile ilgili bir sorun yaşarsanız, geri bildirim göndermeden hızlıca uygulama üzerinden bize bildirebilirsiniz.",
+        question: S.of(context).faq_question_5,
+        answer: S.of(context).faq_answer_5,
       ),
       FaqItem(
-        question: currentLanguage == 'en'
-            ? "What languages does the app support?"
-            : "Uygulama hangi dilleri destekliyor?",
-        answer: currentLanguage == 'en'
-            ? "The app supports both English and Turkish."
-            : "Uygulama İngilizce ve Türkçe dillerini desteklemektedir.",
+        question: S.of(context).faq_question_6,
+        answer: S.of(context).faq_answer_6,
       ),
     ];
   }
@@ -96,9 +67,10 @@ class _FaqScreenState extends State<FaqScreen> {
               title: Text(
                 faqItems[index].question,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: isDarkMode ? Colors.black : Colors.black),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: isDarkMode ? Colors.black : Colors.black,
+                ),
               ),
               children: [
                 Padding(
@@ -106,8 +78,9 @@ class _FaqScreenState extends State<FaqScreen> {
                   child: Text(
                     faqItems[index].answer,
                     style: TextStyle(
-                        fontSize: 14,
-                        color: isDarkMode ? Colors.black : Colors.black),
+                      fontSize: 14,
+                      color: isDarkMode ? Colors.black : Colors.black,
+                    ),
                   ),
                 ),
               ],

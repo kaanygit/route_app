@@ -3,6 +3,7 @@ import 'package:accesible_route/bloc/places/places_bloc.dart';
 import 'package:accesible_route/bloc/places/places_event.dart';
 import 'package:accesible_route/bloc/places/places_state.dart';
 import 'package:accesible_route/models/place_model.dart';
+import 'package:accesible_route/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'place_screen.dart';
@@ -35,6 +36,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _filterPlaces() {
     String query = _searchController.text.toLowerCase();
+    if (query.isEmpty) {
+      setState(() {
+        _filteredPlaces = [];
+      });
+      return;
+    }
+
     List<Place> newFilteredPlaces = _allPlaces.where((place) {
       String title = _currentLanguage == "tr" ? place.titleTr : place.titleEng;
       return title.toLowerCase().contains(query);
@@ -102,6 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     _currentLanguage =
         BlocProvider.of<LanguageBloc>(context).state.locale.languageCode;
+
     return Scaffold(
       body: BlocBuilder<PlacesBloc, PlacesState>(
         builder: (context, state) {
@@ -109,10 +118,6 @@ class _SearchScreenState extends State<SearchScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is PlacesSuccess) {
             _allPlaces = state.places;
-
-            if (_filteredPlaces.isEmpty && _searchController.text.isNotEmpty) {
-              _filterPlaces();
-            }
 
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -129,8 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: _searchController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText:
-                            _currentLanguage == "tr" ? 'Ara...' : 'Search...',
+                        hintText: S.of(context).search_hint,
                         hintStyle: const TextStyle(color: Colors.grey),
                         prefixIcon:
                             const Icon(Icons.search, color: Colors.purple),
@@ -144,9 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? _filteredPlaces.isEmpty
                             ? Center(
                                 child: Text(
-                                  _currentLanguage == "tr"
-                                      ? 'Sonuç bulunamadı. Arama terimlerini kontrol edin.'
-                                      : 'No results found. Please check your search terms.',
+                                  S.of(context).no_results_found,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                       fontSize: 16,
@@ -161,9 +163,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               )
                         : Center(
                             child: Text(
-                              _currentLanguage == "tr"
-                                  ? 'Aramak istediğiniz bir yer yok mu? Hadi başlayalım!'
-                                  : 'Don’t have a place to search? Let’s get started!',
+                              S.of(context).no_place_to_search,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),

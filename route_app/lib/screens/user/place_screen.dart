@@ -1,8 +1,12 @@
 import 'package:accesible_route/bloc/language/language_bloc.dart';
 import 'package:accesible_route/bloc/places/places_bloc.dart';
 import 'package:accesible_route/bloc/places/places_state.dart';
+import 'package:accesible_route/bloc/user/user_bloc.dart';
+import 'package:accesible_route/bloc/user/user_event.dart';
+import 'package:accesible_route/bloc/user/user_state.dart';
 import 'package:accesible_route/generated/l10n.dart';
 import 'package:accesible_route/models/place_model.dart';
+import 'package:accesible_route/models/user_model.dart';
 import 'package:accesible_route/screens/user/maps/maps_screen.dart';
 import 'package:accesible_route/widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 
 class PlaceScreen extends StatefulWidget {
   final int placeIndex;
@@ -28,6 +33,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
   bool hasLocations = false;
   bool hasGivenRating = false;
   double userRating = 0.0;
+  List<Map<String, dynamic>> comments = [];
 
   @override
   void initState() {
@@ -35,6 +41,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
     _fetchPlace();
     _checkIfLiked();
     _checkIfRouteCompleted();
+    _fetchComments();
   }
 
   Future<void> _checkIfLiked() async {
@@ -70,32 +77,102 @@ class _PlaceScreenState extends State<PlaceScreen> {
                 ? calendar['rating'].toDouble()
                 : 0.0;
           });
+          if (calendar['rating'] != null) {
+            setState(() {
+              hasGivenRating = true;
+              userRating = calendar['rating'].toDouble();
+            });
+            print("Rating: ${calendar['rating']}");
+          } else {
+            print("Rating değeri bulunamadı");
+          }
           break;
         }
       }
     }
   }
 
+  String timeAgo(BuildContext context, String date) {
+    DateTime commentDate = DateTime.parse(date);
+    Duration difference = DateTime.now().difference(commentDate);
+
+    if (difference.inMinutes < 1) {
+      return S.of(context).just_now;
+    } else if (difference.inMinutes < 60) {
+      return "${difference.inMinutes} ${S.of(context).minutes_ago}";
+    } else if (difference.inHours < 24) {
+      return "${difference.inHours} ${S.of(context).hours_ago}";
+    } else if (difference.inDays < 30) {
+      return "${difference.inDays} ${S.of(context).days_ago}";
+    } else {
+      return DateFormat('dd MMM yyyy').format(commentDate);
+    }
+  }
+
+  Future<void> _fetchComments() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('places').get();
+
+      for (var doc in querySnapshot.docs) {
+        if (doc.get('key') == widget.placeIndex) {
+          List<dynamic> commentData = doc.get('comments') ?? [];
+
+          setState(() {
+            comments = commentData.map((comment) {
+              return {
+                'profilePhotoUrl': comment['profilePhotoUrl'],
+                'username': comment['username'],
+                'email': comment['email'],
+                'text': comment['text'],
+                'date': timeAgo(context, comment['date']),
+              };
+            }).toList();
+          });
+          break;
+        }
+      }
+    } catch (e) {
+      print("Yorumlar alınırken hata oluştu: $e");
+    }
+  }
+
   Future<void> _submitRating(double rating) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null && !hasGivenRating) {
-      await FirebaseFirestore.instance
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .update({
-        'calendars': FieldValue.arrayRemove([
-          {'routeKey': widget.placeIndex.toString()}
-        ])
-      });
+          .get();
+
+      List<dynamic> calendars = userDoc.get('calendar') ?? [];
+
+      for (var calendar in calendars) {
+        if (calendar['routeKey'] == widget.placeIndex.toString()) {
+          calendar['rating'] = rating;
+          break;
+        }
+      }
 
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .update({
-        'calendars': FieldValue.arrayUnion([
-          {'routeKey': widget.placeIndex.toString(), 'rating': rating}
-        ])
-      });
+          .update({'calendar': calendars});
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('places').get();
+      for (var doc in querySnapshot.docs) {
+        if (doc.get('key') == widget.placeIndex) {
+          int currentTotalRating = doc.get('totalRating') ?? 0.0;
+          int currentRatingCount = doc.get('ratingCount') ?? 0;
+
+          double updatedTotalRating = currentTotalRating + rating;
+          int updatedRatingCount = currentRatingCount + 1;
+          await doc.reference.update({
+            'totalRating': updatedTotalRating,
+            'ratingCount': updatedRatingCount,
+          });
+        }
+      }
 
       setState(() {
         hasGivenRating = true;
@@ -152,7 +229,6 @@ class _PlaceScreenState extends State<PlaceScreen> {
         _selectedPlace!.longitude,
       );
       if (distanceInMeters < 5) {
-        // 5 metre gibi bir tolerans mesafesi
         print("Aynı konumdasınız.");
         setState(() {
           hasLocations = true;
@@ -171,12 +247,22 @@ class _PlaceScreenState extends State<PlaceScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(S.of(context).user_place_screen_title),
-            IconButton(
-              onPressed: _toggleFavorite,
-              icon: Icon(
-                Icons.favorite,
-                color: isLiked ? Colors.red : Colors.grey,
-              ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    showCommentPopup(context);
+                  },
+                  icon: Icon(Icons.comment, color: Colors.amber.shade800),
+                ),
+                IconButton(
+                  onPressed: _toggleFavorite,
+                  icon: Icon(
+                    Icons.favorite,
+                    color: isLiked ? Colors.red : Colors.grey,
+                  ),
+                ),
+              ],
             )
           ],
         ),
@@ -275,6 +361,89 @@ class _PlaceScreenState extends State<PlaceScreen> {
                                 _submitRating(rating);
                               },
                             ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.of(context).comments,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        if (comments.isEmpty)
+                          Text(
+                            S.of(context).no_comments,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          )
+                        else
+                          Column(
+                            children: comments.map((comment) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: NetworkImage(
+                                        comment['profilePhotoUrl'] ?? '',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            comment['username'] ??
+                                                S.of(context).user,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            comment['email'] ??
+                                                S.of(context).email_not_found,
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            comment['text'] ?? "",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            comment['date'] ??
+                                                S.of(context).date_not_found,
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -333,6 +502,130 @@ class _PlaceScreenState extends State<PlaceScreen> {
                 ),
               ),
       ),
+    );
+  }
+
+  void showCommentPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController commentController = TextEditingController();
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.comment, color: Colors.blue, size: 28),
+              SizedBox(width: 8),
+              Text(
+                S.of(context).write_comment,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: commentController,
+                maxLines: 4,
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+                decoration: InputDecoration(
+                  hintText: S.of(context).write_your_comment_here,
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  contentPadding: EdgeInsets.all(16),
+                ),
+              ),
+              SizedBox(height: 20),
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  if (state is UserLoading) {
+                    return CircularProgressIndicator();
+                  } else if (state is UserSuccess) {
+                    UserModel user = state.user;
+
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                      ),
+                      onPressed: () async {
+                        String comment = commentController.text;
+                        if (comment.isNotEmpty) {
+                          try {
+                            QuerySnapshot querySnapshot =
+                                await FirebaseFirestore.instance
+                                    .collection('places')
+                                    .get();
+
+                            for (var doc in querySnapshot.docs) {
+                              if (doc.get('key') == widget.placeIndex) {
+                                await doc.reference.update({
+                                  'comments': FieldValue.arrayUnion([
+                                    {
+                                      'profilePhotoUrl': user.profilePhoto,
+                                      'username': user.username,
+                                      'email': user.email,
+                                      'text': comment,
+                                      'date': DateTime.now().toIso8601String(),
+                                    }
+                                  ]),
+                                });
+                                break;
+                              }
+                            }
+
+                            print(S.of(context).comment_added_successfully);
+                            Navigator.of(context).pop();
+                          } catch (e) {
+                            print(S.of(context).error_adding_comment +
+                                e.toString());
+                          }
+                        }
+                      },
+                      child: Text(
+                        S.of(context).send,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else if (state is UserFailure) {
+                    return Text(
+                      S.of(context).user_info_not_loaded,
+                      style: TextStyle(color: Colors.red),
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

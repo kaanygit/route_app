@@ -20,7 +20,6 @@ import 'package:accesible_route/screens/user/user_home_screen.dart';
 import 'package:accesible_route/widgets/error_screen.dart';
 import 'package:accesible_route/widgets/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +30,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:icons_launcher/cli_commands.dart';
-// import 'package:icons_launcher/utils/cli_logger.dart';
-// import 'package:icons_launcher/utils/constants.dart';
-// import 'package:icons_launcher/utils/icon.dart';
-// import 'package:icons_launcher/utils/template.dart';
-// import 'package:icons_launcher/utils/utils.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -190,9 +183,7 @@ class AuthWrapper extends StatelessWidget {
                             return SimpleErrorScreen(
                                 errorMessage: "Hata oluştu");
                           }
-                          if (snapshot.hasData && snapshot.hasData == false) {
-                            return LocationPermissionScreen();
-                          } else {
+                          if (snapshot.hasData && snapshot.hasData == true) {
                             return BlocBuilder<AuthBloc, AuthState>(
                               builder: (context, state) {
                                 if (state is AuthLoading) {
@@ -279,6 +270,8 @@ class AuthWrapper extends StatelessWidget {
                                 }
                               },
                             );
+                          } else {
+                            return LocationPermissionScreen();
                           }
                         });
                   }

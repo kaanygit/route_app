@@ -105,6 +105,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "color_red": MessageLookupByLibrary.simpleMessage("Kırmızı"),
         "color_turuncu": MessageLookupByLibrary.simpleMessage("Turuncu"),
         "color_yellow": MessageLookupByLibrary.simpleMessage("Sarı"),
+        "comment_added_successfully":
+            MessageLookupByLibrary.simpleMessage("Yorum başarıyla eklendi"),
+        "comments": MessageLookupByLibrary.simpleMessage("Yorumlar"),
+        "date_not_found":
+            MessageLookupByLibrary.simpleMessage("Tarih bilinmiyor"),
+        "days_ago": MessageLookupByLibrary.simpleMessage("gün önce"),
+        "email_not_found":
+            MessageLookupByLibrary.simpleMessage("Email bulunamadı"),
+        "error_adding_comment": MessageLookupByLibrary.simpleMessage(
+            "Yorum eklenirken hata oluştu: "),
         "faq_answer_1": MessageLookupByLibrary.simpleMessage(
             "Rota uygulaması, engelli bireylerin belirli noktalara erişimini kolaylaştırmak için tasarlanmıştır. Ana ekranınızdan bir yer seçebilir ve o yere ulaşırken yol üzerindeki tuvalet, market gibi önerilere ulaşabilirsiniz."),
         "faq_answer_2": MessageLookupByLibrary.simpleMessage(
@@ -145,6 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hesabınız Dondurulmuştur"),
         "frozenscreen_frozen_title_content": MessageLookupByLibrary.simpleMessage(
             "Hesabınız dondurulmuştur. Daha fazla bilgi için geri bildirim gönderebilirsiniz."),
+        "hours_ago": MessageLookupByLibrary.simpleMessage("saat önce"),
         "introContent1": MessageLookupByLibrary.simpleMessage(
             "Engelliler için özel olarak tasarlanmış erişilebilir rotaları keşfedin."),
         "introContent2": MessageLookupByLibrary.simpleMessage(
@@ -161,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sonraki"),
         "intro_screen_submit_button":
             MessageLookupByLibrary.simpleMessage("Konuma izin ver"),
+        "just_now": MessageLookupByLibrary.simpleMessage("Şimdi"),
         "language_selection":
             MessageLookupByLibrary.simpleMessage("Dil başarıyla değiştirildi!"),
         "location_permission_denied":
@@ -196,6 +208,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Lütfen bu sırayı takip edin:"),
         "maps_screen_open_volume":
             MessageLookupByLibrary.simpleMessage("Sesi Aç"),
+        "minutes_ago": MessageLookupByLibrary.simpleMessage("dakika önce"),
+        "no_comments": MessageLookupByLibrary.simpleMessage("Yorumlar yok"),
         "no_place_to_search": MessageLookupByLibrary.simpleMessage(
             "Aramak istediğiniz bir yer yok mu? Hadi başlayalım!"),
         "no_results_found": MessageLookupByLibrary.simpleMessage(
@@ -215,6 +229,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "route_complete_title":
             MessageLookupByLibrary.simpleMessage("Rota tamamlandı"),
         "search_hint": MessageLookupByLibrary.simpleMessage("Ara..."),
+        "send": MessageLookupByLibrary.simpleMessage("Gönder"),
+        "user": MessageLookupByLibrary.simpleMessage("Kullanıcı"),
         "user_allview_screen_title":
             MessageLookupByLibrary.simpleMessage("Keşfet Mekanları"),
         "user_bottom_calender": MessageLookupByLibrary.simpleMessage("Takvim"),
@@ -250,6 +266,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Geri bildirimlerinizi buraya yazın..."),
         "user_feedback_screen_titles": MessageLookupByLibrary.simpleMessage(
             "Geri Bildirimlerinizi Bize Ulaştırın"),
+        "user_info_not_loaded": MessageLookupByLibrary.simpleMessage(
+            "Kullanıcı bilgisi yüklenemedi"),
         "user_language_screen_title":
             MessageLookupByLibrary.simpleMessage("Dil Ayarları"),
         "user_language_screen_title_content":
@@ -292,6 +310,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "user_search_content": MessageLookupByLibrary.simpleMessage(
             "Aramak istediğiniz bir yer yok mu?Hadi başlayalım!"),
         "user_search_textfield_content":
-            MessageLookupByLibrary.simpleMessage("Ara...")
+            MessageLookupByLibrary.simpleMessage("Ara..."),
+        "write_comment": MessageLookupByLibrary.simpleMessage("Yorum Yaz"),
+        "write_your_comment_here":
+            MessageLookupByLibrary.simpleMessage("Yorumunuzu buraya yazın...")
       };
 }

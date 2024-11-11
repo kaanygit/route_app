@@ -851,6 +851,96 @@ abstract class AppLocalizations {
   /// **'The app supports both English and Turkish.'**
   String get faq_answer_6;
 
+  /// No description provided for @write_comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a Comment'**
+  String get write_comment;
+
+  /// No description provided for @write_your_comment_here.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your comment here...'**
+  String get write_your_comment_here;
+
+  /// No description provided for @comment_added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment added successfully'**
+  String get comment_added_successfully;
+
+  /// No description provided for @error_adding_comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Error adding comment: '**
+  String get error_adding_comment;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @user_info_not_loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'User information not loaded'**
+  String get user_info_not_loaded;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @no_comments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments'**
+  String get no_comments;
+
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
+
+  /// No description provided for @email_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Email not found'**
+  String get email_not_found;
+
+  /// No description provided for @date_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Date not found'**
+  String get date_not_found;
+
+  /// No description provided for @just_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get just_now;
+
+  /// No description provided for @minutes_ago.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes ago'**
+  String get minutes_ago;
+
+  /// No description provided for @hours_ago.
+  ///
+  /// In en, this message translates to:
+  /// **'hours ago'**
+  String get hours_ago;
+
+  /// No description provided for @days_ago.
+  ///
+  /// In en, this message translates to:
+  /// **'days ago'**
+  String get days_ago;
+
   /// No description provided for @maps_screen_end_route_button_submit.
   ///
   /// In en, this message translates to:

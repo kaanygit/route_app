@@ -385,6 +385,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get faq_answer_6 => 'The app supports both English and Turkish.';
 
   @override
+  String get write_comment => 'Write a Comment';
+
+  @override
+  String get write_your_comment_here => 'Write your comment here...';
+
+  @override
+  String get comment_added_successfully => 'Comment added successfully';
+
+  @override
+  String get error_adding_comment => 'Error adding comment: ';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get user_info_not_loaded => 'User information not loaded';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get no_comments => 'No comments';
+
+  @override
+  String get user => 'User';
+
+  @override
+  String get email_not_found => 'Email not found';
+
+  @override
+  String get date_not_found => 'Date not found';
+
+  @override
+  String get just_now => 'Just now';
+
+  @override
+  String get minutes_ago => 'minutes ago';
+
+  @override
+  String get hours_ago => 'hours ago';
+
+  @override
+  String get days_ago => 'days ago';
+
+  @override
   String get maps_screen_end_route_button_submit => 'Do you want to end the route?';
 
   @override

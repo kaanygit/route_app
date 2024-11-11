@@ -1310,6 +1310,156 @@ class S {
     );
   }
 
+  /// `Write a Comment`
+  String get write_comment {
+    return Intl.message(
+      'Write a Comment',
+      name: 'write_comment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write your comment here...`
+  String get write_your_comment_here {
+    return Intl.message(
+      'Write your comment here...',
+      name: 'write_your_comment_here',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comment added successfully`
+  String get comment_added_successfully {
+    return Intl.message(
+      'Comment added successfully',
+      name: 'comment_added_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error adding comment: `
+  String get error_adding_comment {
+    return Intl.message(
+      'Error adding comment: ',
+      name: 'error_adding_comment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User information not loaded`
+  String get user_info_not_loaded {
+    return Intl.message(
+      'User information not loaded',
+      name: 'user_info_not_loaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comments`
+  String get comments {
+    return Intl.message(
+      'Comments',
+      name: 'comments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No comments`
+  String get no_comments {
+    return Intl.message(
+      'No comments',
+      name: 'no_comments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User`
+  String get user {
+    return Intl.message(
+      'User',
+      name: 'user',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email not found`
+  String get email_not_found {
+    return Intl.message(
+      'Email not found',
+      name: 'email_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date not found`
+  String get date_not_found {
+    return Intl.message(
+      'Date not found',
+      name: 'date_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Just now`
+  String get just_now {
+    return Intl.message(
+      'Just now',
+      name: 'just_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minutes ago`
+  String get minutes_ago {
+    return Intl.message(
+      'minutes ago',
+      name: 'minutes_ago',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hours ago`
+  String get hours_ago {
+    return Intl.message(
+      'hours ago',
+      name: 'hours_ago',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days ago`
+  String get days_ago {
+    return Intl.message(
+      'days ago',
+      name: 'days_ago',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you want to end the route?`
   String get maps_screen_end_route_button_submit {
     return Intl.message(

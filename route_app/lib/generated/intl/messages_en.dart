@@ -102,6 +102,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "color_red": MessageLookupByLibrary.simpleMessage("Red"),
         "color_turuncu": MessageLookupByLibrary.simpleMessage("Orange"),
         "color_yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
+        "comment_added_successfully":
+            MessageLookupByLibrary.simpleMessage("Comment added successfully"),
+        "comments": MessageLookupByLibrary.simpleMessage("Comments"),
+        "date_not_found":
+            MessageLookupByLibrary.simpleMessage("Date not found"),
+        "days_ago": MessageLookupByLibrary.simpleMessage("days ago"),
+        "email_not_found":
+            MessageLookupByLibrary.simpleMessage("Email not found"),
+        "error_adding_comment":
+            MessageLookupByLibrary.simpleMessage("Error adding comment: "),
         "faq_answer_1": MessageLookupByLibrary.simpleMessage(
             "The Route app is designed to make it easier for disabled individuals to access certain points. You can select a location from your main screen and receive recommendations like restrooms and markets along the way."),
         "faq_answer_2": MessageLookupByLibrary.simpleMessage(
@@ -142,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Your Account is Frozen"),
         "frozenscreen_frozen_title_content": MessageLookupByLibrary.simpleMessage(
             "Your account has been frozen. You can send feedback for more information."),
+        "hours_ago": MessageLookupByLibrary.simpleMessage("hours ago"),
         "introContent1": MessageLookupByLibrary.simpleMessage(
             "Discover specially designed accessible routes for people with disabilities."),
         "introContent2": MessageLookupByLibrary.simpleMessage(
@@ -158,6 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Next"),
         "intro_screen_submit_button":
             MessageLookupByLibrary.simpleMessage("Allow Location"),
+        "just_now": MessageLookupByLibrary.simpleMessage("Just now"),
         "language_selection": MessageLookupByLibrary.simpleMessage(
             "Language successfully changed!"),
         "location_permission_denied":
@@ -194,6 +206,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please follow this order:"),
         "maps_screen_open_volume":
             MessageLookupByLibrary.simpleMessage("Turn On Sound"),
+        "minutes_ago": MessageLookupByLibrary.simpleMessage("minutes ago"),
+        "no_comments": MessageLookupByLibrary.simpleMessage("No comments"),
         "no_place_to_search": MessageLookupByLibrary.simpleMessage(
             "Don’t have a place to search? Let’s get started!"),
         "no_results_found": MessageLookupByLibrary.simpleMessage(
@@ -213,6 +227,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "route_complete_title":
             MessageLookupByLibrary.simpleMessage("Route Completed"),
         "search_hint": MessageLookupByLibrary.simpleMessage("Search..."),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "user": MessageLookupByLibrary.simpleMessage("User"),
         "user_allview_screen_title":
             MessageLookupByLibrary.simpleMessage("Discover Places"),
         "user_bottom_calender":
@@ -248,6 +264,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Write your feedback here..."),
         "user_feedback_screen_titles":
             MessageLookupByLibrary.simpleMessage("Send us your feedback"),
+        "user_info_not_loaded":
+            MessageLookupByLibrary.simpleMessage("User information not loaded"),
         "user_language_screen_title":
             MessageLookupByLibrary.simpleMessage("Language Settings"),
         "user_language_screen_title_content":
@@ -292,6 +310,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "user_search_content": MessageLookupByLibrary.simpleMessage(
             "Can\'t find the place you\'re looking for? Let\'s start searching!"),
         "user_search_textfield_content":
-            MessageLookupByLibrary.simpleMessage("Search...")
+            MessageLookupByLibrary.simpleMessage("Search..."),
+        "write_comment":
+            MessageLookupByLibrary.simpleMessage("Write a Comment"),
+        "write_your_comment_here":
+            MessageLookupByLibrary.simpleMessage("Write your comment here...")
       };
 }

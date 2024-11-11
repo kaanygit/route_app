@@ -385,6 +385,51 @@ class AppLocalizationsTr extends AppLocalizations {
   String get faq_answer_6 => 'Uygulama İngilizce ve Türkçe dillerini desteklemektedir.';
 
   @override
+  String get write_comment => 'Yorum Yaz';
+
+  @override
+  String get write_your_comment_here => 'Yorumunuzu buraya yazın...';
+
+  @override
+  String get comment_added_successfully => 'Yorum başarıyla eklendi';
+
+  @override
+  String get error_adding_comment => 'Yorum eklenirken hata oluştu: ';
+
+  @override
+  String get send => 'Gönder';
+
+  @override
+  String get user_info_not_loaded => 'Kullanıcı bilgisi yüklenemedi';
+
+  @override
+  String get comments => 'Yorumlar';
+
+  @override
+  String get no_comments => 'Yorumlar yok';
+
+  @override
+  String get user => 'Kullanıcı';
+
+  @override
+  String get email_not_found => 'Email bulunamadı';
+
+  @override
+  String get date_not_found => 'Tarih bilinmiyor';
+
+  @override
+  String get just_now => 'Şimdi';
+
+  @override
+  String get minutes_ago => 'dakika önce';
+
+  @override
+  String get hours_ago => 'saat önce';
+
+  @override
+  String get days_ago => 'gün önce';
+
+  @override
   String get maps_screen_end_route_button_submit => 'Rotayı bitirmek istiyor musunuz?';
 
   @override

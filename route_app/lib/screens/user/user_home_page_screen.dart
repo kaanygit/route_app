@@ -27,10 +27,39 @@ class UserHomePageScreen extends StatefulWidget {
 
 class _UserHomePageScreenState extends State<UserHomePageScreen> {
   late int _selectedIndex = 0;
+  List<Map<String, dynamic>> allRatings = [];
 
   @override
   void initState() {
     super.initState();
+    fetchAllRatingData();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchAllRatingData() async {
+    List<Map<String, dynamic>> allRatings = [];
+
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('places').get();
+
+      for (var doc in querySnapshot.docs) {
+        double totalRating = doc.get('totalRating') ?? 0.0;
+        int ratingCount = doc.get('ratingCount') ?? 0;
+        int key = doc.get('key') ?? 0;
+
+        allRatings.add({
+          'key': key,
+          'totalRating': totalRating,
+          'ratingCount': ratingCount,
+        });
+      }
+      print("total veriler :");
+      print(allRatings);
+    } catch (e) {
+      print("Veri alınırken hata oluştu: $e");
+    }
+
+    return allRatings;
   }
 
   @override
@@ -219,6 +248,7 @@ class _UserHomePageScreenState extends State<UserHomePageScreen> {
 
   Row placesContainer(Place place, int index, BuildContext context,
       bool isDarkMode, String _currentLanguage) {
+    print(allRatings);
     return Row(
       children: [
         GestureDetector(
